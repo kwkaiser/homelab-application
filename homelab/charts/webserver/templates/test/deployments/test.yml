@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre
+spec: 
+  selector:
+    matchLabels:
+      app: calibre
+  replicas: 1
+  template:
+    metadata:
+      labels: 
+        app: calibre
+        app.kubernetes.io/name: calibre
+    spec:
+      containers:
+        - name: calibre
+          image: linuxserver/calibre-web
+          ports:
+            - containerPort: 8080
