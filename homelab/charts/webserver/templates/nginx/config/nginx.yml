@@ -4,33 +4,35 @@ metadata:
   name: nginx-conf
 data:
   nginx.conf: |
-    # server {
-    #   listen 80 default_server;
-    #   listen [::]:80 default_server;
-
-
-    #   server_name _;
-
-    #   location / {
-    #     set $upstream_app calibre;
-    #     set $upstream_port 8080;
-    #     set $upstream_proto http;
-    #     proxy_pass http://google.com
-    #     proxy_set_header X-Scheme $scheme;
-    #   }
-    # }
     user nginx;
     worker_processes  1;
     events {
       worker_connections  10240;
     }
     http {
+      # server {
+      #     listen       80;
+      #     server_name  localhost;
+      #     location / {
+      #       root   /usr/share/nginx/html; #Change this line
+      #       index  index.html index.htm;
+      #   }
+      # }
+
       server {
-          listen       80;
-          server_name  localhost;
-          location / {
-            root   /usr/share/nginx/html; #Change this line
-            index  index.html index.htm;
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+
+        server_name _;
+
+        location / {
+          resolver kube-dns.kube-system.svc.cluster.local valid=5s;
+          set $upstream_app calibre;
+          set $upstream_port 8080;
+          set $upstream_proto http;
+          proxy_pass $upstream_proto://$upstream_app:$upstream_port;
+          proxy_set_header X-Scheme $scheme;
         }
       }
     } 
