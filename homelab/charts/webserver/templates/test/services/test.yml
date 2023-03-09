@@ -4,6 +4,7 @@ metadata:
   name: calibre-service
 spec: 
   selector:
+    app: calibre
     app.kubernetes.io/name: calibre
   ports:
     - protocol: TCP

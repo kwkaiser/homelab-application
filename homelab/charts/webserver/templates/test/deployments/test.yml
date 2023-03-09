@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: calibre
-          image: linuxserver/calibre-web
+          image: linuxserver/qbittorrent
           ports:
             - containerPort: 8080
