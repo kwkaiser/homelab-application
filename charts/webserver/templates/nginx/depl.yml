@@ -19,14 +19,20 @@ spec:
           ports:
             - containerPort: 80 
           volumeMounts:
-            - name: nginx-conf
+            - name: nginx-configs
               mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
               readOnly: true
+            - name: nginx-configs
+              mountPath: /etc/nginx/reverse-proxy.conf
+              subPath: reverse-proxy.conf
+              readOnly: true
       volumes:
-        - name: nginx-conf
+        - name: nginx-configs
           configMap: 
-            name: nginx-conf
+            name: nginx-configs
             items: 
               - key: nginx.conf
                 path: nginx.conf 
+              - key: reverse-proxy.conf
+                path: reverse-proxy.conf
