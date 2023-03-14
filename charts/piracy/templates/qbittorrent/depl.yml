@@ -19,3 +19,4 @@ spec:
           ports:
             - containerPort: 8080
             - containerPort: 6881
+        # TODO: wireguard container

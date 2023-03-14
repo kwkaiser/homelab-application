@@ -1,6 +1,6 @@
 apiVersion: v2
 name: webserver
-description: Webserver configuration for homelab
+description: Services facilitating piracy
 type: application
 version: 0.1.0
 appVersion: "1.16.0"
