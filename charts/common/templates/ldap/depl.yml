@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ldap
+spec: 
+  selector:
+    matchLabels:
+      app: ldap
+  replicas: 1
+  template:
+    metadata:
+      labels: 
+        app: ldap
+        app.kubernetes.io/name: ldap
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: ldap
+          image: osixia/openldap
+          ports:
+            - containerPort: 636
+            - containerPort: 389
+
+          env:
+            - name: LDAP_ORGANISATION
+              value: Karl's server
+            - name: LDAP_DOMAIN
+              value: kwkaiser.io
+            - name: LDAP_ADMIN_PASSWORD
+              value: password
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/ldap
+              subPath: application/ldap
