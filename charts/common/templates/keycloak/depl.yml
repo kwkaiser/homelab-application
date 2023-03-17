@@ -20,12 +20,24 @@ spec:
 
       containers:
         - name: keycloak
-          image: quay.io/keycloak/keycloak
-          args: ["start-dev"] 
+          image: jboss/keycloak:latest
+          # args: ['start-dev']
           ports:
             - containerPort: 8080
+          # env:
+          #   - name: KEYCLOAK_ADMIN
+          #     value: admin
+          #   - name: KEYCLOAK_ADMIN_PASSWORD
+          #     value: admin
           env:
-            - name: KEYCLOAK_ADMIN
+            - name: KEYCLOAK_USER
               value: admin
-            - name: KEYCLOAK_ADMIN_PASSWORD
+            - name: KEYCLOAK_PASSWORD
               value: admin
+            - name: DB_ADDR
+              value: postgres
+            - name: DB_DATABASE
+              value: postgres
+            - name: DB_USER
+              value: postgres
+                
