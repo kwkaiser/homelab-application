@@ -21,6 +21,7 @@ spec:
       containers:
         - name: keycloak
           image: quay.io/keycloak/keycloak
+          args: ["start-dev"] 
           ports:
             - containerPort: 8080
           env:
