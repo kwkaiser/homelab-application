@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oauth2-configs
+data:
+  oauth2-proxy.cfg: |- 
+{{ .Files.Get "config/oauth2/oauth2-proxy.cfg" | indent 4 }}

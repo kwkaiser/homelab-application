@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth2
+spec: 
+  selector:
+    matchLabels:
+      app: oauth2
+  replicas: 1
+  template:
+    metadata:
+      labels: 
+        app: oauth2
+        app.kubernetes.io/name: oauth2
+    spec:
+      containers:
+        - name: oauth2
+          image: bitnami/oauth2-proxy
+          ports: 
+            - containerPort: 4180
+          args: ["--config", "/etc/oauth2-proxy.cfg"] 
+          volumeMounts:
+              - name: oauth2-configs
+                mountPath: /etc/oauth2-proxy.cfg
+                subPath: oauth2-proxy.cfg
+                readOnly: true
+          # env:
+          #   - name: OAUTH2_PROXY_CONFIG
+          #     value: /etc/oauth2-proxy.cfg
+      volumes:
+        - name: oauth2-configs
+          configMap: 
+            name: oauth2-configs
+            items: 
+              - key: oauth2-proxy.cfg
+                path: oauth2-proxy.cfg
