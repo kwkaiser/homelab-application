@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ldap
+  name: openldap
 spec: 
   selector:
     matchLabels:
-      app: ldap
+      app: openldap
   replicas: 1
   template:
     metadata:
       labels: 
-        app: ldap
-        app.kubernetes.io/name: ldap
+        app: openldap
+        app.kubernetes.io/name: openldap
     spec:
       volumes:
         - name: data
@@ -19,7 +19,7 @@ spec:
             claimName: bulk-nfs
 
       containers:
-        - name: ldap
+        - name: openldap
           image: osixia/openldap
           ports:
             - containerPort: 636
@@ -32,8 +32,15 @@ spec:
               value: kwkaiser.io
             - name: LDAP_ADMIN_PASSWORD
               value: password
+            - name: LDAP_REQUIRE_STARTTLS
+              value: "false"
+            - name: LDAP_TLS
+              value: "false"
 
           volumeMounts:
             - name: data
               mountPath: /var/lib/ldap
-              subPath: application/ldap
+              subPath: application/ldap/data
+            - name: data 
+              mountPath: /etc/ldap/slapd.d
+              subPath: application/ldap/slapd
