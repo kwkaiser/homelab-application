@@ -23,4 +23,16 @@ spec:
             - name: NO_HTTPS
               value: "true"
             - name: LDAP_URI
-              value: ldap://ldap
+              value: ldap://openldap
+            - name: LDAP_REQUIRE_STARTTLS
+              value: "false"
+            - name: LDAP_BASE_DN
+              value: "dc=kwkaiser,dc=io"
+            - name: LDAP_ADMIN_BIND_DN
+              value: "cn=admin,dc=kwkaiser,dc=io"
+            - name: LDAP_ADMINS_GROUP
+              value: admins
+            - name: LDAP_ADMIN_BIND_PWD
+              value: password
+            - name: LDAP_IGNORE_CERT_ERRORS
+              value: "true"

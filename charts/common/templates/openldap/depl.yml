@@ -27,7 +27,7 @@ spec:
 
           env:
             - name: LDAP_ORGANISATION
-              value: Karl's server
+              value: kwkaiser.io
             - name: LDAP_DOMAIN
               value: kwkaiser.io
             - name: LDAP_ADMIN_PASSWORD
@@ -40,7 +40,9 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/lib/ldap
-              subPath: application/ldap/data
+              subPath: application/openldap/data
+
             - name: data 
               mountPath: /etc/ldap/slapd.d
-              subPath: application/ldap/slapd
+              subPath: application/openldap/slapd
+ 
