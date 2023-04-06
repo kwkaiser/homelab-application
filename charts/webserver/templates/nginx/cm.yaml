@@ -6,8 +6,10 @@ metadata:
 # Loads all the files in the config/nginx under their filename & substitutes / templates
 # any values as necessary. 
 
+# TODO: turn into a fn
+
 data:
-  {{- range $path, $bytes := .Files.Glob "config/nginx/**" }}
-    {{ $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
-    {{ $cleanedPath }}: {{ tpl ($.Files.Get $path) $ | quote }}
-  {{- end }}
+{{- range $path, $bytes := .Files.Glob "config/nginx/**" }}
+  {{ $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
+  {{ $cleanedPath }}: {{ tpl ($.Files.Get $path) $ | quote }}
+{{- end }}
