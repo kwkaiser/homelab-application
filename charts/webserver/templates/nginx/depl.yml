@@ -2,14 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx
-spec: 
+spec:
   selector:
     matchLabels:
       app: nginx
   replicas: 1
   template:
     metadata:
-      labels: 
+      labels:
         app: nginx
         app.kubernetes.io/name: nginx
     spec:
@@ -17,22 +17,22 @@ spec:
         - name: nginx
           image: nginx
           ports:
-            - containerPort: 80 
+            - containerPort: 80
           volumeMounts:
+          {{- range $path, $content := .Files.Glob "config/nginx/**" }}
+          {{- $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
             - name: nginx-configs
-              mountPath: /etc/nginx/nginx.conf
-              subPath: nginx.conf
+              mountPath: {{ printf "%s%s" "/etc/nginx/" (regexReplaceAll "_"  $cleanedPath "/") }} 
+              subPath: {{ $cleanedPath }}
               readOnly: true
-            - name: nginx-configs
-              mountPath: /etc/nginx/reverse-proxy.conf
-              subPath: reverse-proxy.conf
-              readOnly: true
+          {{- end }} 
       volumes:
         - name: nginx-configs
-          configMap: 
+          configMap:
             name: nginx-configs
             items: 
-              - key: nginx.conf
-                path: nginx.conf 
-              - key: reverse-proxy.conf
-                path: reverse-proxy.conf
+            {{- range $path, $content := .Files.Glob "config/nginx/**" }}
+            {{- $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
+              - key: {{ $cleanedPath }}
+                path: {{ $cleanedPath }} 
+            {{- end }}
