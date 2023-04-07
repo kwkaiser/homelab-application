@@ -1,0 +1,1 @@
+{{- define "yourFnName" -}}{{- printf "%s-%s" "hello" "world!" -}}{{- end -}}
