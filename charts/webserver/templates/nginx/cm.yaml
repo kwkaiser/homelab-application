@@ -13,4 +13,3 @@ data:
   {{ $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
   {{ $cleanedPath }}: {{ tpl ($.Files.Get $path) $ | quote }}
 {{- end }}
-  test: {{ include "yourFnName" . }}
