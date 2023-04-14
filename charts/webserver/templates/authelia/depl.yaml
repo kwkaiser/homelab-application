@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authelia
+spec:
+  selector:
+    matchLabels:
+      app: authelia
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: authelia
+        app.kubernetes.io/name: authelia
+    spec:
+      containers:
+        - name: authelia
+          image: authelia/authelia
+          ports:
+            - containerPort: 80

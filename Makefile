@@ -17,8 +17,7 @@ list:
 .phony: forward unforward
 
 forward: 
-	iptables -t nat -A PREROUTING -s 127.0.0.1 -p tcp --dport 80 -j REDIRECT --to 6980
-	iptables -t nat -A OUTPUT -s 127.0.0.1 -p tcp --dport 80 -j REDIRECT --to 6980
+	sudo ssh -g -L 80:localhost:6980 -f -N kwkaiser@localhost	
 
 unforward:
-	systemctl restart iptables
+	sudo kill $(pidof ssh)
