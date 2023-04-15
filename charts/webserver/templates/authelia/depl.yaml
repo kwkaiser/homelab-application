@@ -18,3 +18,15 @@ spec:
           image: authelia/authelia
           ports:
             - containerPort: 80
+          volumeMounts:
+              - name: authelia-configs
+                mountPath: /config/configuration.yml # expects path at .yml!
+                subPath: configuration.yaml 
+                readOnly: false
+      volumes:
+        - name: authelia-configs
+          configMap:
+            name: authelia-configs
+            items: 
+              - key: configuration.yaml
+                path: configuration.yaml

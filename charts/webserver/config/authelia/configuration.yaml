@@ -51,21 +51,31 @@ password_policy:
     enabled: false
     min_score: 3
 
-privacy_policy:
-  enabled: false
-  require_user_acceptance: false
-  policy_url: ""
+# privacy_policy:
+#   enabled: false
+#   require_user_acceptance: false
+#   policy_url: ""
 
 access_control:
-  default_policy: allow
+  default_policy: deny
+  rules:
+    - domain: scurvy.localhost
+      policy: one_factor
+      subject:
+        - ["user:kwkaiser"]
+
+storage:
+  encryption_key: a_very_important_secret
+  local:
+    path: /config/db.sqlite3
 
 session:
-  secret: "insecure_session_secret"
-  name: "authelia_session"
-  same_site: "lax"
-  inactivity: "5m"
-  expiration: "1h"
-  remember_me: "1M"
+  domain: kwkaiser.io
+  secret: insecure_session_secret
+  name: authelia_session
+  same_site: lax
+  inactivity: 5m
+  expiration: 1h
 
 regulation:
   max_retries: 3
@@ -74,3 +84,5 @@ regulation:
 
 notifier:
   disable_startup_check: false
+  filesystem:
+    filename: /cnofig/notification.txt
