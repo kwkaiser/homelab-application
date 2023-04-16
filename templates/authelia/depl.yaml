@@ -23,6 +23,10 @@ spec:
                 mountPath: /config/configuration.yml # expects path at .yml!
                 subPath: configuration.yaml 
                 readOnly: false
+      initContainers:
+        - name: init-authelia
+          image: busybox
+          command: ['sh', '-c', "until nslookup openldap.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for openldap; sleep 2; done"]
       volumes:
         - name: authelia-configs
           configMap:

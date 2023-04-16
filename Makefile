@@ -18,3 +18,12 @@ list:
 
 forward: 
 	sudo ssh -g -L 80:localhost:6980 -f -N kwkaiser@localhost	
+
+##############
+# Deployment #
+##############
+
+.phone: redeploy
+
+redeploy:
+	./scripts/redeploy.sh
