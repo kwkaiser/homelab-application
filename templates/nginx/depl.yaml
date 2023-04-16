@@ -19,7 +19,7 @@ spec:
           ports:
             - containerPort: 80
           volumeMounts:
-          {{- range $path, $content := .Files.Glob "config/nginx/**" }}
+          {{- range $path, $content := .Files.Glob "config/nginx**" }}
           {{- $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
             - name: nginx-configs
               mountPath: {{ printf "%s%s" "/config/nginx/" (regexReplaceAll "_"  $cleanedPath "/") }} 
@@ -31,7 +31,7 @@ spec:
           configMap:
             name: nginx-configs
             items: 
-            {{- range $path, $content := .Files.Glob "config/nginx/**" }}
+            {{- range $path, $content := .Files.Glob "config/nginx**" }}
             {{- $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
               - key: {{ $cleanedPath }}
                 path: {{ $cleanedPath }} 

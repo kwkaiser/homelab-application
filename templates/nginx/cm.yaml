@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: nginx-configs
 data:
-{{- range $path, $bytes := .Files.Glob "config/nginx/**" }}
+{{- range $path, $bytes := .Files.Glob "config/nginx**" }}
   {{ $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
   {{ $cleanedPath }}: {{ tpl ($.Files.Get $path) $ | quote }}
 {{- end }}
