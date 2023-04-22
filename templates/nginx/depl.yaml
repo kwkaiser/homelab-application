@@ -15,22 +15,35 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: linuxserver/nginx
+          image: nginx
           ports:
             - containerPort: 80
           volumeMounts:
+            # - name: nginx-configs
+            #   mountPath: /config/nginx/nginx.conf
+            #   subPath: nginx.conf
+            #   readOnly: true
           {{- range $path, $content := .Files.Glob "config/nginx**" }}
           {{- $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
             - name: nginx-configs
-              mountPath: {{ printf "%s%s" "/config/nginx/" (regexReplaceAll "_"  $cleanedPath "/") }} 
+              mountPath: {{ printf "%s%s" "/etc/nginx/" (regexReplaceAll "_"  $cleanedPath "/") }} 
               subPath: {{ $cleanedPath }}
               readOnly: true
           {{- end }} 
+      initContainers:
+        - name: init-ldap-user-manager
+          image: busybox
+          command: ['sh', '-c', "until nslookup ldap-user-manager.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for openldap; sleep 2; done"]
+        - name: init-authelia
+          image: busybox
+          command: ['sh', '-c', "until nslookup authelia.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for openldap; sleep 2; done"]
       volumes:
         - name: nginx-configs
           configMap:
             name: nginx-configs
             items: 
+              # - key: nginx.conf
+              #   path: nginx.conf
             {{- range $path, $content := .Files.Glob "config/nginx**" }}
             {{- $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
               - key: {{ $cleanedPath }}

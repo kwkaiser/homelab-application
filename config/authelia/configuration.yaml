@@ -70,7 +70,7 @@ storage:
     path: /config/db.sqlite3
 
 session:
-  domain: kwkaiser.io
+  domain: localhost
   secret: insecure_session_secret
   name: authelia_session
   same_site: lax
