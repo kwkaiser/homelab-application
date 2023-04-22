@@ -31,12 +31,10 @@ spec:
               readOnly: true
           {{- end }} 
       initContainers:
-        - name: init-ldap-user-manager
-          image: busybox
-          command: ['sh', '-c', "until nslookup ldap-user-manager.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for openldap; sleep 2; done"]
-        - name: init-authelia
-          image: busybox
-          command: ['sh', '-c', "until nslookup authelia.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for openldap; sleep 2; done"]
+      {{- range $name := list "authelia" "ldap-user-manager" }}
+        {{- $p := dict "Name" $name }}
+        {{ include "waitFor" $p}}
+      {{- end }}
       volumes:
         - name: nginx-configs
           configMap:

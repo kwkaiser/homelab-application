@@ -36,6 +36,7 @@ spec:
             - name: LDAP_IGNORE_CERT_ERRORS
               value: "true"
       initContainers:
-        - name: init-ldap-user-manager
-          image: busybox
-          command: ['sh', '-c', "until nslookup openldap.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for openldap; sleep 2; done"]
+      {{- range $name := list "openldap" }}
+        {{- $p := dict "Name" $name }}
+        {{ include "waitFor" $p}}
+      {{- end }} 
