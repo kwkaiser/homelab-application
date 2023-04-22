@@ -59,7 +59,7 @@ password_policy:
 access_control:
   default_policy: deny
   rules:
-    - domain: scurvy.localhost
+    - domain: scurvy.{{ .Values.domain-name }}
       policy: one_factor
       subject:
         - ["user:kwkaiser"]
