@@ -12,17 +12,44 @@ spec:
       labels:
         app: nginx
         app.kubernetes.io/name: nginx
-    spec:
+    spec: 
+      volumes: 
+        {{- range $name := list "nginx-certificate-key" "nginx-certificate" }}
+        - name: {{$name}}
+          secret:
+            secretName: {{ regexReplaceAll "-" $name "." }}
+            items:
+              - key: value
+                path: value
+        {{- end }}
+
+        - name: nginx-configs
+          configMap:
+            name: nginx-configs
+            items: 
+            {{- range $path, $content := .Files.Glob "config/nginx**" }}
+            {{- $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
+              - key: {{ $cleanedPath }}
+                path: {{ $cleanedPath }} 
+            {{- end }}
+
       containers:
         - name: nginx
           image: nginx
           ports:
             - containerPort: 80
+            - containerPort: 443
+
           volumeMounts:
-            # - name: nginx-configs
-            #   mountPath: /config/nginx/nginx.conf
-            #   subPath: nginx.conf
-            #   readOnly: true
+            - name: nginx-certificate
+              mountPath: /etc/nginx/keys/{{ .Values.domainName }}.crt
+              subPath: value
+              readOnly: true
+            - name: nginx-certificate-key
+              mountPath: /etc/nginx/keys/{{ .Values.domainName }}.key
+              subPath: value
+              readOnly: true
+            
           {{- range $path, $content := .Files.Glob "config/nginx**" }}
           {{- $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
             - name: nginx-configs
@@ -35,15 +62,3 @@ spec:
         {{- $p := dict "Name" $name }}
         {{ include "waitFor" $p}}
       {{- end }}
-      volumes:
-        - name: nginx-configs
-          configMap:
-            name: nginx-configs
-            items: 
-              # - key: nginx.conf
-              #   path: nginx.conf
-            {{- range $path, $content := .Files.Glob "config/nginx**" }}
-            {{- $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
-              - key: {{ $cleanedPath }}
-                path: {{ $cleanedPath }} 
-            {{- end }}

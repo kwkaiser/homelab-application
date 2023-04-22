@@ -12,7 +12,6 @@ while IFS='=' read -r -d '' n v; do
   if echo "$n" | grep -i 'k8s_' -q
   then
     cleaned_name=$(echo "$n" | cut -c5- | sed 's/_/./g' )
-    kubectl delete secret "$cleaned_name" --ignore-not-found
-    kubectl create secret generic "$cleaned_name" --from-literal=value=bingus
+    kubectl create secret generic "$cleaned_name" --from-literal=value="$v" --dry-run=client -o yaml | kubectl apply -f -
   fi
 done < <(env -0)
