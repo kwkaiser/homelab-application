@@ -35,6 +35,10 @@ spec:
               value: password
             - name: LDAP_IGNORE_CERT_ERRORS
               value: "true"
+            - name: LDAP_VERBOSE_CONNECTION_LOGS
+              value: "true"
+            - name: LDAP_DEBUG
+              value: "true"
       initContainers:
       {{- range $name := list "openldap" }}
         {{- $p := dict "Name" $name }}

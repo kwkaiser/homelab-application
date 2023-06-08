@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: authelia-configs
 data:
-  configuration.yaml: {{ .Files.Get "config/authelia/configuration.yaml" | quote }}
+  configuration.yaml: {{ tpl (.Files.Get "config/authelia/configuration.yaml") $ | quote }}

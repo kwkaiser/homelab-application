@@ -25,6 +25,8 @@ spec:
             - containerPort: 636
             - containerPort: 389
 
+          args: ["--loglevel", "debug"]
+
           env:
             - name: LDAP_ORGANISATION
               value: kwkaiser.io
