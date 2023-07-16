@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: piracy 
+spec: 
+  selector:
+    matchLabels:
+      app: piracy
+  replicas: 1 
+  template:
+    metadata:
+      labels: 
+        app: piracy
+        app.kubernetes.io/name: piracy
+    spec:
+      securityContext:
+        sysctls:
+          - name: net.ipv4.conf.all.src_valid_mark
+            value: "1"
+          - name: net.ipv6.conf.all.disable_ipv6
+            value: "0"
+
+      volumes:
+        {{- range $name := list "wireguard-key" }}
+        - name: {{$name}}
+          secret:
+            secretName: {{ regexReplaceAll "-" $name "." }}
+            items:
+              - key: value
+                path: value
+        {{- end }}
+
+      containers:
+        - name: qbittorrent
+          image: linuxserver/qbittorrent
+          ports:
+            - containerPort: 8080
+            - containerPort: 6881
+
+      initContainers:
+        - name: wireguard
+          image: linuxserver/wireguard
+          ports:
+            - containerPort: 51820
+          volumeMounts:
+            - name: wireguard-key
+              mountPath: /config/wg0.conf
+              subPath: value
+
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_BIND
+                - NET_RAW
+                - SYS_MODULE
