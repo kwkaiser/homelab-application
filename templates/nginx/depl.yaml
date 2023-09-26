@@ -13,6 +13,10 @@ spec:
         app: nginx
         app.kubernetes.io/name: nginx
     spec: 
+      # Load balancer always run on head
+      nodeSelector:
+        head: "true"
+
       volumes: 
         {{- range $name := list "nginx-certificate-key" "nginx-certificate" }}
         - name: {{$name}}

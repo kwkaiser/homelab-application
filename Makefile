@@ -17,8 +17,8 @@ list:
 .phony: forward unforward
 
 forward: 
-	sudo ssh -g -L 80:localhost:6980 -f -N kwkaiser@localhost	
-	sudo ssh -g -L 443:localhost:6940 -f -N kwkaiser@localhost	
+	sudo ssh -g -L 80:localhost:6880 -f -N kwkaiser@localhost	
+	sudo ssh -g -L 443:localhost:6840 -f -N kwkaiser@localhost	
 
 ##############
 # Deployment #

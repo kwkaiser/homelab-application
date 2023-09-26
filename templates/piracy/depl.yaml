@@ -31,13 +31,6 @@ spec:
         {{- end }}
 
       containers:
-        - name: qbittorrent
-          image: linuxserver/qbittorrent
-          ports:
-            - containerPort: 8080
-            - containerPort: 6881
-
-      initContainers:
         - name: wireguard
           image: linuxserver/wireguard
           ports:
@@ -47,6 +40,24 @@ spec:
               mountPath: /config/wg0.conf
               subPath: value
 
+          # Hooks to guarantee we connected to target IP & stayed connected.
+          lifecycle:
+            postStart:
+              exec:
+                command: 
+                - sh 
+                - -c 
+                - sleep 30 && until curl --connect-timeout 10 ifconfig.me | grep -i "{{ .Values.piracyIp }}"; do echo "Waiting for ifconfig response"; sleep 10; done;
+          livenessProbe:
+            exec:
+              command:
+              - bash
+              - -c
+              - exit "$(curl ifconfig.me --connect-timeout 30 | grep -i '{{ .Values.piracyIp }}')"
+            initialDelaySeconds: 120
+            periodSeconds: 120 
+            timeoutSeconds: 30
+
           securityContext:
             privileged: true
             capabilities:
@@ -55,3 +66,11 @@ spec:
                 - NET_BIND
                 - NET_RAW
                 - SYS_MODULE
+
+        - name: qbittorrent
+          image: linuxserver/qbittorrent
+          ports:
+            - containerPort: 8080
+            - containerPort: 6881
+
+        
