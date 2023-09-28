@@ -6,7 +6,7 @@ DIR=$(dirname "$0")
 cd "$DIR"/.. || exit
 
 # TODO: only apply this in dev test -- not prod
-source ./vars/devtest-secrets.txt
+source ./vars/local-secrets.txt
 
 while IFS='=' read -r -d '' n v; do
   if echo "$n" | grep -i 'k8s_' -q
