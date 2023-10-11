@@ -17,6 +17,15 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: bulk-nfs
+        
+        {{- range $name := list "openldap-certificate-key" "openldap-certificate" "openldap-fullchain" }}
+        - name: {{$name}}
+          secret:
+            secretName: {{ regexReplaceAll "-" $name "." }}
+            items:
+              - key: value
+                path: value
+        {{- end }}
 
       containers:
         - name: openldap
@@ -25,19 +34,24 @@ spec:
             - containerPort: 636
             - containerPort: 389
 
-          args: ["--loglevel", "debug"]
+          args: ["--loglevel", "debug", "--copy-service"]
 
           env:
             - name: LDAP_ORGANISATION
-              value: kwkaiser.io
+              value: {{ .Values.domainName }}.io
             - name: LDAP_DOMAIN
-              value: kwkaiser.io
+              value: {{ .Values.domainName }}.io
             - name: LDAP_ADMIN_PASSWORD
               value: password
-            - name: LDAP_REQUIRE_STARTTLS
-              value: "false"
+            - name: LDAP_TLS_CRT_FILENAME
+              value: {{ .Values.domainName }}.crt
+            - name: LDAP_TLS_KEY_FILENAME
+              value: {{ .Values.domainName }}.key
+            
+            # - name: LDAP_REQUIRE_STARTTLS
+            #   value: "false"
             - name: LDAP_TLS
-              value: "false"
+              value: "true"
 
           volumeMounts:
             - name: data
@@ -47,4 +61,14 @@ spec:
             - name: data 
               mountPath: /etc/ldap/slapd.d
               subPath: application/openldap/slapd
+
+            - name: openldap-certificate
+              mountPath: /container/service/slapd/assets/certs/{{ .Values.domainName }}.crt
+              subPath: value
+              readOnly: false
+
+            - name: openldap-certificate-key
+              mountPath: /container/service/slapd/assets/certs/{{ .Values.domainName }}.key
+              subPath: value
+              readOnly: false
  
