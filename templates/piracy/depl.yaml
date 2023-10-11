@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: piracy 
-spec: 
+  name: piracy
+spec:
   selector:
     matchLabels:
       app: piracy
-  replicas: 1 
+  replicas: 1
   template:
     metadata:
-      labels: 
+      labels:
         app: piracy
         app.kubernetes.io/name: piracy
     spec:
@@ -44,9 +44,9 @@ spec:
           lifecycle:
             postStart:
               exec:
-                command: 
-                - sh 
-                - -c 
+                command:
+                - sh
+                - -c
                 - sleep 30 && until curl --connect-timeout 10 ifconfig.me | grep -i "{{ .Values.piracyIp }}"; do echo "Waiting for ifconfig response"; sleep 10; done;
           livenessProbe:
             exec:
@@ -55,7 +55,7 @@ spec:
               - -c
               - exit "$(curl ifconfig.me --connect-timeout 30 | grep -i '{{ .Values.piracyIp }}')"
             initialDelaySeconds: 120
-            periodSeconds: 120 
+            periodSeconds: 120
             timeoutSeconds: 30
 
           securityContext:
@@ -73,4 +73,3 @@ spec:
             - containerPort: 8080
             - containerPort: 6881
 
-        
