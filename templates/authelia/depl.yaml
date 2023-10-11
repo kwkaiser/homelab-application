@@ -19,19 +19,16 @@ spec:
           ports:
             - containerPort: 80
           volumeMounts:
-              - name: authelia-configs
-                mountPath: /config/configuration.yml # expects path at .yml!
-                subPath: configuration.yaml 
-                readOnly: false
+            - name: authelia-configs
+              mountPath: /config/configuration.yml # expects path at .yml!
+              subPath: configuration.yaml
+              readOnly: false
       initContainers:
-      {{- range $name := list "openldap" }}
-        {{- $p := dict "Name" $name }}
-        {{ include "waitFor" $p}}
-      {{- end }} 
+        {{ include "waitFor" (dict "Name" "openldap" "Port" 389) }}
       volumes:
         - name: authelia-configs
           configMap:
             name: authelia-configs
-            items: 
+            items:
               - key: configuration.yaml
                 path: configuration.yaml

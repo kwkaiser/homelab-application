@@ -62,7 +62,6 @@ spec:
               readOnly: true
           {{- end }} 
       initContainers:
-      {{- range $name := list "authelia" "ldap-user-manager" }}
-        {{- $p := dict "Name" $name }}
-        {{ include "waitFor" $p}}
-      {{- end }}
+        {{ include "waitFor" (dict "Name" "authelia" "Port" 80) }}
+        {{ include "waitFor" (dict "Name" "ldap-user-manager" "Port" 80) }}
+      

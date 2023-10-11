@@ -40,7 +40,4 @@ spec:
             - name: LDAP_DEBUG
               value: "true"
       initContainers:
-      {{- range $name := list "openldap" }}
-        {{- $p := dict "Name" $name }}
-        {{ include "waitFor" $p}}
-      {{- end }} 
+        {{ include "waitFor" (dict "Name" "openldap" "Port" 389) }}
