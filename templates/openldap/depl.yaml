@@ -29,29 +29,44 @@ spec:
 
       containers:
         - name: openldap
-          image: osixia/openldap
+          image: bitnami/openldap
           ports:
             - containerPort: 636
             - containerPort: 389
 
-          args: ["--loglevel", "debug", "--copy-service"]
+          # args: ["--loglevel", "debug", "--copy-service"]
 
           env:
-            - name: LDAP_ORGANISATION
-              value: {{ .Values.domainName }}.io
-            - name: LDAP_DOMAIN
-              value: {{ .Values.domainName }}.io
+            - name: LDAP_ADMIN_USERNAME
+              value: admin
+
             - name: LDAP_ADMIN_PASSWORD
               value: password
-            - name: LDAP_TLS_CRT_FILENAME
-              value: {{ .Values.domainName }}.crt
-            - name: LDAP_TLS_KEY_FILENAME
-              value: {{ .Values.domainName }}.key
+
+            - name: LDAP_ROOT
+              value: cn=admin,dc={{ .Values.domainName }},dc=io
+
+            - name: LDAP_PORT_NUMBER
+              value: "389"
+
+            - name: LDAP_SKIP_DEFAULT_TREE
+              value: "yes"
+
+            # - name: LDAP_ORGANISATION
+            #   value: {{ .Values.domainName }}.io
+            # - name: LDAP_DOMAIN
+            #   value: {{ .Values.domainName }}.io
+            # - name: LDAP_ADMIN_PASSWORD
+            #   value: password
+            # - name: LDAP_TLS_CRT_FILENAME
+            #   value: {{ .Values.domainName }}.crt
+            # - name: LDAP_TLS_KEY_FILENAME
+            #   value: {{ .Values.domainName }}.key
             
             # - name: LDAP_REQUIRE_STARTTLS
             #   value: "false"
-            - name: LDAP_TLS
-              value: "true"
+            # - name: LDAP_TLS
+            #   value: "true"
 
           volumeMounts:
             - name: data
@@ -62,13 +77,13 @@ spec:
               mountPath: /etc/ldap/slapd.d
               subPath: application/openldap/slapd
 
-            - name: openldap-certificate
-              mountPath: /container/service/slapd/assets/certs/{{ .Values.domainName }}.crt
-              subPath: value
-              readOnly: false
+            # - name: openldap-certificate
+            #   mountPath: /container/service/slapd/assets/certs/{{ .Values.domainName }}.crt
+            #   subPath: value
+            #   readOnly: false
 
-            - name: openldap-certificate-key
-              mountPath: /container/service/slapd/assets/certs/{{ .Values.domainName }}.key
-              subPath: value
-              readOnly: false
+            # - name: openldap-certificate-key
+            #   mountPath: /container/service/slapd/assets/certs/{{ .Values.domainName }}.key
+            #   subPath: value
+            #   readOnly: false
  
