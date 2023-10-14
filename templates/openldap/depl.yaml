@@ -44,7 +44,10 @@ spec:
               value: password
 
             - name: LDAP_ROOT
-              value: cn=admin,dc={{ .Values.domainName }},dc=io
+              value: dc={{ .Values.domainName }},dc={{ .Values.tld }}
+
+            - name: LDAP_ADMIN_DN
+              value: cn=admin,dc={{ .Values.domainName }},dc={{ .Values.tld }}
 
             - name: LDAP_PORT_NUMBER
               value: "389"

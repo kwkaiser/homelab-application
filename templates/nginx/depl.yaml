@@ -46,11 +46,11 @@ spec:
 
           volumeMounts:
             - name: nginx-certificate
-              mountPath: /etc/nginx/keys/{{ .Values.domainName }}.crt
+              mountPath: /etc/nginx/keys/{{ .Values.domainName }}.{{ .Values.tld }}.crt
               subPath: value
               readOnly: true
             - name: nginx-certificate-key
-              mountPath: /etc/nginx/keys/{{ .Values.domainName }}.key
+              mountPath: /etc/nginx/keys/{{ .Values.domainName }}.{{ .Values.tld }}.key
               subPath: value
               readOnly: true
             

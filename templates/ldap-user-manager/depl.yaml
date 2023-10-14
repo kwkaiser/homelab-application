@@ -21,23 +21,33 @@ spec:
           env:
             - name: NO_HTTPS
               value: "true"
+
             - name: LDAP_URI
               value: ldap://openldap
+
             - name: LDAP_REQUIRE_STARTTLS
               value: "false"
+
             - name: LDAP_BASE_DN
-              value: "dc=kwkaiser,dc=io"
+              value: "dc={{ .Values.domainName }},dc={{ .Values.tld }}"
+
             - name: LDAP_ADMIN_BIND_DN
-              value: "cn=admin,dc=kwkaiser,dc=io"
+              value: "cn=admin,dc={{ .Values.domainName }},dc={{ .Values.tld }}"
+
             - name: LDAP_ADMINS_GROUP
               value: admins
+
             - name: LDAP_ADMIN_BIND_PWD
               value: password
+
             - name: LDAP_IGNORE_CERT_ERRORS
               value: "true"
+
             - name: LDAP_VERBOSE_CONNECTION_LOGS
               value: "true"
+
             - name: LDAP_DEBUG
               value: "true"
+
       initContainers:
         {{ include "waitFor" (dict "Name" "openldap" "Port" 389) }}

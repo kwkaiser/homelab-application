@@ -1,7 +1,7 @@
 {{- define "waitFor" -}}
   - name: {{ .Name }}-init
           image: busybox
-          command: ['sh', '-c', 'until nc -z {{ .Name }}.default.svc.cluster.local {{ .Port }}; do echo waiting for {{ .Name }}; sleep 5; done;']
+          command: ['sh', '-c', 'until nc -w 2 -z {{ .Name }}.default.svc.cluster.local {{ .Port }}; do echo waiting for {{ .Name }}; sleep 3; done;']
 {{- end -}}
 
 {{- define "curlUntilSuccess" -}}

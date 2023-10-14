@@ -35,7 +35,7 @@ authentication_backend:
     group_name_attribute: cn
     permit_referrals: false
     permit_unauthenticated_bind: false
-    user: CN=admin,DC=kwkaiser,DC=io
+    user: CN=admin,DC={{ .Values.domainName }},DC={{ .Values.tld }}
     password: password
 
 password_policy:
@@ -59,7 +59,7 @@ password_policy:
 access_control:
   default_policy: deny
   rules:
-    - domain: scurvy.{{ .Values.domainName }}
+    - domain: scurvy.{{ .Values.domainName }}.{{ .Values.tld }}
       policy: one_factor
       subject:
         - ["user:kwkaiser"]
@@ -70,7 +70,7 @@ storage:
     path: /config/db.sqlite3
 
 session:
-  domain: {{ .Values.domainName }}
+  domain: {{ .Values.domainName }}.{{ .Values.tld }}
   secret: insecure_session_secret
   name: authelia_session
   same_site: lax
