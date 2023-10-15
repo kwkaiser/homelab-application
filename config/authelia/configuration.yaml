@@ -23,7 +23,7 @@ authentication_backend:
     implementation: custom
     url: ldap://openldap
     timeout: 30s
-    start_tls: true
+    start_tls: false
     base_dn: dc=kwkaiser,dc=io
     additional_users_dn: ou=people
     users_filter: ({username_attribute}={input})

@@ -14,15 +14,6 @@ spec:
         app.kubernetes.io/name: authelia
     spec:
       volumes:
-        {{- range $name := list "ldap-ca-crt" "ldap-crt" "ldap-key" }}
-        - name: {{$name}}
-          secret:
-            secretName: {{ regexReplaceAll "-" $name "." }}
-            items:
-              - key: value
-                path: value
-        {{- end }}
-
         - name: authelia-configs
           configMap:
             name: authelia-configs
@@ -36,33 +27,11 @@ spec:
           ports:
             - containerPort: 80
 
-          env:
-            - name: AUTHELIA_AUTHENTICATION_BACKEND_LDAP_TLS_CERTIFICATE_CHAIN_FILE
-              value: /config/ldap.crt
-
-            - name: AUTHELIA_AUTHENTICATION_BACKEND_LDAP_TLS_PRIVATE_KEY_FILE 
-              value: /config/ldap.key
-
           volumeMounts:
             - name: authelia-configs
               mountPath: /config/configuration.yml # expects path at .yml!
               subPath: configuration.yaml
               readOnly: false
-
-            - name: ldap-crt
-              mountPath: /config/ldap.crt
-              subPath: value
-              readOnly: true
-
-            - name: ldap-key
-              mountPath: /config/ldap.key
-              subPath: value
-              readOnly: true
-
-            - name: ldap-ca-crt
-              mountPath: /usr/local/share/ca-certificates/ldap.crt
-              subPath: value
-              readOnly: true
 
       initContainers:
         {{ include "waitFor" (dict "Name" "openldap" "Port" 389) }}
