@@ -13,22 +13,57 @@ spec:
         app: authelia
         app.kubernetes.io/name: authelia
     spec:
-      containers:
-        - name: authelia
-          image: authelia/authelia
-          ports:
-            - containerPort: 80
-          volumeMounts:
-            - name: authelia-configs
-              mountPath: /config/configuration.yml # expects path at .yml!
-              subPath: configuration.yaml
-              readOnly: false
-      initContainers:
-        {{ include "waitFor" (dict "Name" "openldap" "Port" 389) }}
       volumes:
+        {{- range $name := list "ldap-ca-crt" "ldap-crt" "ldap-key" }}
+        - name: {{$name}}
+          secret:
+            secretName: {{ regexReplaceAll "-" $name "." }}
+            items:
+              - key: value
+                path: value
+        {{- end }}
+
         - name: authelia-configs
           configMap:
             name: authelia-configs
             items:
               - key: configuration.yaml
                 path: configuration.yaml
+
+      containers:
+        - name: authelia
+          image: authelia/authelia
+          ports:
+            - containerPort: 80
+
+          env:
+            - name: AUTHELIA_AUTHENTICATION_BACKEND_LDAP_TLS_CERTIFICATE_CHAIN_FILE
+              value: /config/ldap.crt
+
+            - name: AUTHELIA_AUTHENTICATION_BACKEND_LDAP_TLS_PRIVATE_KEY_FILE 
+              value: /config/ldap.key
+
+          volumeMounts:
+            - name: authelia-configs
+              mountPath: /config/configuration.yml # expects path at .yml!
+              subPath: configuration.yaml
+              readOnly: false
+
+            - name: ldap-crt
+              mountPath: /config/ldap.crt
+              subPath: value
+              readOnly: true
+
+            - name: ldap-key
+              mountPath: /config/ldap.key
+              subPath: value
+              readOnly: true
+
+            - name: ldap-ca-crt
+              mountPath: /usr/local/share/ca-certificates/ldap.crt
+              subPath: value
+              readOnly: true
+
+      initContainers:
+        {{ include "waitFor" (dict "Name" "openldap" "Port" 389) }}
+      

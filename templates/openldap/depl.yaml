@@ -18,7 +18,7 @@ spec:
           persistentVolumeClaim:
             claimName: bulk-nfs
         
-        {{- range $name := list "openldap-certificate-key" "openldap-certificate" "openldap-fullchain" }}
+        {{- range $name := list "ldap-ca-crt" "ldap-crt" "ldap-key" "ldap-dhparam" }}
         - name: {{$name}}
           secret:
             secretName: {{ regexReplaceAll "-" $name "." }}
@@ -29,47 +29,58 @@ spec:
 
       containers:
         - name: openldap
-          image: bitnami/openldap
+          image: osixia/openldap
           ports:
             - containerPort: 636
             - containerPort: 389
 
-          # args: ["--loglevel", "debug", "--copy-service"]
+          args: ["--loglevel", "debug", "--copy-service"]
 
           env:
-            - name: LDAP_ADMIN_USERNAME
-              value: admin
+            # - name: LDAP_ADMIN_USERNAME
+            #   value: admin
+
+            # - name: LDAP_ADMIN_PASSWORD
+            #   value: password
+
+            # - name: LDAP_ROOT
+            #   value: dc={{ .Values.domainName }},dc={{ .Values.tld }}
+
+            # - name: LDAP_ADMIN_DN
+            #   value: cn=admin,dc={{ .Values.domainName }},dc={{ .Values.tld }}
+
+            # - name: LDAP_PORT_NUMBER
+            #   value: "389"
+
+            # - name: LDAP_SKIP_DEFAULT_TREE
+            #   value: "yes"
+
+            - name: LDAP_ORGANISATION
+              value: {{ .Values.domainName }}.{{ .Values.tld }}
+
+            - name: LDAP_DOMAIN
+              value: {{ .Values.domainName }}.{{ .Values.tld }}
 
             - name: LDAP_ADMIN_PASSWORD
               value: password
 
-            - name: LDAP_ROOT
-              value: dc={{ .Values.domainName }},dc={{ .Values.tld }}
-
-            - name: LDAP_ADMIN_DN
-              value: cn=admin,dc={{ .Values.domainName }},dc={{ .Values.tld }}
-
-            - name: LDAP_PORT_NUMBER
-              value: "389"
-
-            - name: LDAP_SKIP_DEFAULT_TREE
-              value: "yes"
-
-            # - name: LDAP_ORGANISATION
-            #   value: {{ .Values.domainName }}.io
-            # - name: LDAP_DOMAIN
-            #   value: {{ .Values.domainName }}.io
-            # - name: LDAP_ADMIN_PASSWORD
-            #   value: password
             # - name: LDAP_TLS_CRT_FILENAME
-            #   value: {{ .Values.domainName }}.crt
+            #   value: {{ .Values.domainName }}.{{ .Values.tld }}.crt
+
+            # - name: LDAP_TLS_CA_CRT_FILENAME
+            #   value: {{ .Values.domainName }}.{{ .Values.tld }}.ca.crt
+
             # - name: LDAP_TLS_KEY_FILENAME
-            #   value: {{ .Values.domainName }}.key
+            #   value: {{ .Values.domainName }}.{{ .Values.tld }}.key
             
-            # - name: LDAP_REQUIRE_STARTTLS
-            #   value: "false"
-            # - name: LDAP_TLS
-            #   value: "true"
+            - name: LDAP_REQUIRE_STARTTLS
+              value: "true"
+
+            - name: HOSTNAME
+              value: openldap
+
+            - name: LDAP_TLS
+              value: "true"
 
           volumeMounts:
             - name: data
@@ -80,13 +91,24 @@ spec:
               mountPath: /etc/ldap/slapd.d
               subPath: application/openldap/slapd
 
-            # - name: openldap-certificate
-            #   mountPath: /container/service/slapd/assets/certs/{{ .Values.domainName }}.crt
-            #   subPath: value
-            #   readOnly: false
+            - name: ldap-ca-crt
+              mountPath: /container/service/slapd/assets/certs/ca.crt
+              subPath: value
+              readOnly: false
 
-            # - name: openldap-certificate-key
-            #   mountPath: /container/service/slapd/assets/certs/{{ .Values.domainName }}.key
-            #   subPath: value
-            #   readOnly: false
- 
+            - name: ldap-crt
+              mountPath: /container/service/slapd/assets/certs/ldap.crt
+              subPath: value
+              readOnly: false
+
+            - name: ldap-key
+              mountPath: /container/service/slapd/assets/certs/ldap.key
+              subPath: value
+              readOnly: false
+
+            - name: ldap-dhparam
+              mountPath: /container/service/slapd/assets/certs/dhparam.pem
+              subPath: value
+              readOnly: false
+
+            
