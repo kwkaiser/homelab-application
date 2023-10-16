@@ -62,7 +62,7 @@ access_control:
     - domain: scurvy.{{ .Values.domainName }}.{{ .Values.tld }}
       policy: one_factor
       subject:
-        - ["user:kwkaiser"]
+        - ["user:kwkaiser"] 
 
 storage:
   encryption_key: a_very_important_secret

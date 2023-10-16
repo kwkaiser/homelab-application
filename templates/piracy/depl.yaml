@@ -21,6 +21,10 @@ spec:
             value: "0"
 
       volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
         {{- range $name := list "wireguard-key" }}
         - name: {{$name}}
           secret:
@@ -35,25 +39,30 @@ spec:
           image: linuxserver/wireguard
           ports:
             - containerPort: 51820
+
           volumeMounts:
             - name: wireguard-key
               mountPath: /config/wg0.conf
               subPath: value
+
+            - name: data
+              mountPath: /data/bulk
+              subPath: application/qbittorrent
 
           # Hooks to guarantee we connected to target IP & stayed connected.
           lifecycle:
             postStart:
               exec:
                 command:
-                - sh
-                - -c
-                - sleep 30 && until curl --connect-timeout 10 ifconfig.me | grep -i "{{ .Values.piracyIp }}"; do echo "Waiting for ifconfig response"; sleep 10; done;
+                  - sh
+                  - -c
+                  - sleep 30 && until curl --connect-timeout 10 ifconfig.me | grep -i "{{ .Values.piracyIp }}"; do echo "Waiting for ifconfig response"; sleep 10; done;
           livenessProbe:
             exec:
               command:
-              - bash
-              - -c
-              - exit "$(curl ifconfig.me --connect-timeout 30 | grep -i '{{ .Values.piracyIp }}')"
+                - bash
+                - -c
+                - exit "$(curl ifconfig.me --connect-timeout 30 | grep -i '{{ .Values.piracyIp }}')"
             initialDelaySeconds: 120
             periodSeconds: 120
             timeoutSeconds: 30

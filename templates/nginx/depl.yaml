@@ -64,4 +64,5 @@ spec:
       initContainers:
         {{ include "waitFor" (dict "Name" "authelia" "Port" 80) }}
         {{ include "waitFor" (dict "Name" "ldap-user-manager" "Port" 80) }}
+        {{ include "waitFor" (dict "Name" "jellyfin" "Port" 80) }}
       

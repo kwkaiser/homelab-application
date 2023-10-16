@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+spec:
+  selector:
+    matchLabels:
+      app: jellyfin
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+        app.kubernetes.io/name: jellyfin
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: jellyfin
+          image: linuxserver/jellyfin
+          ports:
+            - containerPort: 8096
+
+          volumeMounts:
+            - name: data
+              mountPath: /config
+              subPath: application/jellyfin
+
+            - name: data
+              mountPath: /data/movies
+              subPath: shared/movies
+
+            - name: data
+              mountPath: /data/tvshows
+              subPath: shared/tv

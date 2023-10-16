@@ -46,6 +46,9 @@ spec:
             - name: LDAP_TLS
               value: "false"
 
+            - name: LDAP_RFC2307BIS_SCHEMA
+              value: "true"
+
           volumeMounts:
             - name: data
               mountPath: /var/lib/ldap
