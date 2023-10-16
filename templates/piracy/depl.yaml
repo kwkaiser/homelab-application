@@ -45,10 +45,6 @@ spec:
               mountPath: /config/wg0.conf
               subPath: value
 
-            - name: data
-              mountPath: /data/bulk
-              subPath: application/qbittorrent
-
           # Hooks to guarantee we connected to target IP & stayed connected.
           lifecycle:
             postStart:
@@ -81,4 +77,9 @@ spec:
           ports:
             - containerPort: 8080
             - containerPort: 6881
+
+          volumeMounts:
+            - name: data
+              mountPath: /data/bulk
+              subPath: application/qbittorrent
 
