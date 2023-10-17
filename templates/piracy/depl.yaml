@@ -80,6 +80,69 @@ spec:
 
           volumeMounts:
             - name: data
-              mountPath: /data/bulk
+              mountPath: /config
               subPath: application/qbittorrent
 
+            - name: data
+              mountPath: /shared/torrents
+              subPath: shared/torrents
+
+        - name: radarr
+          image: linuxserver/radarr
+          ports:
+            - containerPort: 7878
+
+          volumeMounts:
+            - name: data
+              mountPath: /config
+              subPath: application/radarr
+
+            - name: data
+              mountPath: /shared/torrents
+              subPath: shared/torrents
+
+            - name: data
+              mountPath: /shared/movies
+              subPath: shared/movies    
+
+        - name: sonarr
+          image: linuxserver/sonarr
+          ports:
+            - containerPort: 8989
+
+          volumeMounts:
+            - name: data
+              mountPath: /config
+              subPath: application/sonarr
+
+            - name: data
+              mountPath: /shared/torrents
+              subPath: shared/torrents
+
+            - name: data
+              mountPath: /shared/tv
+              subPath: shared/tv
+
+        - name: prowlarr
+          image: linuxserver/prowlarr
+          ports:
+            - containerPort: 9696
+
+          volumeMounts:
+            - name: data
+              mountPath: /config
+              subPath: application/prowlarr
+
+        - name: autobrr
+          image: ghcr.io/autobrr/autobrr:latest
+          ports:
+            - containerPort: 7474
+
+          env:
+            - name: AUTOBRR__HOST
+              value: "0.0.0.0"
+
+          volumeMounts:
+            - name: data
+              mountPath: /config
+              subPath: application/autobrr

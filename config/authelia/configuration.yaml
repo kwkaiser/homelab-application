@@ -24,7 +24,7 @@ authentication_backend:
     url: ldap://openldap
     timeout: 30s
     start_tls: false
-    base_dn: dc=kwkaiser,dc=io
+    base_dn: dc={{ .Values.domainName }},dc={{ .Values.tld }}
     additional_users_dn: ou=people
     users_filter: ({username_attribute}={input})
     username_attribute: uid
@@ -51,15 +51,10 @@ password_policy:
     enabled: false
     min_score: 3
 
-# privacy_policy:
-#   enabled: false
-#   require_user_acceptance: false
-#   policy_url: ""
-
 access_control:
   default_policy: deny
   rules:
-    - domain: scurvy.{{ .Values.domainName }}.{{ .Values.tld }}
+    - domain_regex: '(scurvy|movies|tv|trackers|ratio).{{ .Values.domainName }}.{{ .Values.tld }}'
       policy: one_factor
       subject:
         - ["user:kwkaiser"] 
@@ -86,5 +81,3 @@ notifier:
   disable_startup_check: true
   filesystem:
     filename: /config/notification.txt
-# http://authelia:9091/api/verify?rd=http://auth.b49.cloudserver.click
-# http://authelia:9091/api/verify?rd=https://auth.b49.cloudserver.click
