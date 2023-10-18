@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre
+spec:
+  selector:
+    matchLabels:
+      app: calibre
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: calibre
+        app.kubernetes.io/name: calibre
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: calibre
+          image: linuxserver/calibre
+          ports:
+            - containerPort: 8083
+
+          env:
+            - name: DOCKER_MODS=linuxserver/mods:universal-calibre
+
+          volumeMounts:
+            - name: data
+              mountPath: /config
+              subPath: application/calibre
+
+            - name: data
+              mountPath: /data/books
+              subPath: shared/books
