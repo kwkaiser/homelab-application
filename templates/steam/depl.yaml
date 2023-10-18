@@ -90,6 +90,7 @@ spec:
             #   - name: dshm
             #     mountPath: /dev/shm
 
+          volumeMounts:
             - name: data
               mountPath: /home/default
               subPath: application/steam/home
