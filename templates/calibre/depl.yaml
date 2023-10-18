@@ -25,7 +25,8 @@ spec:
             - containerPort: 8083
 
           env:
-            - name: DOCKER_MODS=linuxserver/mods:universal-calibre
+            - name: DOCKER_MODS
+              value: linuxserver/mods:universal-calibre
 
           volumeMounts:
             - name: data
