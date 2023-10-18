@@ -25,6 +25,9 @@ spec:
             - containerPort: 5432
 
           env:
+            - name: POSTGRES_USER
+              value: miniflux
+
             - name: POSTGRES_PASSWORD
               value: password
 
@@ -33,11 +36,31 @@ spec:
               mountPath: /var/lib/postgresql/data
               subPath: application/minifluxdb
 
+          livenessProbe:
+            exec:
+              command: ["pg_isready", "-U", "miniflux"]
+
+           initialDelaySeconds: 120
+            periodSeconds: 120
+            timeoutSeconds: 30
+
         - name: miniflux
-          image: miniflux
+          image: miniflux/miniflux:latest
           ports:
             - containerPort: 8080
 
           env:
+            - name: RUN_MIGRATIONS
+              value: "1"
+
+            - name: CREATE_ADMIN
+              value: "1"
+
+            - name: ADMIN_USERNAME
+              value: kwkaiser
+
+            - name: ADMIN_PASSWORD
+              value: password
+
             - name: DATABASE_URL
-              value: postgres://miniflux:miniflux@minifluxdb/miniflux?sslmode=disable
+              value: postgres://miniflux:miniflux@0.0.0.0/miniflux?sslmode=disable
