@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: miniflux
+spec:
+  selector:
+    matchLabels:
+      app: miniflux
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: miniflux
+        app.kubernetes.io/name: miniflux
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: minifluxdb
+          image: postgres
+          ports:
+            - containerPort: 5432
+
+          env:
+            - name: POSTGRES_PASSWORD
+              value: password
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+              subPath: application/minifluxdb
+
+        - name: miniflux
+          image: miniflux
+          ports:
+            - containerPort: 8080
+
+          env:
+            - name: DATABASE_URL
+              value: postgres://miniflux:miniflux@minifluxdb/miniflux?sslmode=disable
