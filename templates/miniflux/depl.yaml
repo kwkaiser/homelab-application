@@ -24,6 +24,14 @@ spec:
           ports:
             - containerPort: 5432
 
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - sleep 15
+
           env:
             - name: POSTGRES_USER
               value: miniflux
@@ -35,14 +43,6 @@ spec:
             - name: data
               mountPath: /var/lib/postgresql/data
               subPath: application/minifluxdb
-
-          livenessProbe:
-            exec:
-              command: ["pg_isready", "-U", "miniflux"]
-
-           initialDelaySeconds: 120
-            periodSeconds: 120
-            timeoutSeconds: 30
 
         - name: miniflux
           image: miniflux/miniflux:latest
