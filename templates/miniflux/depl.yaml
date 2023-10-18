@@ -30,7 +30,7 @@ spec:
                 command:
                   - sh
                   - -c
-                  - sleep 15
+                  - sleep 30
 
           env:
             - name: POSTGRES_USER
