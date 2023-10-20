@@ -20,13 +20,13 @@ spec:
 
       containers:
         - name: calibre
-          image: linuxserver/calibre
+          image: lscr.io/linuxserver/calibre-web
           ports:
             - containerPort: 8083
 
-          # env:
-          #   - name: DOCKER_MODS
-          #     value: linuxserver/mods:universal-calibre
+          env:
+            - name: DOCKER_MODS
+              value: linuxserver/mods:universal-calibre
 
           volumeMounts:
             - name: data
@@ -34,5 +34,5 @@ spec:
               subPath: application/calibre
 
             - name: data
-              mountPath: /data/books
+              mountPath: /books
               subPath: shared/books
