@@ -24,14 +24,6 @@ spec:
           ports:
             - containerPort: 5432
 
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - sh
-                  - -c
-                  - sleep 30
-
           env:
             - name: POSTGRES_USER
               value: miniflux

@@ -24,14 +24,6 @@ spec:
           ports:
             - containerPort: 5432
 
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - sh
-                  - -c
-                  - sleep 30
-
           env:
             - name: POSTGRES_USER
               value: postgres
@@ -68,9 +60,13 @@ spec:
 
           volumeMounts:
             - name: data
-              mountPath: /var/lib/gitea
-              subPath: application/gitea/data
+              mountPath: /data/git/repositories
+              subPath: application/gitea/repos
 
             - name: data
-              mountPath: /etc/gitea
-              subPath: application/gitea/config
+              mountPath: /data/git/lfs
+              subPath: application/gitea/lfs
+
+            - name: data
+              mountPath: /data/gitea/log
+              subPath: application/gitea/log
