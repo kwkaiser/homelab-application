@@ -33,12 +33,11 @@ spec:
           image: lscr.io/linuxserver/steamos:latest
           resources: #Change CPU and Memory below
             requests:
-              memory: "1G"
-              cpu: "1"
+              memory: "4G"
+              cpu: "2"
             limits:
-              memory: "1G"
-              cpu: "1"
-              #nvidia.com/gpu: 1 #If you're using a nvidia GPU, add it here
+              memory: "4G"
+              cpu: "2"
 
           ports:
             - containerPort: 3000
@@ -69,17 +68,3 @@ spec:
 
             - name: dshm
               mountPath: /dev/shm
-
-      # volumes:
-      #   - name: home-dir
-      #     persistentVolumeClaim:
-      #       claimName: home
-      #   - name: games-dir
-      #     persistentVolumeClaim:
-      #       claimName: games
-      #   - name: input-devices
-      #     hostPath:
-      #       path: /dev/input/
-      #   - name: dshm
-      #     emptyDir:
-      #       medium: Memory
