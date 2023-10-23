@@ -19,16 +19,58 @@ spec:
             claimName: bulk-nfs
 
       containers:
-        - name: gitea
-          image: bitnami/gitea
+        - name: giteadb
+          image: postgres
           ports:
-            - containerPort: 8096
+            - containerPort: 5432
+
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - sleep 30
 
           env:
-            - name: ALLOW_EMPTY_PASSWORD
-              value: "false"
+            - name: POSTGRES_USER
+              value: postgres
+
+            - name: POSTGRES_PASSWORD
+              value: password
 
           volumeMounts:
             - name: data
-              mountPath: /bitnami/gitea
-              subPath: application/gitea
+              mountPath: /var/lib/postgresql/data
+              subPath: application/gitea/db
+
+        - name: gitea
+          image: gitea/gitea
+          ports:
+            - containerPort: 3000
+            - containerPort: 2222
+
+          env:
+            - name: GITEA__database__DB_TYPE
+              value: postgres
+
+            - name: GITEA__database__HOST
+              value: 0.0.0.0:5432
+
+            - name: GITEA__database__NAME
+              value: postgres
+
+            - name: GITEA__database__USER
+              value: postgres
+
+            - name: GITEA__database__PASSWD
+              value: password
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/gitea
+              subPath: application/gitea/data
+
+            - name: data
+              mountPath: /etc/gitea
+              subPath: application/gitea/config
