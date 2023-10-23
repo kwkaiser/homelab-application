@@ -39,6 +39,9 @@ spec:
             - name: POSTGRES_PASSWORD
               value: password
 
+            - name: POSTGRES_DB
+              value: miniflux
+
           volumeMounts:
             - name: data
               mountPath: /var/lib/postgresql/data
