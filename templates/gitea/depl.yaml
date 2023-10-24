@@ -18,6 +18,13 @@ spec:
           persistentVolumeClaim:
             claimName: bulk-nfs
 
+        - name: gitea-configs
+          configMap:
+            name: gitea-configs
+            items:
+              - key: app.ini
+                path: app.ini
+
       containers:
         - name: giteadb
           image: postgres
@@ -60,6 +67,10 @@ spec:
 
           volumeMounts:
             - name: data
+              mountPath: /data/gitea
+              subPath: application/gitea/data
+
+            - name: data
               mountPath: /data/git/repositories
               subPath: application/gitea/repos
 
@@ -67,6 +78,34 @@ spec:
               mountPath: /data/git/lfs
               subPath: application/gitea/lfs
 
+            - name: gitea-configs
+              mountPath: /data/gitea/conf/app.ini
+              subPath: app.ini
+              readOnly: false
+
+        - name: gitea-runner
+          image: gitea/act_runner:nightly-dind-rootless
+
+          securityContext:
+            privileged: true
+
+          env:
+            - name: DOCKER_HOST
+              value: tcp://localhost:2376
+
+            - name: DOCKER_CERT_PATH
+              value: /certs/client
+
+            - name: DOCKER_TLS_VERIFY
+              value: "1"
+
+            - name: GITEA_INSTANCE_URL
+              value: "http://gitea"
+
+            - name: GITEA_RUNNER_REGISTRATION_TOKEN
+              value: "hiA4VTSnGOJoLrbVOp2ZUc6p7zTgnTguoHqstTyf"
+
+          volumeMounts:
             - name: data
-              mountPath: /data/gitea/log
-              subPath: application/gitea/log
+              mountPath: /data
+              subPath: application/gitea/runner
