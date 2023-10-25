@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitea-runner
+spec:
+  selector:
+    matchLabels:
+      app: gitea-runner
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gitea-runner
+        app.kubernetes.io/name: gitea-runner
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: gitea-runner
+          image: gitea/act_runner:nightly-dind-rootless
+
+          securityContext:
+            privileged: true
+
+          env:
+            - name: DOCKER_HOST
+              value: tcp://localhost:2376
+
+            - name: DOCKER_CERT_PATH
+              value: /certs/client
+
+            - name: DOCKER_TLS_VERIFY
+              value: "1"
+
+            - name: GITEA_INSTANCE_URL
+              value: "http://gitea"
+
+            - name: GITEA_RUNNER_REGISTRATION_TOKEN
+              value: "hiA4VTSnGOJoLrbVOp2ZUc6p7zTgnTguoHqstTyf"
+
+          volumeMounts:
+            - name: data
+              mountPath: /data
+              subPath: application/gitea/runner
+
+      initContainers:
+        {{ include "waitFor" (dict "Name" "gitea" "Port" 80) }} 

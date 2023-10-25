@@ -19,26 +19,6 @@ spec:
             claimName: bulk-nfs
 
       containers:
-        - name: minifluxdb
-          image: postgres
-          ports:
-            - containerPort: 5432
-
-          env:
-            - name: POSTGRES_USER
-              value: miniflux
-
-            - name: POSTGRES_PASSWORD
-              value: password
-
-            - name: POSTGRES_DB
-              value: miniflux
-
-          volumeMounts:
-            - name: data
-              mountPath: /var/lib/postgresql/data
-              subPath: application/miniflux
-
         - name: miniflux
           image: miniflux/miniflux:latest
           ports:
@@ -58,4 +38,6 @@ spec:
               value: password
 
             - name: DATABASE_URL
-              value: postgres://miniflux:miniflux@0.0.0.0/miniflux?sslmode=disable
+              value: postgres://miniflux:miniflux@miniflux-db/miniflux?sslmode=disable
+      initContainers:
+        {{ include "waitFor" (dict "Name" "miniflux-db" "Port" 5432) }}

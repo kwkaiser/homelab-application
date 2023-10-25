@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: gitea-configs
-data:
-  app.ini: {{ tpl (.Files.Get "config/gitea/app.ini") $ | quote }}
