@@ -65,6 +65,9 @@ spec:
             - name: GITEA__database__PASSWD
               value: password
 
+            - name: GITEA__actions__ENABLED
+              value: "true"
+
           volumeMounts:
             - name: data
               mountPath: /data/gitea
@@ -78,10 +81,10 @@ spec:
               mountPath: /data/git/lfs
               subPath: application/gitea/lfs
 
-            - name: gitea-configs
-              mountPath: /data/gitea/conf/app.ini
-              subPath: app.ini
-              readOnly: false
+            # - name: gitea-configs
+            #   mountPath: /data/gitea/conf/app.ini
+            #   subPath: app.ini
+            #   readOnly: false
 
         - name: gitea-runner
           image: gitea/act_runner:nightly-dind-rootless
