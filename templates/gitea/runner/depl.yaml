@@ -20,7 +20,7 @@ spec:
 
       containers:
         - name: gitea-runner
-          image: gitea/act_runner:nightly-dind-rootless
+          image: gitea/act_runner:0.2.6-dind-rootless
 
           securityContext:
             privileged: true
@@ -46,5 +46,4 @@ spec:
               mountPath: /data
               subPath: application/gitea/runner
 
-      initContainers:
-        {{ include "waitFor" (dict "Name" "gitea" "Port" 80) }} 
+      initContainers: { { include "waitFor" (dict "Name" "gitea" "Port" 80) } }

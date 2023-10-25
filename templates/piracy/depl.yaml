@@ -36,7 +36,7 @@ spec:
 
       containers:
         - name: wireguard
-          image: linuxserver/wireguard
+          image: linuxserver/wireguard:1.0.20210914
           ports:
             - containerPort: 51820
 
@@ -73,7 +73,7 @@ spec:
                 - SYS_MODULE
 
         - name: qbittorrent
-          image: linuxserver/qbittorrent
+          image: linuxserver/qbittorrent:4.6.0 
           ports:
             - containerPort: 8080
             - containerPort: 6881
@@ -88,7 +88,7 @@ spec:
               subPath: shared/torrents
 
         - name: radarr
-          image: linuxserver/radarr
+          image: linuxserver/radarr:5.0.3 
           ports:
             - containerPort: 7878
 
@@ -113,7 +113,7 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /config
-              subPath: application/sonarr
+              subPath: application/sonarr:3.0.10 
 
             - name: data
               mountPath: /shared/torrents
@@ -124,7 +124,7 @@ spec:
               subPath: shared/tv
 
         - name: prowlarr
-          image: linuxserver/prowlarr
+          image: linuxserver/prowlarr:1.9.4 
           ports:
             - containerPort: 9696
 
@@ -133,16 +133,16 @@ spec:
               mountPath: /config
               subPath: application/prowlarr
 
-        - name: autobrr
-          image: ghcr.io/autobrr/autobrr:latest
-          ports:
-            - containerPort: 7474
+        # - name: autobrr
+        #   image: ghcr.io/autobrr/autobrr:latest
+        #   ports:
+        #     - containerPort: 7474
 
-          env:
-            - name: AUTOBRR__HOST
-              value: "0.0.0.0"
+        #   env:
+        #     - name: AUTOBRR__HOST
+        #       value: "0.0.0.0"
 
-          volumeMounts:
-            - name: data
-              mountPath: /config
-              subPath: application/autobrr
+        #   volumeMounts:
+        #     - name: data
+        #       mountPath: /config
+        #       subPath: application/autobrr

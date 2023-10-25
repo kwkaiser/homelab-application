@@ -2,20 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ldap-user-manager
-spec: 
+spec:
   selector:
     matchLabels:
       app: ldap-user-manager
-  replicas: 1 
+  replicas: 1
   template:
     metadata:
-      labels: 
+      labels:
         app: ldap-user-manager
         app.kubernetes.io/name: ldap-user-manager
     spec:
       containers:
         - name: ldap-user-manager
-          image: wheelybird/ldap-user-manager
+          image: wheelybird/ldap-user-manager:v1.11
           ports:
             - containerPort: 80
           env:
@@ -50,4 +50,4 @@ spec:
               value: "true"
 
       initContainers:
-        {{ include "waitFor" (dict "Name" "openldap" "Port" 389) }}
+        { { include "waitFor" (dict "Name" "openldap" "Port" 389) } }
