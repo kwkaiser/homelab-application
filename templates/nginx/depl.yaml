@@ -39,7 +39,7 @@ spec:
 
       containers:
         - name: nginx
-          image: nginx:mainline-alpine3.18-slim
+          image: {{ .Values.nginx.repository }}:{{ .Values.nginx.tag }}
           ports:
             - containerPort: 80
             - containerPort: 443

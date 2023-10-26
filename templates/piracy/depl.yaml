@@ -133,16 +133,16 @@ spec:
               mountPath: /config
               subPath: application/prowlarr
 
-        # - name: autobrr
-        #   image: ghcr.io/autobrr/autobrr:latest
-        #   ports:
-        #     - containerPort: 7474
+        - name: autobrr
+          image: ghcr.io/autobrr/autobrr:latest
+          ports:
+            - containerPort: 7474
 
-        #   env:
-        #     - name: AUTOBRR__HOST
-        #       value: "0.0.0.0"
+          env:
+            - name: AUTOBRR__HOST
+              value: "0.0.0.0"
 
-        #   volumeMounts:
-        #     - name: data
-        #       mountPath: /config
-        #       subPath: application/autobrr
+          volumeMounts:
+            - name: data
+              mountPath: /config
+              subPath: application/autobrr

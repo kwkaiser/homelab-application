@@ -50,4 +50,4 @@ spec:
               value: "true"
 
       initContainers:
-        { { include "waitFor" (dict "Name" "openldap" "Port" 389) } }
+        {{ include "waitFor" (dict "Name" "openldap" "Port" 389) }}
