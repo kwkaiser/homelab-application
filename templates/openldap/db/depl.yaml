@@ -20,7 +20,7 @@ spec:
 
       containers:
         - name: openldap
-          image: osixia/openldap:latest
+          image: {{ .Values.image_openldap }}
           ports:
             - containerPort: 636
             - containerPort: 389

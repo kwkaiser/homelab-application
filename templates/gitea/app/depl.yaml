@@ -37,7 +37,7 @@ spec:
               subPath: application/gitea/db
 
         - name: gitea
-          image: gitea/gitea
+          image: {{ .Values.image_gitea }}
           ports:
             - containerPort: 3000
             - containerPort: 2222

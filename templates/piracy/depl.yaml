@@ -36,7 +36,7 @@ spec:
 
       containers:
         - name: wireguard
-          image: linuxserver/wireguard:latest
+          image: {{ .Values.image_wireguard }}
           ports:
             - containerPort: 51820
 
@@ -73,7 +73,7 @@ spec:
                 - SYS_MODULE
 
         - name: qbittorrent
-          image: linuxserver/qbittorrent:latest
+          image: {{ .Values.image_qbittorrent }}
           ports:
             - containerPort: 8080
             - containerPort: 6881
@@ -88,7 +88,7 @@ spec:
               subPath: shared/torrents
 
         - name: radarr
-          image: linuxserver/radarr:latest
+          image: {{ .Values.image_radarr }}
           ports:
             - containerPort: 7878
 
@@ -106,7 +106,7 @@ spec:
               subPath: shared/movies    
 
         - name: sonarr
-          image: linuxserver/sonarr:latest
+          image: {{ .Values.image_sonarr }}
           ports:
             - containerPort: 8989
 
@@ -124,7 +124,7 @@ spec:
               subPath: shared/tv
 
         - name: prowlarr
-          image: linuxserver/prowlarr:latest
+          image: {{ .Values.image_prowlarr }}
           ports:
             - containerPort: 9696
 

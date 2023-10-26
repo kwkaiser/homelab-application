@@ -23,7 +23,7 @@ spec:
 
       containers:
         - name: authelia
-          image: authelia/authelia:latest
+          image: {{ .Values.image_authelia }}
           ports:
             - containerPort: 80
 

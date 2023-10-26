@@ -20,7 +20,7 @@ spec:
 
       containers:
         - name: gitea-runner
-          image: gitea/act_runner:latest
+          image: {{ .Values.image_gitea_runner }}
 
           securityContext:
             privileged: true

@@ -27,7 +27,7 @@ spec:
 
       containers:
         - name: gitea-renovate
-          image: renovate/renovate:latest
+          image: {{ .Values.image_gitea_renovate }}
 
           env:
             - name: LOG_LEVEL

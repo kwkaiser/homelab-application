@@ -20,7 +20,7 @@ spec:
 
       containers:
         - name: miniflux-db
-          image: postgres:latest
+          image: {{ .Values.image_miniflux_db }}
           ports:
             - containerPort: 5432
 

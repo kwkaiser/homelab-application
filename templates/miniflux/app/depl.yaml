@@ -20,7 +20,7 @@ spec:
 
       containers:
         - name: miniflux
-          image: miniflux/miniflux:latest
+          image: {{ .Values.image_miniflux }}
           ports:
             - containerPort: 8080
 

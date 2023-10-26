@@ -39,7 +39,7 @@ spec:
 
       containers:
         - name: nginx
-          image: nginx:latest
+          image: {{ .Values.image_nginx }}
           ports:
             - containerPort: 80
             - containerPort: 443
