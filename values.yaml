@@ -1,3 +1,4 @@
 domainName: kwkaiser-test
 tld: io
 piracyIp: "143.244.47.87"
+image_jellyfin: "linuxserver/jellyfin:1.0.0"

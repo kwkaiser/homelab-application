@@ -1,12 +1,17 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:base"],
-  "kubernetes": {
-    "fileMatch": ["\\.yaml$"]
-  },
   "platform": "gitea",
   "token": "c683ed4893078b0b9f5cc48c5b32450eacc53ef6",
   "endpoint": "http://gitea",
   "gitUrl": "http://gitea",
-  "gitAuthor": "Renovate Bot <bot@renovateapp.com>"
+  "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["values\\.yaml"],
+      "matchStrings": ["(image_.*): \"(?<depName>.+):(?<currentValue>.+)\""],
+      "datasourceTemplate": "docker"
+    }
+  ]
 }
