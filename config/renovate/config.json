@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:base"],
   "platform": "gitea",
-  "token": "99b22e2cae75303d5412b18ad3c20bb537bb9649",
+  "token": "b11d10656aad389da48ecd5a2c4ddc87a74f54db",
   "endpoint": "http://gitea",
   "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
   "customManagers": [

@@ -38,6 +38,6 @@ spec:
               value: password
 
             - name: DATABASE_URL
-              value: postgres://miniflux:miniflux@miniflux-db/miniflux?sslmode=disable
+              value: postgres://miniflux:password@miniflux-db/miniflux?sslmode=disable
       initContainers:
         {{ include "waitFor" (dict "Name" "miniflux-db" "Port" 5432) }}
