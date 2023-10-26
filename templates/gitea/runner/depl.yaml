@@ -20,7 +20,7 @@ spec:
 
       containers:
         - name: gitea-runner
-          image: gitea/act_runner:0.2.6-dind-rootless
+          image: gitea/act_runner:latest
 
           securityContext:
             privileged: true

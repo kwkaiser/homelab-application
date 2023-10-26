@@ -20,7 +20,7 @@ spec:
 
       containers:
         - name: miniflux-db
-          image: postgres:alpine3.18
+          image: postgres:latest
           ports:
             - containerPort: 5432
 
