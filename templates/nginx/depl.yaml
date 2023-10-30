@@ -61,15 +61,15 @@ spec:
               subPath: {{ $cleanedPath }}
               readOnly: true
           {{- end }} 
-      initContainers:
-        {{ include "waitFor" (dict "Name" "authelia" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "ldap-user-manager" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "jellyfin" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "calibre" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "gitea" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "piracy" "Port" 8080) }}
-        {{ include "waitFor" (dict "Name" "piracy" "Port" 7878) }}
-        {{ include "waitFor" (dict "Name" "piracy" "Port" 8989) }}
-        {{ include "waitFor" (dict "Name" "piracy" "Port" 9696) }}
-        {{ include "waitFor" (dict "Name" "piracy" "Port" 7474) }}
+      # initContainers:
+      #   {{ include "waitFor" (dict "Name" "authelia" "Port" 80) }}
+      #   {{ include "waitFor" (dict "Name" "ldap-user-manager" "Port" 80) }}
+      #   {{ include "waitFor" (dict "Name" "jellyfin" "Port" 80) }}
+      #   {{ include "waitFor" (dict "Name" "calibre" "Port" 80) }}
+      #   {{ include "waitFor" (dict "Name" "gitea" "Port" 80) }}
+      #   {{ include "waitFor" (dict "Name" "piracy" "Port" 8080) }}
+      #   {{ include "waitFor" (dict "Name" "piracy" "Port" 7878) }}
+      #   {{ include "waitFor" (dict "Name" "piracy" "Port" 8989) }}
+      #   {{ include "waitFor" (dict "Name" "piracy" "Port" 9696) }}
+      #   {{ include "waitFor" (dict "Name" "piracy" "Port" 7474) }}
       

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: prometheus
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: prometheus
+        app.kubernetes.io/name: prometheus
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+        - name: prometheus-configs
+          configMap:
+            name: prometheus-configs
+            items:
+              - key: configuration.yaml
+                path: configuration.yaml
+
+      containers:
+        - name: prometheus
+          image: {{ .Values.image_prometheus }}
+          ports:
+            - containerPort: 9090 
+
+          volumeMounts:
+            - name: data
+              mountPath: /opt/bitnami/prometheus/data
+              subPath: application/prometheus
+
+            - name: prometheus-configs
+              mountPath: /opt/bitnami/prometheus/conf/prometheus.yml
+              subPath: configuration.yaml
+              readOnly: false
