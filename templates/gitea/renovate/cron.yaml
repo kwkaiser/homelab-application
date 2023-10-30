@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: renovate
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: bulk-nfs
+
+            - name: renovate-configs
+              configMap:
+                name: renovate-configs
+                items:
+                  - key: config.json
+                    path: config.json
+
+          containers:
+            - name: gitea-renovate
+              image: {{ .Values.image_gitea_renovate }}
+
+              env:
+                - name: LOG_LEVEL
+                  value: debu0g
+
+                - name: RENOVATE_CONFIG_FILE
+                  value: /usr/src/app/config.json
+
+                - name: RENOVATE_AUTODISCOVER
+                  value: "true"
+
+              volumeMounts:
+                - name: renovate-configs
+                  mountPath: /usr/src/app/config.json
+                  subPath: config.json
+                  readOnly: false
