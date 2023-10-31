@@ -1,3 +1,4 @@
+# Waits for another pod in the cluster to be up & listening on a port 
 {{- define "waitFor" -}}
   - name: {{ .Name }}-{{ .Port }}-init
           image: busybox

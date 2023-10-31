@@ -9,6 +9,8 @@ spec:
   replicas: 1
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/authelia/cm.yaml") . | sha256sum }}
       labels:
         app: authelia
         app.kubernetes.io/name: authelia
