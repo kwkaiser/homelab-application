@@ -1,3 +1,3 @@
 #! /bin/bash
 
-helm upgrade bingus . --recreate-pods && echo 'Upgraded!' || helm install bingus .
+helm upgrade bingus . && echo 'Upgraded!' || helm install bingus .
