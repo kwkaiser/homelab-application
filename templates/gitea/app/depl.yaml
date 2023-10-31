@@ -61,6 +61,9 @@ spec:
             - name: GITEA__actions__ENABLED
               value: "true"
 
+            - name: GITEA__metrics__ENABLED
+              value: "true"
+
             - name: GITEA__server__ROOT_URL
               value: "http://gitea"
 

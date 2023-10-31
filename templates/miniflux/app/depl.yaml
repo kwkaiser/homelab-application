@@ -25,6 +25,9 @@ spec:
             - containerPort: 8080
 
           env:
+            - name: METRICS_COLLECTOR
+              value: "1"
+
             - name: RUN_MIGRATIONS
               value: "1"
 

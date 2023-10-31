@@ -40,3 +40,8 @@ spec:
               mountPath: /opt/bitnami/prometheus/conf/prometheus.yml
               subPath: configuration.yaml
               readOnly: false
+
+      initContainers:
+        {{ include "waitFor" (dict "Name" "jellyfin" "Port" 80) }}
+        {{ include "waitFor" (dict "Name" "authelia" "Port" 9959) }}
+        {{ include "waitFor" (dict "Name" "gitea" "Port" 80) }}
