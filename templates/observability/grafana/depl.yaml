@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+spec:
+  selector:
+    matchLabels:
+      app: grafana
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: grafana
+        app.kubernetes.io/name: grafana
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: grafana
+          image: {{ .Values.image_grafana }}
+          ports:
+            - containerPort: 3000
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/grafana
+              subPath: application/grafana

@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/observability/cm.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/observability/prometheus/cm.yaml") . | sha256sum }}
       labels:
         app: prometheus
         app.kubernetes.io/name: prometheus
