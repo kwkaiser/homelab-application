@@ -30,7 +30,7 @@ spec:
               value: postgres
 
             - name: GITEA__database__HOST
-              value: giteadb:5432
+              value: giteadb
 
             - name: GITEA__database__NAME
               value: postgres
@@ -63,4 +63,4 @@ spec:
               mountPath: /data/git/lfs
               subPath: application/gitea/lfs
 
-      {{ include "waitFor" (dict "Name" "giteadb" "Port" 5432) }}
+        {{ include "waitFor" (dict "Name" "giteadb" "Port" 5432) }}
