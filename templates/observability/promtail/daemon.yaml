@@ -1,12 +1,11 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
   name: promtail
 spec:
   selector:
     matchLabels:
       app: promtail
-  replicas: 1
   template:
     metadata:
       annotations:

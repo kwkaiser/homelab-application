@@ -4,8 +4,18 @@ scrape_configs:
       - targets: 
           - localhost
         labels: 
-          job: pods
+          job: pod
           __path__: /var/log/containers/*.log
+    pipeline_stages:
+      - cri: {}
+      - match:
+          selector: '{job="pod"}'
+          stages:
+            - regex:
+                source: filename
+                expression: (\/var\/log\/containers\/)(?P<containerName>.+)(-.+-.+_default_.+)
+            - labels:
+                containerName:
 
 clients: 
   - url: 'http://loki/loki/api/v1/push'
