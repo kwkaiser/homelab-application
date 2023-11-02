@@ -10,12 +10,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config:
-          {
-            {
-              include (print $.Template.BasePath "/observability/promtail/cm.yaml") . | sha256sum,
-            },
-          }
+        checksum/config: {{ include (print $.Template.BasePath "/observability/promtail/cm.yaml") . | sha256sum }}
       labels:
         app: promtail
         app.kubernetes.io/name: promtail
@@ -42,7 +37,7 @@ spec:
 
       containers:
         - name: promtail
-          image: { { .Values.image_promtail } }
+          image: {{ .Values.image_promtail }}
           args:
             - "-config.file=/etc/promtail/promtail.yaml"
 
