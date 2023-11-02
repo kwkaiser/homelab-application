@@ -16,6 +16,8 @@ scrape_configs:
                 expression: (\/var\/log\/containers\/)(?P<containerName>.+)(-.+-.+_default_.+)
             - labels:
                 containerName:
+            - labeldrop:
+                - filename
 
 clients: 
   - url: 'http://loki/loki/api/v1/push'
