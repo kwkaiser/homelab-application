@@ -34,8 +34,13 @@ spec:
             - name: LDAP_DOMAIN
               value: {{ .Values.domainName }}.{{ .Values.tld }}
 
-            - name: LDAP_ADMIN_PASSWORD
-              value: password
+            # This container unfortunately doesn't have an option to mount
+            # password from file, so leaks into the helm chart.
+            #
+            # When bootstrapping, set with default password, then replace in
+            # container & comment out this option
+            # - name: LDAP_ADMIN_PASSWORD
+            #   value: password
             
             - name: LDAP_REQUIRE_STARTTLS
               value: "false"

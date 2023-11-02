@@ -23,13 +23,31 @@ spec:
               - key: configuration.yaml
                 path: configuration.yaml
 
+        {{- range $name := list "openldap-binddn-pw" }}
+        - name: {{$name}}
+          secret:
+            secretName: {{ regexReplaceAll "-" $name "." }}
+            items:
+              - key: value
+                path: value
+        {{- end }}
+
       containers:
         - name: authelia
           image: {{ .Values.image_authelia }}
           ports:
             - containerPort: 80
 
+          env:
+            - name: AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE
+              value: /openldap-binddn-pw.txt
+
           volumeMounts:
+            - name: openldap-binddn-pw
+              mountPath: /openldap-binddn-pw.txt 
+              subPath: value
+              readOnly: true
+
             - name: authelia-configs
               mountPath: /config/configuration.yml # expects path at .yml!
               subPath: configuration.yaml

@@ -48,7 +48,6 @@ authentication_backend:
     permit_referrals: false
     permit_unauthenticated_bind: false
     user: CN=admin,DC={{ .Values.domainName }},DC={{ .Values.tld }}
-    password: password
 
 password_policy:
   standard:
