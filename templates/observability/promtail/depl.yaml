@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: promtail
+spec:
+  selector:
+    matchLabels:
+      app: promtail
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        checksum/config:
+          {
+            {
+              include (print $.Template.BasePath "/observability/promtail/cm.yaml") . | sha256sum,
+            },
+          }
+      labels:
+        app: promtail
+        app.kubernetes.io/name: promtail
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+        - name: host-docker-containers
+          hostPath:
+            path: /var/lib/docker/containers
+
+        - name: host-log
+          hostPath:
+            path: /var/log
+
+        - name: promtail-configs
+          configMap:
+            name: promtail-configs
+            items:
+              - key: promtail.yaml
+                path: promtail.yaml
+
+      containers:
+        - name: promtail
+          image: { { .Values.image_promtail } }
+          args:
+            - "-config.file=/etc/promtail/promtail.yaml"
+
+          volumeMounts:
+            - name: host-log
+              mountPath: /var/log
+
+            - name: host-docker-containers
+              mountPath: /var/lib/docker/containers
+
+            - name: promtail-configs
+              mountPath: /etc/promtail/promtail.yaml
+              subPath: promtail.yaml
+              readOnly: false
