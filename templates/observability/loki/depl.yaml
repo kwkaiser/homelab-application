@@ -38,7 +38,7 @@ spec:
               mountPath: /loki
               subPath: application/loki
 
-            - name: loki-configs
-              mountPath: /etc/loki/local-config.yaml
-              subPath: configuration.yaml
-              readOnly: false
+            # - name: loki-configs
+            #   mountPath: /etc/loki/local-config.yaml
+            #   subPath: configuration.yaml
+            #   readOnly: false

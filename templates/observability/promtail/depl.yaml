@@ -28,6 +28,10 @@ spec:
           hostPath:
             path: /var/log
 
+        - name: host-sock
+          hostPath:
+            path: /var/run/docker.sock
+
         - name: promtail-configs
           configMap:
             name: promtail-configs
@@ -47,6 +51,9 @@ spec:
 
             - name: host-docker-containers
               mountPath: /var/lib/docker/containers
+
+            - name: host-sock
+              mountPath: /var/run/docker.sock
 
             - name: promtail-configs
               mountPath: /etc/promtail/promtail.yaml
