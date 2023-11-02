@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loki
+spec:
+  selector:
+    matchLabels:
+      app: loki
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/observability/loki/cm.yaml") . | sha256sum }}
+      labels:
+        app: loki
+        app.kubernetes.io/name: loki
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+        - name: loki-configs
+          configMap:
+            name: loki-configs
+            items:
+              - key: configuration.yaml
+                path: configuration.yaml
+
+      containers:
+        - name: loki
+          image: {{ .Values.image_loki }}
+          ports:
+            - containerPort: 3100
+
+          volumeMounts:
+            - name: data
+              mountPath: /loki
+              subPath: application/loki
+
+            - name: loki-configs
+              mountPath: /etc/loki/local-config.yaml
+              subPath: configuration.yaml
+              readOnly: false
