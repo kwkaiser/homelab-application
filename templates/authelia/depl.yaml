@@ -36,6 +36,18 @@ spec:
                   name: openldap.binddn.pw
                   key: value
 
+            - name: AUTHELIA_SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: authelia.session.secret
+                  key: value
+
+            - name: AUTHELIA_STORAGE_ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: authelia.encryption.key
+                  key: value
+
           volumeMounts:
             - name: authelia-configs
               mountPath: /config/configuration.yml # expects path at .yml!
