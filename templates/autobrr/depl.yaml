@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autobrr
+spec:
+  selector:
+    matchLabels:
+      app: autobrr
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: autobrr
+        app.kubernetes.io/name: autobrr
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: autobrr
+          image: ghcr.io/autobrr/autobrr:latest
+          ports:
+            - containerPort: 7474
+
+          env:
+            - name: AUTOBRR__HOST
+              value: "0.0.0.0"
+
+          volumeMounts:
+            - name: data
+              mountPath: /config
+              subPath: application/autobrr 

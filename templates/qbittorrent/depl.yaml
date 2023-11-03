@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: piracy
+  name: qbittorrent
 spec:
   selector:
     matchLabels:
-      app: piracy
+      app: qbittorrent
   replicas: 1
   template:
     metadata:
       labels:
-        app: piracy
-        app.kubernetes.io/name: piracy
+        app: qbittorrent
+        app.kubernetes.io/name: qbittorrent
     spec:
       securityContext:
         sysctls:
@@ -52,13 +52,13 @@ spec:
                 command:
                   - sh
                   - -c
-                  - sleep 30 && until curl --connect-timeout 10 ifconfig.me | grep -i "{{ .Values.piracyIp }}"; do echo "Waiting for ifconfig response"; sleep 10; done;
+                  - sleep 30 && until curl --connect-timeout 10 ifconfig.me | grep -i "{{ .Values.qbittorrentIp }}"; do echo "Waiting for ifconfig response"; sleep 10; done;
           livenessProbe:
             exec:
               command:
                 - bash
                 - -c
-                - exit "$(curl ifconfig.me --connect-timeout 30 | grep -i '{{ .Values.piracyIp }}')"
+                - exit "$(curl ifconfig.me --connect-timeout 30 | grep -i '{{ .Values.qbittorrentIp }}')"
             initialDelaySeconds: 120
             periodSeconds: 120
             timeoutSeconds: 30
@@ -85,64 +85,6 @@ spec:
 
             - name: data
               mountPath: /shared/torrents
-              subPath: shared/torrents
+              subPath: shared/torrents  
 
-        - name: radarr
-          image: {{ .Values.image_radarr }}
-          ports:
-            - containerPort: 7878
-
-          volumeMounts:
-            - name: data
-              mountPath: /config
-              subPath: application/radarr
-
-            - name: data
-              mountPath: /shared/torrents
-              subPath: shared/torrents
-
-            - name: data
-              mountPath: /shared/movies
-              subPath: shared/movies    
-
-        - name: sonarr
-          image: {{ .Values.image_sonarr }}
-          ports:
-            - containerPort: 8989
-
-          volumeMounts:
-            - name: data
-              mountPath: /config
-              subPath: application/sonarr
-
-            - name: data
-              mountPath: /shared/torrents
-              subPath: shared/torrents
-
-            - name: data
-              mountPath: /shared/tv
-              subPath: shared/tv
-
-        - name: prowlarr
-          image: {{ .Values.image_prowlarr }}
-          ports:
-            - containerPort: 9696
-
-          volumeMounts:
-            - name: data
-              mountPath: /config
-              subPath: application/prowlarr
-
-        - name: autobrr
-          image: ghcr.io/autobrr/autobrr:latest
-          ports:
-            - containerPort: 7474
-
-          env:
-            - name: AUTOBRR__HOST
-              value: "0.0.0.0"
-
-          volumeMounts:
-            - name: data
-              mountPath: /config
-              subPath: application/autobrr
+        

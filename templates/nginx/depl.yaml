@@ -70,9 +70,9 @@ spec:
         {{ include "waitFor" (dict "Name" "calibre" "Port" 80) }}
         {{ include "waitFor" (dict "Name" "gitea" "Port" 80) }}
         {{ include "waitFor" (dict "Name" "prometheus" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "piracy" "Port" 8080) }}
-        {{ include "waitFor" (dict "Name" "piracy" "Port" 7878) }}
-        {{ include "waitFor" (dict "Name" "piracy" "Port" 8989) }}
-        {{ include "waitFor" (dict "Name" "piracy" "Port" 9696) }}
-        {{ include "waitFor" (dict "Name" "piracy" "Port" 7474) }}
-      
+        {{ include "waitFor" (dict "Name" "radarr" "Port" 80) }}
+        {{ include "waitFor" (dict "Name" "sonarr" "Port" 80) }}
+        {{ include "waitFor" (dict "Name" "prowlarr" "Port" 80) }}
+        {{ include "waitFor" (dict "Name" "autobrr" "Port" 80) }}
+        {{ include "waitFor" (dict "Name" "qbittorrent" "Port" 8080) }}
+        
