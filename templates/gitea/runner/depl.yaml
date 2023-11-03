@@ -39,7 +39,10 @@ spec:
               value: "http://gitea"
 
             - name: GITEA_RUNNER_REGISTRATION_TOKEN
-              value: "hiA4VTSnGOJoLrbVOp2ZUc6p7zTgnTguoHqstTyf"
+              valueFrom:
+                secretKeyRef:
+                  name: gitea.runner.token
+                  key: value
 
           volumeMounts:
             - name: data
