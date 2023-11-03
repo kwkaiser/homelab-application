@@ -19,6 +19,26 @@ spec:
             claimName: bulk-nfs
 
       containers:
+        - name: giteadb
+          image: postgres
+          ports:
+            - containerPort: 5432
+
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: gitea.db.password
+                  key: value           
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+              subPath: application/gitea/db
+
         - name: gitea
           image: {{ .Values.image_gitea }}
           ports:
@@ -30,7 +50,7 @@ spec:
               value: postgres
 
             - name: GITEA__database__HOST
-              value: giteadb
+              value: 0.0.0.0:5432
 
             - name: GITEA__database__NAME
               value: postgres
@@ -38,8 +58,11 @@ spec:
             - name: GITEA__database__USER
               value: postgres
 
-            - name: GITEA__database__PASSWD
-              value: password
+            - name: GITEA_database__PASSWD
+              valueFrom:
+                secretKeyRef:
+                  name: gitea.db.password
+                  key: value
 
             - name: GITEA__actions__ENABLED
               value: "true"
@@ -62,5 +85,3 @@ spec:
             - name: data
               mountPath: /data/git/lfs
               subPath: application/gitea/lfs
-
-        {{ include "waitFor" (dict "Name" "giteadb" "Port" 5432) }}
