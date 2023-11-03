@@ -35,6 +35,12 @@ spec:
                 - name: RENOVATE_AUTODISCOVER
                   value: "true"
 
+                - name: RENOVATE_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: gitea.renovate.token
+                      key: value
+
               volumeMounts:
                 - name: renovate-configs
                   mountPath: /usr/src/app/config.json
