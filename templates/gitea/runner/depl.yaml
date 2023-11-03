@@ -55,7 +55,7 @@ spec:
               mountPath: /certs
             - name: data
               mountPath: /data
-              subPath: application/gitea/runner
+              subPath: application/gitea/runner/data
 
         - name: daemon
           image: docker:23.0.6-dind
@@ -67,8 +67,12 @@ spec:
             privileged: true
 
           volumeMounts:
-          - name: docker-certs
-            mountPath: /certs
+            - name: docker-certs
+              mountPath: /certs
+
+            - name: data
+              mountPath: /var/lib/docker
+              subPath: application/gitea/runner/docker
 
       initContainers: 
         {{ include "waitFor" (dict "Name" "gitea" "Port" 80) }}
