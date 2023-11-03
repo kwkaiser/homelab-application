@@ -38,7 +38,10 @@ spec:
               value: admins
 
             - name: LDAP_ADMIN_BIND_PWD
-              value: password
+              valueFrom:
+                secretKeyRef:
+                  name: openldap.binddn.password
+                  key: value
 
             - name: LDAP_IGNORE_CERT_ERRORS
               value: "true"

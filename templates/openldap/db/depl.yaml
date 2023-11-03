@@ -37,7 +37,7 @@ spec:
             - name: LDAP_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: openldap.binddn.pw
+                  name: openldap.binddn.password
                   key: value
             
             - name: LDAP_REQUIRE_STARTTLS

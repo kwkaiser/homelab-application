@@ -33,7 +33,7 @@ spec:
             - name: AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: openldap.binddn.pw
+                  name: openldap.binddn.password
                   key: value
 
             - name: AUTHELIA_SESSION_SECRET
