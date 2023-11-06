@@ -27,8 +27,8 @@ jobs:
           apt-get install helm
 
       - name: Run helm command
-        run: 
+        run: |
           echo $KUBE_CONFIG > kube-config
-          helm --kubeconfig ./kube-config list
+          echo $(helm --kubeconfig ./kube-config list)
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
