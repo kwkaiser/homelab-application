@@ -8,18 +8,18 @@ jobs:
     name: Helm lint
     runs-on: ubuntu-latest
     steps:
-      # - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      # - name: Install helm
-      #   run: |
-      #     curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
-      #     apt-get install apt-transport-https --yes
-      #     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
-      #     apt-get update
-      #     apt-get install helm
+      - name: Install helm
+        run: |
+          curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
+          apt-get install apt-transport-https --yes
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
+          apt-get update
+          apt-get install helm
 
-      # - name: Lint helm chart
-      #   run: helm lint .
+      - name: Lint helm chart
+        run: helm lint .
 
       - name: Install kubeval
         run: |
@@ -27,5 +27,5 @@ jobs:
           tar xf kubeval-linux-amd64.tar.gz
           cp kubeval /usr/local/bin
 
-      # - name: Lint against templated charts
-      #   run: helm template . | kubeval --ignore-missing-shemas
+      - name: Lint against templated charts
+        run: helm template . | kubeval --ignore-missing-shemas
