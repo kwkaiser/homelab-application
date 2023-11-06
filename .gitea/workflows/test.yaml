@@ -28,4 +28,4 @@ jobs:
           cp kubeval /usr/local/bin
 
       - name: Lint against templated charts
-        run: helm template . | kubeval --ignore-missing-shemas
+        run: helm dependency build && helm template . | kubeval --ignore-missing-shemas
