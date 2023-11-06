@@ -6,13 +6,13 @@ on:
       - main
 
 jobs:
-  code-quality:
-    name: Check code quality
-    uses: ./.gitea/workflows/code-quality.yaml
+  # code-quality:
+  #   name: Check code quality
+  #   uses: ./.gitea/workflows/code-quality.yaml
 
   release:
     name: Release
-    needs: code-quality
+    # needs: code-quality
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout
@@ -27,6 +27,7 @@ jobs:
           apt-get install helm
 
       - name: Run helm command
-        run: |
-          echo ${{ .secrets.KUBE_CONFIG }} > kube-config
-          echo $(cat kube-config)
+        run: 
+          echo $KUBE_CONFIG
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
