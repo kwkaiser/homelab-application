@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: openldap
+  annotations:
+    secret.reloader.stakater.com/reload: "openldap.binddn.password"
 spec: 
   selector:
     matchLabels:

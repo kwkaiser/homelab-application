@@ -1,6 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    configmap.reloader.stakater.com/reload: "authelia-configs"
+    secret.reloader.stakater.com/reload: "openldap.binddn.password,authelia.session.secret,authelia.encryption.key"
   name: authelia
 spec:
   selector:
@@ -9,8 +12,6 @@ spec:
   replicas: 1
   template:
     metadata:
-      annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/authelia/cm.yaml") . | sha256sum }}
       labels:
         app: authelia
         app.kubernetes.io/name: authelia

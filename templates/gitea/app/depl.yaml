@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "gitea.db.password"
   name: gitea
 spec:
   selector:

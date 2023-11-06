@@ -1,6 +1,8 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "gitea.renovate.token"
   name: renovate
 spec:
   schedule: "0 0 * * *"

@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    kubectl.kubernetes.io/redeploy-annotation: gitea.runner.token
   name: gitea-runner
 spec:
   selector:

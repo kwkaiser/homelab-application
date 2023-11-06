@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    configmap.reloader.stakater.com/reload: "prometheus-configs"
   name: prometheus
 spec:
   selector:
@@ -9,8 +11,6 @@ spec:
   replicas: 1
   template:
     metadata:
-      annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/observability/prometheus/cm.yaml") . | sha256sum }}
       labels:
         app: prometheus
         app.kubernetes.io/name: prometheus
