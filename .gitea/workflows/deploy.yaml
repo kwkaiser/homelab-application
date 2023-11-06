@@ -6,4 +6,4 @@ on:
 jobs:
   code-quality:
     name: Check code quality
-    uses: ./.gitea/workflows/code-quality.yml
+    uses: ./.gitea/workflows/code-quality.yaml
