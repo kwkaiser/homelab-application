@@ -34,7 +34,8 @@ jobs:
 
       - name: Run helm command
         run: |
-          echo $KUBE_CONFIG > kube-config.json
-          echo $(helm --kubeconfig ./kube-config.json list)
+          mkdir $HOME/.kube
+          echo $KUBE_CONFIG > $HOME/.kube/config
+          make redeploy
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
