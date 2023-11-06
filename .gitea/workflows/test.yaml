@@ -16,5 +16,14 @@ jobs:
           apt-get update
           apt-get install helm
 
-      - name: Echo
-        run: echo 'foo'
+      - name: Lint helm chart
+        run: helm lint .
+
+      - name: Install kubeval
+        run:
+          wget https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz
+          tar xf kubeval-linux-amd64.tar.gz
+          cp kubeval /usr/local/bin
+
+      - name: Lint against templated charts
+        run: helm template . | kubeval --ignore-missing-shemas
