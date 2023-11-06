@@ -1,3 +1,3 @@
 #! /bin/bash
 
-helm upgrade bingus . && echo 'Upgraded!' || helm install bingus .
+helm dependency build && helm upgrade bingus . && echo 'Upgraded!' || helm install bingus .
