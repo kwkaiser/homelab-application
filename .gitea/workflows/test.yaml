@@ -23,7 +23,7 @@ jobs:
 
       - name: Install kubeval
         run:
-          curl -L -O https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz
+          curl -L -O 'https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz'
           tar xf kubeval-linux-amd64.tar.gz
           cp kubeval /usr/local/bin
 
