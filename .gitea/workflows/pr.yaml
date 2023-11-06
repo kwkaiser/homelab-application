@@ -1,0 +1,11 @@
+name: Pull request
+
+on:
+  pull_request_target:
+    branches:
+      - '**'
+
+jobs:
+  code-quality:
+    name: Check code quality
+    uses: ./.gitea/workflows/code-quality.yaml
