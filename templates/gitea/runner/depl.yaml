@@ -20,6 +20,10 @@ spec:
           persistentVolumeClaim:
             claimName: bulk-nfs
 
+        - name: gitea-container-images
+          hostPath:
+            path: /gitea-container-images
+
         - name: docker-certs
           emptyDir: {}
 
@@ -40,9 +44,8 @@ spec:
             - name: docker-certs
               mountPath: /certs
 
-            - name: data
+            - name: gitea-container-images
               mountPath: /var/lib/docker
-              subPath: application/gitea/runner/docker
 
         - name: gitea-runner
           image: {{ .Values.image_gitea_runner }}
