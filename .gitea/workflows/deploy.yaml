@@ -6,13 +6,13 @@ on:
       - main
 
 jobs:
-  # code-quality:
-  #   name: Check code quality
-  #   uses: ./.gitea/workflows/code-quality.yaml
+  code-quality:
+    name: Check code quality
+    uses: ./.gitea/workflows/code-quality.yaml
 
   release:
     name: Release
-    # needs: code-quality
+    needs: code-quality
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout
@@ -26,11 +26,13 @@ jobs:
           apt-get update
           apt-get install helm
 
-      # - name: Install netcat
-      #   run: apt update && apt-get -y install netcat
-
-      # - name: NC
-      #   run: echo $(curl http://192.168.1.68:6443/version)
+      - name: Install kubectl
+        run: |
+          apt-get install -y apt-transport-https ca-certificates curl
+          curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+          echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list
+          apt-get update
+          apt-get install -y kubectl
 
       - name: Run helm command
         run: |
