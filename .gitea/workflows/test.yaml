@@ -17,7 +17,7 @@ jobs:
           apt-get install helm
 
       - name: List files
-        run: ls .
+        run: echo $(ls .)
 
       - name: Print cwd
         run: echo $(pwd)
