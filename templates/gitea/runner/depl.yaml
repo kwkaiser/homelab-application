@@ -55,9 +55,10 @@ spec:
           volumeMounts:
             - name: docker-certs
               mountPath: /certs
-            # - name: data
-            #   mountPath: /data
-            #   subPath: application/gitea/runner/data
+
+            - name: data
+              mountPath: /data
+              subPath: application/gitea/runner/data
 
         - name: daemon
           image: docker:23.0.6-dind

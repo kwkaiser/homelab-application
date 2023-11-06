@@ -4,3 +4,7 @@ description: Chart for deploying homelab / my server infra
 type: application
 version: 0.1.0
 appVersion: '1.16.0'
+dependencies:
+  - name: reloader
+    version: '1.50.0'
+    repository: https://stakater.github.io/stakater-charts
