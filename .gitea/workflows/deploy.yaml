@@ -28,6 +28,7 @@ jobs:
 
       - name: Run helm command
         run: 
-          echo $KUBE_CONFIG
+          echo $KUBE_CONFIG > kube-config
+          helm --kubeconfig ./kube-config list
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
