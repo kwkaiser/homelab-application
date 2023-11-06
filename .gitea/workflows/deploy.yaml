@@ -26,9 +26,12 @@ jobs:
           apt-get update
           apt-get install helm
 
-      - name: Run helm command
-        run: |
-          echo $KUBE_CONFIG > kube-config.json
-          echo $(helm --kubeconfig ./kube-config.json list)
-        env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      - name: Ping
+        run: ping -C 10 192.168.1.68
+
+      # - name: Run helm command
+      #   run: |
+      #     echo $KUBE_CONFIG > kube-config.json
+      #     echo $(helm --kubeconfig ./kube-config.json list)
+      #   env:
+      #     KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
