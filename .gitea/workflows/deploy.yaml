@@ -26,8 +26,11 @@ jobs:
           apt-get update
           apt-get install helm
 
-      - name: Ping
-        run: ping -C 10 192.168.1.68
+      - name: Install netcat
+        run: apt update && apt install netcat
+
+      - name: NC
+        run: nc -z 192.168.1.68 6443
 
       # - name: Run helm command
       #   run: |
