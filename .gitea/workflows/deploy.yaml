@@ -30,7 +30,7 @@ jobs:
       #   run: apt update && apt-get -y install netcat
 
       - name: NC
-        run: echo $(curl http://192.168.1.68)
+        run: echo $(curl http://192.168.1.68:6443/version)
 
       # - name: Run helm command
       #   run: |
