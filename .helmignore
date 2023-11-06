@@ -16,7 +16,6 @@
 *.tmp
 *.orig
 *~
-*.tgz
 # Various IDEs
 .project
 .idea/
