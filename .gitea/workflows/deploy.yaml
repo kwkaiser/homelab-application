@@ -15,22 +15,22 @@ jobs:
     # needs: code-quality
     runs-on: ubuntu-latest
     steps: 
-      - name: Checkout
-        uses: actions/checkout@v3
+      # - name: Checkout
+      #   uses: actions/checkout@v3
 
-      - name: Install helm
-        run: |
-          curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
-          apt-get install apt-transport-https --yes
-          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
-          apt-get update
-          apt-get install helm
+      # - name: Install helm
+      #   run: |
+      #     curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
+      #     apt-get install apt-transport-https --yes
+      #     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
+      #     apt-get update
+      #     apt-get install helm
 
-      - name: Install netcat
-        run: apt update && apt-get -y install netcat
+      # - name: Install netcat
+      #   run: apt update && apt-get -y install netcat
 
       - name: NC
-        run: nc -z 192.168.1.68 6443
+        run: echo $(curl http://192.168.1.68)
 
       # - name: Run helm command
       #   run: |
