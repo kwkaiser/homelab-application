@@ -1,7 +1,6 @@
-name: checks
+name: Code qual subworkflow
 on:
-  - push
-  - pull_request
+  workflow_call: 
 
 jobs:
   code-quality:

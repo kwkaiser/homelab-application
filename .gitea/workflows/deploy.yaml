@@ -1,0 +1,9 @@
+name: Deploy
+on:
+  - push
+  - pull_request
+
+jobs:
+  code-quality:
+    name: Check code quality
+    uses: ./.gitea/workflows/code-quality.yml
