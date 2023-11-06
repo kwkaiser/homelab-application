@@ -26,8 +26,7 @@ jobs:
           apt-get update
           apt-get install helm
 
-      - name: Write secret to file
-        run: echo ${{ .secrets.KUBE_CONFIG }} > kube-config
-
-      - name: Show kube config
-        run: echo $(cat kube-config)
+      - name: Run helm command
+        run: |
+          echo ${{ .secrets.KUBE_CONFIG }} > kube-config
+          echo $(cat kube-config)
