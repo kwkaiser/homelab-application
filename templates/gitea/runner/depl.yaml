@@ -27,6 +27,23 @@ spec:
         fsGroup: 1000
 
       containers:
+        - name: gitea-runner-daemon
+          image: docker:23.0.6-dind
+          env:
+          - name: DOCKER_TLS_CERTDIR
+            value: /certs
+
+          securityContext:
+            privileged: true
+
+          volumeMounts:
+            - name: docker-certs
+              mountPath: /certs
+
+            - name: data
+              mountPath: /var/lib/docker
+              subPath: application/gitea/runner/docker
+
         - name: gitea-runner
           image: {{ .Values.image_gitea_runner }}
 
@@ -60,22 +77,7 @@ spec:
               mountPath: /data
               subPath: application/gitea/runner/data
 
-        - name: daemon
-          image: docker:23.0.6-dind
-          env:
-          - name: DOCKER_TLS_CERTDIR
-            value: /certs
-
-          securityContext:
-            privileged: true
-
-          volumeMounts:
-            - name: docker-certs
-              mountPath: /certs
-
-            # - name: data
-            #   mountPath: /var/lib/docker
-            #   subPath: application/gitea/runner/docker
+        
 
       initContainers: 
         {{ include "waitFor" (dict "Name" "gitea" "Port" 80) }}
