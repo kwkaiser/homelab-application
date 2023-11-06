@@ -27,9 +27,7 @@ jobs:
           apt-get install helm
 
       - name: Write secret to file
-        run: | 
-          mkdir -pv $HOME/.kube
-          echo ${{ .secrets.KUBE_CONFIG }} > $HOME/.kube/config
+        run: echo ${{ .secrets.KUBE_CONFIG }} > kube-config
 
-      - name: Helm list
-        run: echo $(helm list)
+      - name: Show kube config
+        run: echo $(cat kube-config)
