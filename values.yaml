@@ -3,7 +3,7 @@ domainName: kwkaiser-test
 tld: io
 piracyIp: "143.244.47.87"
 
-image_jellyfin: "linuxserver/jellyfin:2021.12.16"
+# image_jellyfin: "linuxserver/jellyfin:2021.12.16"
 image_nginx: "nginx:1.25.3"
 image_wireguard: "linuxserver/wireguard:1.0.20210914"
 image_qbittorrent: "linuxserver/qbittorrent:4.6.0"
@@ -26,7 +26,7 @@ image_promtail: "grafana/promtail:main-66b36cb"
 image_loki: "grafana/loki:main-66b36cb"
 image_dind: docker:23.0.6-dind
 
-# image_jellyfin: "linuxserver/jellyfin"
+image_jellyfin: "linuxserver/jellyfin"
 # image_nginx: "nginx"
 # image_wireguard: "linuxserver/wireguard"
 # image_qbittorrent: "linuxserver/qbittorrent"
