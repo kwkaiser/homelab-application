@@ -35,6 +35,7 @@ jobs:
         run: |
           mkdir $HOME/.kube
           echo $KUBE_CONFIG > $HOME/.kube/config
+          helm dependency update
           helm package . 
           echo $(du -sh ./*)
         env:
