@@ -37,6 +37,7 @@ jobs:
           echo $KUBE_CONFIG > $HOME/.kube/config
           helm dependency update
           helm package . 
-          echo $(du -sh ./*)
+          tar xzf homelab-0.1.0.tgz
+          echo $(du -sh ./homelab/*)
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
