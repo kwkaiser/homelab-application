@@ -35,11 +35,12 @@ jobs:
         run: |
           mkdir $HOME/.kube
           echo $KUBE_CONFIG > $HOME/.kube/config
-          helm dependency update
-          helm package . 
-          tar xzf homelab-0.1.0.tgz
-          echo $(du -sh ./homelab/*)
-          echo '----'
-          echo $(du -sh ./*)
+          make redeploy
+          # helm dependency update
+          # helm package . 
+          # tar xzf homelab-0.1.0.tgz
+          # echo $(du -sh ./homelab/*)
+          # echo '----'
+          # echo $(du -sh ./*)
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
