@@ -35,7 +35,7 @@ jobs:
         run: |
           mkdir $HOME/.kube
           echo $KUBE_CONFIG > $HOME/.kube/config
-          helm package bingus
+          helm package . 
           echo $(du -sh ./*)
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
