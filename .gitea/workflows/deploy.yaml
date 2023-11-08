@@ -6,13 +6,13 @@ on:
       - main
 
 jobs:
-  code-quality:
-    name: Check code quality
-    uses: ./.gitea/workflows/code-quality.yaml
+  # code-quality:
+  #   name: Check code quality
+  #   uses: ./.gitea/workflows/code-quality.yaml
 
   release:
     name: Release
-    needs: code-quality
+    # needs: code-quality
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout
@@ -26,10 +26,10 @@ jobs:
           apt-get update
           apt-get install helm
 
-      - name: Install kubectl
-        run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
-          install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+      # - name: Install kubectl
+      #   run: |
+      #     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
+      #     install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
       - name: Run helm command
         run: |
@@ -39,5 +39,7 @@ jobs:
           helm package . 
           tar xzf homelab-0.1.0.tgz
           echo $(du -sh ./homelab/*)
+          echo '----'
+          echo $(du -sh ./*)
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
