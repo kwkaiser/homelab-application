@@ -24,10 +24,10 @@ forward:
 # Deployment #
 ##############
 
-.phone: redeploy apply-secrets
+.phony: redeploy apply-secrets
 
 apply-secrets:
 	./scripts/secrets.sh
 
-redeploy: apply-secrets
+redeploy: 
 	./scripts/redeploy.sh
