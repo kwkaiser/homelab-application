@@ -3,8 +3,7 @@ domainName: kwkaiser-test
 tld: io
 piracyIp: "143.244.47.87"
 nfsArray: "192.168.1.68"
-promHosts: 
-  - "192.168.1.68:9100"
+promHosts: ["192.168.1.68:9100"]
 
 # image_jellyfin: "linuxserver/jellyfin:2021.12.16"
 # image_nginx: "nginx:1.25.3"
