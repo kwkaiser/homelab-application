@@ -25,6 +25,10 @@ spec:
           persistentVolumeClaim:
             claimName: bulk-nfs
 
+        - name: modules
+          hostPath:
+            path: /lib/modules
+
         {{- range $name := list "wireguard-key" }}
         - name: {{$name}}
           secret:
@@ -44,6 +48,10 @@ spec:
             - name: wireguard-key
               mountPath: /config/wg0.conf
               subPath: value
+
+            - mountPath: /lib/modules
+              name: modules
+              readOnly: true
 
           # Hooks to guarantee we connected to target IP & stayed connected.
           lifecycle:
