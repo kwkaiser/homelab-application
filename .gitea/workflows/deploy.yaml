@@ -38,4 +38,5 @@ jobs:
           echo $KUBE_CONFIG > $HOME/.kube/config
           make redeploy
         env:
+          PROD: 'true'
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
