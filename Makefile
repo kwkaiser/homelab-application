@@ -29,5 +29,5 @@ forward:
 apply-secrets:
 	./scripts/secrets.sh
 
-redeploy: 
+redeploy: apply-secrets
 	./scripts/redeploy.sh
