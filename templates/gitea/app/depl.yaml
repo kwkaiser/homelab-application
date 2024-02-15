@@ -75,6 +75,15 @@ spec:
             - name: GITEA__server__ROOT_URL
               value: "http://gitea"
 
+            - name: GITEA__service__SHOW_REGISTRATION_BUTTON
+              value: "false"
+
+            - name: GITEA__openid__ENABLE_OPENID_SIGNUP
+              value: "false"
+
+            - name: GITEA__openid__ENABLE_OPENID_SIGNIN
+              value: "false"
+
           volumeMounts:
             - name: data
               mountPath: /data/gitea

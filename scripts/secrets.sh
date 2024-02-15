@@ -5,8 +5,10 @@ set -o allexport
 DIR=$(dirname "$0")
 cd "$DIR"/.. || exit
 
-# TODO: only apply this in dev test -- not prod
-source ./vars/local-secrets.txt
+if [[ $PROD != 'true' ]];
+then
+  source ./vars/local-secrets.txt
+fi
 
 while IFS='=' read -r -d '' n v; do
   if echo "$n" | grep -i 'k8s_' -q
