@@ -34,5 +34,5 @@ spec:
               subPath: shared/torrents
 
             - name: data
-              mountPath: /shared/movies
-              subPath: shared/movies
+              mountPath: /shared/tv
+              subPath: shared/tv
