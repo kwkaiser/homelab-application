@@ -26,10 +26,10 @@ spec:
 
           env:
             - name: PUID
-              value: 0
+              value: "0"
 
             - name: PGID
-              value: 0
+              value: "0"
 
           volumeMounts:
             - name: data
