@@ -21,14 +21,14 @@ jobs:
       - name: Lint helm chart
         run: helm lint .
 
-      - name: Install kubeval
+      - name: Install kubeconform
         run: |
-          wget https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz
-          tar xf kubeval-linux-amd64.tar.gz
-          cp kubeval /usr/local/bin
+          wget https://github.com/yannh/kubeconform/releases/download/v0.6.4/kubeconform-linux-amd64.tar.gz
+          tar xf kubeconform-linux-amd64.tar.gz
+          cp kubeconform /usr/local/bin
 
       - name: Generate templated chart
         run: helm dependency build && helm template . > template.yaml 
 
       - name: Lint templated chart
-        run: kubeval --ignore-missing-schemas ./template.yaml
+        run: kubeconform ./template.yaml
