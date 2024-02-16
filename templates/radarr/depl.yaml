@@ -24,6 +24,13 @@ spec:
           ports:
             - containerPort: 7878
 
+          env:
+            - name: PUID
+              value: 0
+
+            - name: PGID
+              value: 0
+
           volumeMounts:
             - name: data
               mountPath: /config
