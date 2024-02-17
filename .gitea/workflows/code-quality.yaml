@@ -25,8 +25,8 @@ jobs:
 
       - name: Echo
         run: |
-          echo $${{ inputs.REF }}
-          echo $GITHUB_SHA
+          echo "bingus ${{ inputs.REF }}"
+          echo "bongus $GITHUB_SHA"
 
       - name: Install helm
         run: |
