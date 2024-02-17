@@ -23,6 +23,11 @@ jobs:
           persist-credentials: false
           ref: ${{ inputs.REF }}
 
+      - name: Echo
+        run: |
+          echo $${{ inputs.REF }}
+          echo $GITHUB_SHA
+
       - name: Install helm
         run: |
           curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
