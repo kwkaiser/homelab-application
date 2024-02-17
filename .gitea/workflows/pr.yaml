@@ -9,3 +9,5 @@ jobs:
   code-quality:
     name: Check code quality
     uses: ./.gitea/workflows/code-quality.yaml
+    with:
+      REF: ${{ github.event.pull_request.head.sha }}

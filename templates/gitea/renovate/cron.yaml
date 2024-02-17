@@ -9,7 +9,7 @@ spec:
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
-      ttlSecondsAfterFinished: "120"
+      ttlSecondsAfterFinished: 120
       restartPolicy: Never
       template:
         spec:
