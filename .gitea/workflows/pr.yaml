@@ -7,7 +7,40 @@ on:
 
 jobs:
   code-quality:
-    name: Check code quality
-    uses: ./.gitea/workflows/code-quality.yaml
-    with:
-      REF: ${{ github.head_ref }}
+    name: Code quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: ${{ inputs.FETCH_DEPTH }}
+          persist-credentials: false
+          ref: ${{ inputs.REF }}
+
+      - name: Echo
+        run: |
+          echo "bingus ${{ inputs.REF }}"
+          echo "bongus $GITHUB_SHA"
+
+      - name: Install helm
+        run: |
+          curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
+          apt-get install apt-transport-https --yes
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
+          apt-get update
+          apt-get install helm
+
+      - name: Lint helm chart
+        run: helm lint .
+
+      - name: Install kubeconform
+        run: |
+          wget https://github.com/yannh/kubeconform/releases/download/v0.6.4/kubeconform-linux-amd64.tar.gz
+          tar xf kubeconform-linux-amd64.tar.gz
+          cp kubeconform /usr/local/bin
+
+      - name: Generate templated chart
+        run: helm dependency build && helm template . > template.yaml 
+
+      - name: Lint templated chart
+        run: kubeconform ./template.yaml 
