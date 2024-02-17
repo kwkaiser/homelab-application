@@ -6,8 +6,11 @@ metadata:
   name: renovate
 spec:
   schedule: "0 0 * * *"
+  concurrencyPolicy: Forbid
   jobTemplate:
     spec:
+      ttlSecondsAfterFinished: "120"
+      restartPolicy: Never
       template:
         spec:
           restartPolicy: Never
