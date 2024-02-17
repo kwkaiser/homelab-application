@@ -1,3 +1,12 @@
+inputs:
+  REF:
+    description: "Git ref"
+    required: true
+  FETCH_DEPTH:
+    description: "Underlying checkout fetch depth"
+    required: false
+    default: "1"
+
 name: Code qual subworkflow
 on:
   workflow_call: 
@@ -9,6 +18,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: ${{ inputs.FETCH_DEPTH }}
+          persist-credentials: false
+          ref: ${{ inputs.REF }}
 
       - name: Install helm
         run: |
