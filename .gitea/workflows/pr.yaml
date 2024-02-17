@@ -13,9 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: ${{ inputs.FETCH_DEPTH }}
-          persist-credentials: false
-          ref: ${{ inputs.REF }}
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Echo
         run: |
