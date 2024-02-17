@@ -15,13 +15,6 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Echo
-        run: |
-          echo "bingus! ${{ github.event.pull_request.head.sha }}"
-          echo "foo ${{ github.ref }}"
-          echo "bar ${{ github.head_ref }}"
-          echo "bongus $GITHUB_SHA"
-
       - name: Install helm
         run: |
           curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
