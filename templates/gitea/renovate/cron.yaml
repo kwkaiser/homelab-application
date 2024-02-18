@@ -31,7 +31,7 @@ spec:
 
               env:
                 - name: LOG_LEVEL
-                  value: debu0g
+                  value: debug
 
                 - name: RENOVATE_CONFIG_FILE
                   value: /usr/src/app/config.json
