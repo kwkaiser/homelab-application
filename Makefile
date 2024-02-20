@@ -29,5 +29,11 @@ forward:
 apply-secrets:
 	./scripts/secrets.sh
 
-redeploy: apply-secrets
-	./scripts/redeploy.sh
+template:
+	helm template . --values ./values/shared.yaml --values ./values/$(env).yaml > template.yaml
+
+redeploy-dev: apply-secrets
+	PROD=false ./scripts/redeploy.sh
+
+redeploy-prod: apply-secrets
+	PROD=true ./scripts/redeploy.sh

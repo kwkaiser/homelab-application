@@ -31,7 +31,7 @@ jobs:
           cp kubeconform /usr/local/bin
 
       - name: Generate templated chart
-        run: helm dependency build && helm template . > template.yaml 
+        run: helm dependency build && make template env=prod
 
       - name: Lint templated chart
         run: kubeconform ./template.yaml
@@ -62,7 +62,7 @@ jobs:
         run: |
           mkdir $HOME/.kube
           echo $KUBE_CONFIG > $HOME/.kube/config
-          make redeploy
+          make redeploy-prod
         env:
           PROD: 'true'
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
