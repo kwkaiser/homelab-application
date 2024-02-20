@@ -1,3 +1,4 @@
+env: prod
 domainName: kwkaiser
 tld: io
 piracyIp: "143.244.47.87"
