@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: registry
+  annotations:
+    secret.reloader.stakater.com/reload: registry.htpasswd
+spec:
+  selector:
+    matchLabels:
+      app: registry
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: registry
+        app.kubernetes.io/name: registry
+    spec:
+      volumes:
+        {{- range $name := list "registry-htpasswd" "registry-certificate" "registry-certificate-key" }}
+        - name: {{$name}}
+          secret:
+            secretName: {{ regexReplaceAll "-" $name "." }}
+            items:
+              - key: value
+                path: value
+        {{- end }}
+
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: registry
+          image: {{ .Values.image_registry }}
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+
+          env:
+            - name: REGISTRY_AUTH
+              value: htpasswd
+
+            - name: REGISTRY_AUTH_HTPASSWD_REALM
+              value: Registry
+
+            - name: REGISTRY_AUTH_HTPASSWD_PATH
+              value: /auth/registry.password
+
+            - name: REGISTRY_HTTP_TLS_CERTIFICATE
+              value: /certs/{{ .Values.domainName }}.{{ .Values.tld }}.crt
+
+            - name: REGISTRY_HTTP_TLS_KEY
+              value: /certs/{{ .Values.domainName }}.{{ .Values.tld }}.key
+
+          volumeMounts:
+            - name: registry-certificate
+              mountPath: /certs/{{ .Values.domainName }}.{{ .Values.tld }}.crt
+              subPath: value
+              readOnly: true
+
+            - name: registry-certificate-key
+              mountPath: /certs/{{ .Values.domainName }}.{{ .Values.tld }}.key
+              subPath: value
+              readOnly: true
+
+            - name: registry-htpasswd
+              mountPath: /auth/registry.password
+              subPath: value
+              readOnly: true
+
+            - name: data
+              mountPath: /var/lib/registry
+              subPath: application/registry/data
