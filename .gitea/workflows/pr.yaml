@@ -33,7 +33,7 @@ jobs:
           cp kubeconform /usr/local/bin
 
       - name: Generate templated chart
-        run: helm dependency build && helm template env=prod
+        run: helm dependency build && helm env=prod template 
 
       - name: Lint templated chart
         run: kubeconform ./template.yaml 
