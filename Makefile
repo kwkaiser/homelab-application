@@ -27,13 +27,13 @@ forward:
 .phony: redeploy apply-secrets
 
 apply-secrets:
-	./scripts/secrets.sh
+	PROD=$(prod) ./scripts/secrets.sh 
 
 template:
 	helm template . --values ./values/shared.yaml --values ./values/$(env).yaml > template.yaml
 
-redeploy-dev: apply-secrets
-	PROD=false ./scripts/redeploy.sh
+redeploy-dev:
+	PROD=false ./scripts/secrets.sh
 
-redeploy-prod: apply-secrets
-	PROD=true ./scripts/redeploy.sh
+redeploy-prod:
+	PROD=true ./scripts/secrets.sh
