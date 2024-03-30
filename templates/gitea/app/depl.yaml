@@ -28,7 +28,7 @@ spec:
 
           env:
             - name: POSTGRES_USER
-              value: postgres
+              value: {{ .Values.image_gitea_db }}
 
             - name: POSTGRES_PASSWORD
               valueFrom:
