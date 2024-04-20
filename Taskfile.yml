@@ -1,0 +1,64 @@
+version: '3'
+
+tasks:
+  # Local dev
+  ssh-forward:
+    desc: "Uses SSH port forwarding to bind local ports to vagrant ports"
+    cmds:
+      - sudo ssh -g -L 80:localhost:6880 -f -N kwkaiser@localhost
+      - sudo ssh -g -L 443:localhost:6840 -f -N kwkaiser@localhost
+
+  # Util
+  template:
+    desc:  "Builds helm template"
+    cmds:
+      - |
+        ENV="${PROD:-dev}"
+        helm template . --values ./values/shared.yaml --values ./values/$ENV.yaml > template.yaml
+
+  lint:
+    desc: "Lint generated template"
+    deps: [template]
+    cmds:
+      - cat template.yaml | kubeconform
+
+  # Local and prod
+  apply-secrets:
+    desc: "Creates or updates secrets in the cluster" 
+    cmds:
+      - |
+        # Assume non prod-like
+        IS_PROD="${PROD:-false}"
+
+        # If local, load secrets from defaults
+        if [[ $IS_PROD != 'true' ]];
+        then
+          set -a
+          source ./vars/local-secrets.txt
+          set +a
+        fi
+
+        KEYS=$(jq -n env | jq 'keys[] | select(startswith("k8s"))')
+
+        echo "Printing 'foo' with corresponding values:"
+        for KEY in "$KEYS"; 
+        do
+          cleaned_key=$(echo "$KEY" | sed 's/"//g') 
+          echo "$cleaned_key"
+          value=$(jq  -n env | jq -r ".$cleaned_key")
+          echo "$value"
+        done
+
+  deploy:
+    desc:  "Redeploys k8s template"
+    deps: [apply-secrets]
+    cmds:
+      - |
+        IS_PROD="${PROD:-false}"
+        if [[ $IS_PROD == 'true' ]]; then
+          ARGS="--values ./values/shared.yaml --values ./values/prod.yaml"
+        else
+          ARGS="--values ./values/shared.yaml --values ./values/dev.yaml"
+        fi
+
+        helm upgrade bingus . $ARGS --dependency-update && echo 'Updated!' || helm install bingus . $ARGS --dependency-update
