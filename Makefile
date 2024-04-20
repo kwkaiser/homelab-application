@@ -33,7 +33,7 @@ template:
 	helm template . --values ./values/shared.yaml --values ./values/$(env).yaml > template.yaml
 
 redeploy-dev:
-	PROD=false ./scripts/secrets.sh
+	PROD=false ./scripts/secrets.sh && PROD=false ./scripts/redeploy.sh
 
 redeploy-prod:
-	PROD=true ./scripts/secrets.sh
+	PROD=true ./scripts/secrets.sh && PROD=true ./scripts/redeploy.sh
