@@ -84,6 +84,9 @@ spec:
             - name: GITEA__openid__ENABLE_OPENID_SIGNIN
               value: "false"
 
+            - name: GIT_SSL_NO_VERIFY
+              value: "true"
+
           volumeMounts:
             - name: data
               mountPath: /data/gitea
