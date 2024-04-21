@@ -40,13 +40,12 @@ tasks:
 
         KEYS=$(jq -n env | jq 'keys[] | select(startswith("k8s"))')
 
-        echo "Printing 'foo' with corresponding values:"
-        for KEY in "$KEYS"; 
+        for KEY in $KEYS; 
         do
-          cleaned_key=$(echo "$KEY" | sed 's/"//g') 
-          echo "$cleaned_key"
-          value=$(jq  -n env | jq -r ".$cleaned_key")
-          echo "$value"
+          cleaned_key=$(echo $KEY | sed 's/"//g')
+          cleaned_name=$(echo "$cleaned_key" | cut -c5- | sed 's/_/./g' )
+          value=$(jq -n env | jq ".$cleaned_key")
+          kubectl create secret generic "$cleaned_name" --from-literal=value="$value" --dry-run=client -o yaml | kubectl apply -f -
         done
 
   deploy:
