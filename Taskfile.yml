@@ -45,7 +45,8 @@ tasks:
           cleaned_key=$(echo $KEY | sed 's/"//g')
           cleaned_name=$(echo "$cleaned_key" | cut -c5- | sed 's/_/./g' )
           value=$(jq -n env | jq ".$cleaned_key")
-          kubectl create secret generic "$cleaned_name" --from-literal=value="$value" --dry-run=client -o yaml | kubectl apply -f -
+          cleaned_value=$(printf "$(echo ${value:1:-1})")
+          kubectl create secret generic "$cleaned_name" --from-literal=value="$cleaned_value" --dry-run=client -o yaml | kubectl apply -f -
         done
 
   deploy:
