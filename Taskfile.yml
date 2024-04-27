@@ -21,6 +21,7 @@ tasks:
     desc: "Lint generated template"
     deps: [template]
     cmds:
+      - helm lint .
       - cat template.yaml | kubeconform
 
   # Local and prod

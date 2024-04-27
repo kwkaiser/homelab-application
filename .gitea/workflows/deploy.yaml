@@ -21,20 +21,17 @@ jobs:
           apt-get update
           apt-get install helm
 
-      - name: Lint helm chart
-        run: helm lint .
-
       - name: Install kubeconform
         run: |
           wget https://github.com/yannh/kubeconform/releases/download/v0.6.4/kubeconform-linux-amd64.tar.gz
           tar xf kubeconform-linux-amd64.tar.gz
           cp kubeconform /usr/local/bin
 
-      - name: Generate templated chart
-        run: helm dependency build && make env=prod template 
+      - name: Install taskfile
+        run: sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
 
-      - name: Lint templated chart
-        run: kubeconform ./template.yaml
+      - name: Lint helm chart
+        run: task lint 
 
   release:
     name: Release
@@ -43,14 +40,6 @@ jobs:
     steps: 
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Install helm
-        run: |
-          curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
-          apt-get install apt-transport-https --yes
-          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
-          apt-get update
-          apt-get install helm
 
       - name: Install kubectl
         run: |
@@ -62,9 +51,10 @@ jobs:
         run: |
           mkdir $HOME/.kube
           echo $KUBE_CONFIG > $HOME/.kube/config
-          make redeploy-prod
+          echo 'foo'
+          # task deploy --yes 
         env:
-          PROD: 'true'
+          MODE: 'prod'
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
           k8s_nginx_certificate: ${{ secrets.K8S_NGINX_CERTIFICATE }}
           k8s_nginx_certificate_key: ${{ secrets.K8S_NGINX_CERTIFICATE_KEY }}
