@@ -1,0 +1,15 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base"],
+  "platform": "gitea",
+  "endpoint": "http://gitea",
+  "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["values\\/shared\\.yaml"],
+      "matchStrings": ["(image_.*): \"(?<depName>.+):(?<currentValue>.+)\""],
+      "datasourceTemplate": "docker"
+    }
+  ]
+}
