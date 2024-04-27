@@ -1,52 +1,52 @@
-apiVersion: batch/v1
-kind: CronJob
-metadata:
-  annotations:
-    secret.reloader.stakater.com/reload: "gitea.renovate.token"
-  name: renovate
-spec:
-  schedule: "0 0 * * *"
-  concurrencyPolicy: Forbid
-  jobTemplate:
-    spec:
-      ttlSecondsAfterFinished: 120
-      template:
-        spec:
-          restartPolicy: Never
-          volumes:
-            - name: data
-              persistentVolumeClaim:
-                claimName: bulk-nfs
+# apiVersion: batch/v1
+# kind: CronJob
+# metadata:
+#   annotations:
+#     secret.reloader.stakater.com/reload: "gitea.renovate.token"
+#   name: renovate
+# spec:
+#   schedule: "0 0 * * *"
+#   concurrencyPolicy: Forbid
+#   jobTemplate:
+#     spec:
+#       ttlSecondsAfterFinished: 120
+#       template:
+#         spec:
+#           restartPolicy: Never
+#           volumes:
+#             - name: data
+#               persistentVolumeClaim:
+#                 claimName: bulk-nfs
 
-            - name: renovate-configs
-              configMap:
-                name: renovate-configs
-                items:
-                  - key: config.json
-                    path: config.json
+#             - name: renovate-configs
+#               configMap:
+#                 name: renovate-configs
+#                 items:
+#                   - key: config.json
+#                     path: config.json
 
-          containers:
-            - name: gitea-renovate
-              image: {{ .Values.image_gitea_renovate }}
+#           containers:
+#             - name: gitea-renovate
+#               image: {{ .Values.image_gitea_renovate }}
 
-              env:
-                - name: LOG_LEVEL
-                  value: debug
+#               env:
+#                 - name: LOG_LEVEL
+#                   value: debug
 
-                - name: RENOVATE_CONFIG_FILE
-                  value: /usr/src/app/config.json
+#                 - name: RENOVATE_CONFIG_FILE
+#                   value: /usr/src/app/config.json
 
-                - name: RENOVATE_AUTODISCOVER
-                  value: "true"
+#                 - name: RENOVATE_AUTODISCOVER
+#                   value: "true"
 
-                - name: RENOVATE_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: gitea.renovate.token
-                      key: value
+#                 - name: RENOVATE_TOKEN
+#                   valueFrom:
+#                     secretKeyRef:
+#                       name: gitea.renovate.token
+#                       key: value
 
-              volumeMounts:
-                - name: renovate-configs
-                  mountPath: /usr/src/app/config.json
-                  subPath: config.json
-                  readOnly: false
+#               volumeMounts:
+#                 - name: renovate-configs
+#                   mountPath: /usr/src/app/config.json
+#                   subPath: config.json
+#                   readOnly: false
