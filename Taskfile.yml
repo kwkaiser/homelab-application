@@ -15,6 +15,7 @@ tasks:
     cmds:
       - |
         DEPL_ENV="${MODE:-dev}"
+        helm dependency build
         helm template . --values ./values/shared.yaml --values ./values/$DEPL_ENV.yaml > template.yaml
 
   lint:
