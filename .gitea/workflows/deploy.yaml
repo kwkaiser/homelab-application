@@ -59,13 +59,16 @@ jobs:
         run: apt update && apt install -y jq
 
       - name: Install taskfile
-        run: sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
+        run: |
+          sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
+          install -o root -g root -m 0755 ./bin/task /usr/local/bin/task
+          rm -rf ./bin
 
       - name: Run helm command
         run: |
           mkdir $HOME/.kube
           echo $KUBE_CONFIG > $HOME/.kube/config
-          ./bin/task deploy --yes 
+          task deploy --yes 
         env:
           MODE: 'prod'
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
