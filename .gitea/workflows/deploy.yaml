@@ -49,11 +49,11 @@ jobs:
           apt-get update
           apt-get install helm
 
-      - name: Install kubeconform
+      - name: Install kubectl
         run: |
-          wget https://github.com/yannh/kubeconform/releases/download/v0.6.4/kubeconform-linux-amd64.tar.gz
-          tar xf kubeconform-linux-amd64.tar.gz
-          cp kubeconform /usr/local/bin
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
+          install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+          rm ./kubectl
 
       - name: Install jq
         run: apt update && apt install -y jq
