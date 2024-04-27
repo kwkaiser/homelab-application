@@ -44,6 +44,12 @@ spec:
                       name: gitea.db.password
                       key: value
 
+                - name: RUN_ON_STARTUP
+                  value: 'true'
+                
+                - name: CONFIG_PATHS
+                  value: /config.yaml
+
                 - name: BORG_PASSPHRASE
                   value: foo
 
@@ -51,11 +57,15 @@ spec:
                 - name: bulk-data
                   mountPath: /bulk
 
+                - name: bulk-data
+                  mountPath: /etc/borgmatic.d
+                  subPath: /application/borgmatic
+
                 - name: cache-data
                   mountPath: /cache
                   subPath: /application/borgmatic
 
                 - name: borgmatic-configs
-                  mountPath: /data/borgmatic.d/config.yaml
+                  mountPath: /config.yaml
                   subPath: config.yaml
                   readOnly: false

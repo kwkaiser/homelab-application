@@ -1,0 +1,72 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   annotations:
+#     secret.reloader.stakater.com/reload: "miniflux.db.password,gitea.db.password"
+#   name: borgmatic
+# spec:
+#   selector:
+#     matchLabels:
+#       app: borgmatic
+#   replicas: 1
+#   template:
+#     metadata:
+#       labels:
+#         app: borgmatic
+#         app.kubernetes.io/name: borgmatic
+#     spec:
+#       volumes:
+#         - name: bulk-data
+#           persistentVolumeClaim:
+#             claimName: bulk-nfs
+
+#         - name: cache-data
+#           persistentVolumeClaim:
+#             claimName: cache-nfs
+
+#         - name: borgmatic-configs
+#           configMap:
+#             name: borgmatic-configs
+#             items:
+#               - key: config.yaml
+#                 path: config.yaml
+
+#       containers:
+#         - name: borgmatic
+#           image: {{ .Values.image_borgmatic }}
+
+#           env:
+#             - name: MINIFLUX_DB_PASSWORD
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: miniflux.db.password
+#                   key: value
+
+#             - name: BACKUP_CRON
+#               value: '*/3 * * * *'
+
+#             - name: GITEA_DB_PASSWORD
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: gitea.db.password
+#                   key: value
+
+#             - name: BORG_PASSPHRASE
+#               value: foo
+
+#           volumeMounts:
+#             - name: bulk-data
+#               mountPath: /bulk
+
+#             - name: cache-data
+#               mountPath: /cache
+#               subPath: application/borgmatic
+
+#             - name: bulk-data
+#               mountPath: /etc/borgmatic.d
+#               subPath: application/borgmatic
+
+#             - name: borgmatic-configs
+#               mountPath: /data/borgmatic.d/config.yaml
+#               subPath: config.yaml
+#               readOnly: false
