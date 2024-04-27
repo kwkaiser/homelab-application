@@ -52,7 +52,7 @@ jobs:
           mkdir $HOME/.kube
           echo $KUBE_CONFIG > $HOME/.kube/config
           echo 'foo'
-          # ./bin/task deploy --yes 
+          ./bin/task deploy --yes 
         env:
           MODE: 'prod'
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
