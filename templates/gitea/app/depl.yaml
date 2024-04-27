@@ -32,7 +32,7 @@ spec:
               value: postgres
 
             - name: GITEA__database__HOST
-              value: giteadb:5432
+              value: giteadb
 
             - name: GITEA__database__NAME
               value: postgres

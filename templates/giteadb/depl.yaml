@@ -22,13 +22,13 @@ spec:
 
       containers:
         - name: giteadb
-          image: postgres
+          image: {{ .Values.image_gitea_db }}
           ports:
             - containerPort: 5432
 
           env:
             - name: POSTGRES_USER
-              value: {{ .Values.image_gitea_db }}
+              value: postgres
 
             - name: POSTGRES_PASSWORD
               valueFrom:

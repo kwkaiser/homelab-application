@@ -53,6 +53,3 @@ spec:
 
             - name: LDAP_DEBUG
               value: "true"
-
-      initContainers:
-        {{ include "waitFor" (dict "Name" "openldap" "Port" 389) }}

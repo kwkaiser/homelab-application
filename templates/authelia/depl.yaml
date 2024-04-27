@@ -55,6 +55,3 @@ spec:
               subPath: configuration.yaml
               readOnly: false
 
-      initContainers:
-        {{ include "waitFor" (dict "Name" "openldap" "Port" 389) }}
-      

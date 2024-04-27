@@ -79,8 +79,3 @@ spec:
             - name: data
               mountPath: /data
               subPath: application/gitea/runner
-
-        
-
-      initContainers: 
-        {{ include "waitFor" (dict "Name" "gitea" "Port" 80) }}

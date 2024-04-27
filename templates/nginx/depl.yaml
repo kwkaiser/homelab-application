@@ -64,16 +64,5 @@ spec:
               subPath: {{ $cleanedPath }}
               readOnly: true
           {{- end }} 
-      initContainers:
-        {{ include "waitFor" (dict "Name" "authelia" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "ldap-user-manager" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "jellyfin" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "calibre" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "gitea" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "prometheus" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "radarr" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "sonarr" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "prowlarr" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "autobrr" "Port" 80) }}
-        {{ include "waitFor" (dict "Name" "qbittorrent" "Port" 80) }}
+
         
