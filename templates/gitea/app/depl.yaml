@@ -20,6 +20,13 @@ spec:
           persistentVolumeClaim:
             claimName: bulk-nfs
 
+        - name: gitea-configs
+          configMap:
+            name: gitea-configs
+            items:
+              - key: app.ini
+                path: app.ini
+
       containers:
         - name: gitea
           image: {{ .Values.image_gitea }}
@@ -28,44 +35,11 @@ spec:
             - containerPort: 2222
 
           env:
-            - name: GITEA__database__DB_TYPE
-              value: postgres
-
-            - name: GITEA__database__HOST
-              value: giteadb
-
-            - name: GITEA__database__NAME
-              value: postgres
-
-            - name: GITEA__database__USER
-              value: postgres
-
             - name: GITEA_database__PASSWD
               valueFrom:
                 secretKeyRef:
                   name: gitea.db.password
                   key: value
-
-            - name: GITEA__actions__ENABLED
-              value: "true"
-
-            - name: GITEA__metrics__ENABLED
-              value: "true"
-
-            - name: GITEA__server__ROOT_URL
-              value: "http://gitea"
-
-            - name: GITEA__service__SHOW_REGISTRATION_BUTTON
-              value: "false"
-
-            - name: GITEA__openid__ENABLE_OPENID_SIGNUP
-              value: "false"
-
-            - name: GITEA__openid__ENABLE_OPENID_SIGNIN
-              value: "false"
-
-            - name: GIT_SSL_NO_VERIFY
-              value: "true"
 
           volumeMounts:
             - name: data
@@ -79,3 +53,8 @@ spec:
             - name: data
               mountPath: /data/git/lfs
               subPath: application/gitea/lfs
+
+            - name: gitea-configs
+              mountPath: /data/gitea/conf/app.ini
+              subPath: app.ini
+              readOnly: false
