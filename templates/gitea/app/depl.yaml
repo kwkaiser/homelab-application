@@ -35,7 +35,7 @@ spec:
             - containerPort: 2222
 
           env:
-            - name: GITEA_database__PASSWD
+            - name: GITEA__database__PASSWD
               valueFrom:
                 secretKeyRef:
                   name: gitea.db.password
@@ -55,6 +55,6 @@ spec:
               subPath: application/gitea/lfs
 
             - name: gitea-configs
-              mountPath: /data/gitea/conf/app.ini
+              mountPath: /etc/templates/app.ini
               subPath: app.ini
               readOnly: false
