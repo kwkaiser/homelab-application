@@ -10,7 +10,6 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: bulk-nfs
-  allowVolumeExpansion: true
   mountOptions:
     - hard
     - nfsvers=4.1
@@ -30,7 +29,6 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: cache-nfs
-  allowVolumeExpansion: true
   mountOptions:
     - hard
     - nfsvers=4.1
