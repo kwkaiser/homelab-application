@@ -11,10 +11,11 @@ tasks:
   # Util
   template:
     desc:  "Builds helm template"
+    prompt: "Did you set the MODE envar to dev | prod? (Defaults to: dev)"
     cmds:
       - |
-        ENV="${PROD:-dev}"
-        helm template . --values ./values/shared.yaml --values ./values/$ENV.yaml > template.yaml
+        DEPL_ENV="${MODE:-dev}"
+        helm template . --values ./values/shared.yaml --values ./values/$DEPL_ENV.yaml > template.yaml
 
   lint:
     desc: "Lint generated template"
@@ -25,13 +26,14 @@ tasks:
   # Local and prod
   apply-secrets:
     desc: "Creates or updates secrets in the cluster" 
+    prompt: "Did you set the MODE envar to dev | prod? (Defaults to: dev)"
     cmds:
       - |
         # Assume non prod-like
-        IS_PROD="${PROD:-false}"
+        DEPL_ENV="${MODE:-dev}"
 
         # If local, load secrets from defaults
-        if [[ $IS_PROD != 'true' ]];
+        if [[ $DEPL_ENV != 'prod' ]];
         then
           set -a
           source ./vars/local-secrets.txt
@@ -52,10 +54,12 @@ tasks:
   deploy:
     desc:  "Redeploys k8s template"
     deps: [apply-secrets]
+    prompt: "Did you set the MODE envar to dev | prod? (Defaults to: dev)"
     cmds:
       - |
-        IS_PROD="${PROD:-false}"
-        if [[ $IS_PROD == 'true' ]]; then
+        DEPL_ENV="${MODE:-dev}"
+
+        if [[ $DEPL_ENV == 'prod' ]]; then
           ARGS="--values ./values/shared.yaml --values ./values/prod.yaml"
         else
           ARGS="--values ./values/shared.yaml --values ./values/dev.yaml"
