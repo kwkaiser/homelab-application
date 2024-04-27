@@ -41,17 +41,27 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install kubectl
+      - name: Install helm
         run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
-          install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-          rm ./kubectl
+          curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
+          apt-get install apt-transport-https --yes
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
+          apt-get update
+          apt-get install helm
+
+      - name: Install kubeconform
+        run: |
+          wget https://github.com/yannh/kubeconform/releases/download/v0.6.4/kubeconform-linux-amd64.tar.gz
+          tar xf kubeconform-linux-amd64.tar.gz
+          cp kubeconform /usr/local/bin
+
+      - name: Install taskfile
+        run: sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
 
       - name: Run helm command
         run: |
           mkdir $HOME/.kube
           echo $KUBE_CONFIG > $HOME/.kube/config
-          echo 'foo'
           ./bin/task deploy --yes 
         env:
           MODE: 'prod'
