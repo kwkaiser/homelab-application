@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "gitea.db.password"
+  name: giteadb
+spec:
+  selector:
+    matchLabels:
+      app: giteadb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: giteadb
+        app.kubernetes.io/name: giteadb
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: giteadb
+          image: postgres
+          ports:
+            - containerPort: 5432
+
+          env:
+            - name: POSTGRES_USER
+              value: {{ .Values.image_gitea_db }}
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: gitea.db.password
+                  key: value           
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+              subPath: application/gitea/db
