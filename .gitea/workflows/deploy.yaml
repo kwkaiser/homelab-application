@@ -31,7 +31,7 @@ jobs:
         run: sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
 
       - name: Lint helm chart
-        run: task lint 
+        run: go-task lint 
 
   release:
     name: Release
@@ -52,7 +52,7 @@ jobs:
           mkdir $HOME/.kube
           echo $KUBE_CONFIG > $HOME/.kube/config
           echo 'foo'
-          # task deploy --yes 
+          # go-task deploy --yes 
         env:
           MODE: 'prod'
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
