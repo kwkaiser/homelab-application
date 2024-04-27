@@ -7,7 +7,7 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["values\\.yaml"],
+      "fileMatch": ["values\\/shared\\.yaml"],
       "matchStrings": ["(image_.*): \"(?<depName>.+):(?<currentValue>.+)\""],
       "datasourceTemplate": "docker"
     }
