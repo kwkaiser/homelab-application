@@ -31,7 +31,7 @@ jobs:
         run: sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
 
       - name: Lint helm chart
-        run: ./bin/task lint 
+        run: ./bin/task lint --yes
 
   release:
     name: Release
