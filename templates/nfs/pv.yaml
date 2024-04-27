@@ -4,12 +4,13 @@ metadata:
   name: bulk-nfs
 spec:
   capacity:
-    storage: 1Gi
+    storage: {{ .Values.volBulkSize }}
   volumeMode: Filesystem
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: bulk-nfs
+  allowVolumeExpansion: true
   mountOptions:
     - hard
     - nfsvers=4.1
@@ -23,12 +24,13 @@ metadata:
   name: cache-nfs
 spec:
   capacity:
-    storage: 1Gi
+    storage: {{ .Values.volCacheSize }}
   volumeMode: Filesystem
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: cache-nfs
+  allowVolumeExpansion: true
   mountOptions:
     - hard
     - nfsvers=4.1
