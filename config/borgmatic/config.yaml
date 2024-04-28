@@ -29,10 +29,9 @@ source_directories:
 #     format: tar
 
 repositories:
-    - path: /raw-backup
-      label: local
+  - path: /raw-backup
+    label: local
 
-after_backup:
-    - cd /
-    - tar xvf ./tar-dir/backup.tar ./raw-backup
-    - du -sh ./tar-dir/backup.tar
+# after_backup:
+#   - sleep 10
+  
