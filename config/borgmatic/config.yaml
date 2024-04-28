@@ -32,6 +32,6 @@ repositories:
   - path: /raw-backup
     label: local
 
-# after_backup:
-#   - sleep 10
+after_backup:
+  - tar cvf /tar-dir/backup.tar /raw-backup/*
   
