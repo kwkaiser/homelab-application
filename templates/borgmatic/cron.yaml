@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: borgmatic
 spec:
-  schedule: "*/3 * * * *"
+  schedule: "*/1 * * * *"
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
@@ -27,9 +27,12 @@ spec:
                   - key: config.yaml
                     path: config.yaml
 
-          containers:
-            - name: gitea-renovate
+          initContainers:
+            - name: borgmatic-init
               image: {{ .Values.image_borgmatic }}
+
+              command: ["/usr/local/bin/borgmatic"]
+              args: ["init", "-e", "repokey"]
 
               env:
                 - name: MINIFLUX_DB_PASSWORD
@@ -44,11 +47,8 @@ spec:
                       name: gitea.db.password
                       key: value
 
-                - name: RUN_ON_STARTUP
-                  value: 'true'
-                
-                - name: CONFIG_PATHS
-                  value: /config.yaml
+                - name: BACKUP_CRON
+                  value: '*/1 * * * *' 
 
                 - name: BORG_PASSPHRASE
                   value: foo
@@ -57,15 +57,54 @@ spec:
                 - name: bulk-data
                   mountPath: /bulk
 
-                - name: bulk-data
-                  mountPath: /etc/borgmatic.d
-                  subPath: /application/borgmatic
-
                 - name: cache-data
-                  mountPath: /cache
-                  subPath: /application/borgmatic
+                  mountPath: /raw-backup
+                  subPath: application/borgmatic/backup
 
                 - name: borgmatic-configs
-                  mountPath: /config.yaml
+                  mountPath: /etc/borgmatic/config.yaml
+                  subPath: config.yaml
+                  readOnly: false
+
+          containers:
+            - name: borgmatic-create
+              image: {{ .Values.image_borgmatic }}
+
+              command: ["/usr/local/bin/borgmatic"]
+              args: ["create"]
+
+              env:
+                - name: MINIFLUX_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: miniflux.db.password
+                      key: value
+
+                - name: GITEA_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: gitea.db.password
+                      key: value
+
+                - name: BACKUP_CRON
+                  value: '*/1 * * * *' 
+
+                - name: BORG_PASSPHRASE
+                  value: foo
+
+              volumeMounts:
+                - name: bulk-data
+                  mountPath: /bulk
+
+                - name: cache-data
+                  mountPath: /raw-backup
+                  subPath: application/borgmatic/backup
+
+                - name: cache-data
+                  mountPath: /tar-dir
+                  subPath: application/borgmatic/tardir
+
+                - name: borgmatic-configs
+                  mountPath: /etc/borgmatic/config.yaml
                   subPath: config.yaml
                   readOnly: false
