@@ -15,18 +15,18 @@ source_directories:
     - /bulk/application/sonarr
     - /bulk/shared/books
 
-# postgresql_databases:
-#   - name: postgres
-#     hostname: giteadb
-#     username: postgres
-#     password: ${GITEA_DB_PASSWORD}
-#     format: tar
+postgresql_databases:
+  - name: postgres
+    hostname: giteadb
+    username: postgres
+    password: ${GITEA_DB_PASSWORD}
+    format: tar
 
-#   - name: miniflux
-#     hostname: minifluxdb
-#     username: postgres
-#     password: ${MINIFLUX_DB_PASSWORD}
-#     format: tar
+  # - name: miniflux
+  #   hostname: minifluxdb
+  #   username: postgres
+  #   password: ${MINIFLUX_DB_PASSWORD}
+  #   format: tar
 
 repositories:
   - path: /raw-backup
