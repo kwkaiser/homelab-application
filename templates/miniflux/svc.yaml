@@ -8,11 +8,6 @@ spec:
     app.kubernetes.io/name: miniflux
   ports:
     - protocol: TCP
-      name: miniflux-client
+      name: miniflux
       port: 80
       targetPort: 8080
-
-    - protocol: TCP
-      name: miniflux-db
-      port: 5432
-      targetPort: 5432
