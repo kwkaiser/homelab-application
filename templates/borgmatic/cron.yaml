@@ -7,7 +7,7 @@ spec:
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
-      ttlSecondsAfterFinished: 120
+      ttlSecondsAfterFinished: 10
       template:
         spec:
           restartPolicy: Never
@@ -39,6 +39,24 @@ spec:
                   valueFrom:
                     secretKeyRef:
                       name: miniflux.db.password
+                      key: value
+
+                - name: LINODE_CLI_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: linode.cli.token
+                      key: value
+
+                - name: LINODE_CLI_OBJ_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: linode.cli.obj.access.key
+                      key: value
+
+                - name: LINODE_CLI_OBJ_SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: linode.cli.obj.secret.key
                       key: value
 
                 - name: GITEA_DB_PASSWORD

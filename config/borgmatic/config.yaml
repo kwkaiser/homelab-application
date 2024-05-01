@@ -1,19 +1,19 @@
 source_directories:
-    - /bulk/application/autobrr
-    - /bulk/application/gitea/data
-    - /bulk/application/gitea/repos
-    - /bulk/application/jellyfin
-    - /bulk/application/prometheus 
-    - /bulk/application/qbittorrent
-    - /bulk/application/registry
-    - /bulk/application/calibre
-    - /bulk/application/grafana
-    - /bulk/application/loki
-    - /bulk/application/openldap
-    - /bulk/application/prowlarr
-    - /bulk/application/radarr
-    - /bulk/application/sonarr
-    - /bulk/shared/books
+  - /bulk/application/autobrr
+  - /bulk/application/gitea/data
+  - /bulk/application/gitea/repos
+  - /bulk/application/jellyfin
+  - /bulk/application/prometheus 
+  - /bulk/application/qbittorrent
+  - /bulk/application/registry
+  - /bulk/application/calibre
+  - /bulk/application/grafana
+  - /bulk/application/loki
+  - /bulk/application/openldap
+  - /bulk/application/prowlarr
+  - /bulk/application/radarr
+  - /bulk/application/sonarr
+  - /bulk/shared/books
 
 postgresql_databases:
   - name: postgres
@@ -22,7 +22,7 @@ postgresql_databases:
     password: ${GITEA_DB_PASSWORD}
     format: tar
 
-  # - name: miniflux
+  # - name: postgres
   #   hostname: minifluxdb
   #   username: postgres
   #   password: ${MINIFLUX_DB_PASSWORD}
@@ -33,5 +33,8 @@ repositories:
     label: local
 
 after_backup:
-  - tar cvf /tar-dir/backup.tar /raw-backup/*
+  - apk update
+  - pip install linode-cli
+  - tar cvf /tar-dir/{{ .Values.backupName}}.tar /raw-backup/*
+  - cd /tar-dir && linode-cli obj put {{ .Values.backupName }}.tar borg-backup --cluster us-east-1
   
