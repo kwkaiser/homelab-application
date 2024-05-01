@@ -35,8 +35,7 @@ repositories:
 after_backup:
   - borg check /raw-backup --verify-data && echo 'data integrity check ok, uploading' || exit 1
   - apk update
-  - pip install linode-cli
-  - pip install boto3
+  - pip install s3cmd
   - tar cvf /tar-dir/{{ .Values.backupName}}.tar /raw-backup/*
-  - cd /tar-dir && linode-cli obj put {{ .Values.backupName }}.tar borg-backup --cluster us-east-1
+  - s3cmd put /tar-dir/{{ .Values.backupName }}.tar s3://borg-backup/dev-backup.tar --access_key=${LINODE_CLI_OBJ_ACCESS_KEY} --secret_key=${LINODE_CLI_OBJ_SECRET_KEY} --host='borg-backup.us-east-1.linodeobjects.com' --host-bucket='borg-backup'
   
