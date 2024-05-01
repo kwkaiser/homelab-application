@@ -35,28 +35,16 @@ spec:
               args: ["rcreate", "-e", "repokey"]
 
               env:
+                - name: BORG_PASSPHRASE
+                  valueFrom:
+                    secretKeyRef:
+                      name: backup.passphrase
+                      key: value
+
                 - name: MINIFLUX_DB_PASSWORD
                   valueFrom:
                     secretKeyRef:
                       name: miniflux.db.password
-                      key: value
-
-                - name: LINODE_CLI_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: linode.cli.token
-                      key: value
-
-                - name: LINODE_CLI_OBJ_ACCESS_KEY
-                  valueFrom:
-                    secretKeyRef:
-                      name: linode.cli.obj.access.key
-                      key: value
-
-                - name: LINODE_CLI_OBJ_SECRET_KEY
-                  valueFrom:
-                    secretKeyRef:
-                      name: linode.cli.obj.secret.key
                       key: value
 
                 - name: GITEA_DB_PASSWORD
@@ -64,12 +52,6 @@ spec:
                     secretKeyRef:
                       name: gitea.db.password
                       key: value
-
-                - name: BACKUP_CRON
-                  value: '*/1 * * * *' 
-
-                - name: BORG_PASSPHRASE
-                  value: foo
 
               volumeMounts:
                 - name: bulk-data
@@ -91,6 +73,11 @@ spec:
               command: ["/usr/local/bin/borgmatic"]
               args: ["create"]
 
+              lifecycle:
+                preStop:
+                  exec:
+                    command: ["/usr/local/bin/borgmatic", "break-lock"]
+
               env:
                 - name: MINIFLUX_DB_PASSWORD
                   valueFrom:
@@ -104,11 +91,29 @@ spec:
                       name: gitea.db.password
                       key: value
 
-                - name: BACKUP_CRON
-                  value: '*/1 * * * *' 
+                - name: LINODE_CLI_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: linode.cli.token
+                      key: value
+
+                - name: LINODE_CLI_OBJ_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: linode.cli.obj.access.key
+                      key: value
+
+                - name: LINODE_CLI_OBJ_SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: linode.cli.obj.secret.key
+                      key: value
 
                 - name: BORG_PASSPHRASE
-                  value: foo
+                  valueFrom:
+                    secretKeyRef:
+                      name: backup.passphrase
+                      key: value
 
               volumeMounts:
                 - name: bulk-data

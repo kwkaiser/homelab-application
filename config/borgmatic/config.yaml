@@ -22,19 +22,21 @@ postgresql_databases:
     password: ${GITEA_DB_PASSWORD}
     format: tar
 
-  # - name: postgres
-  #   hostname: minifluxdb
-  #   username: postgres
-  #   password: ${MINIFLUX_DB_PASSWORD}
-  #   format: tar
+  - name: postgres
+    hostname: minifluxdb
+    username: postgres
+    password: ${MINIFLUX_DB_PASSWORD}
+    format: tar
 
 repositories:
   - path: /raw-backup
     label: local
 
 after_backup:
+  - borg check /raw-backup --verify-data && echo 'data integrity check ok, uploading' || exit 1
   - apk update
   - pip install linode-cli
+  - pip install boto3
   - tar cvf /tar-dir/{{ .Values.backupName}}.tar /raw-backup/*
   - cd /tar-dir && linode-cli obj put {{ .Values.backupName }}.tar borg-backup --cluster us-east-1
   
