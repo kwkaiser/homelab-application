@@ -86,3 +86,4 @@ jobs:
           k8s_registry_certificate: ${{ secrets.K8S_REGISTRY_CERTIFICATE }}
           k8s_registry_certificate_key: ${{ secrets.K8S_REGISTRY_CERTIFICATE_KEY }}
           k8s_registry_htpasswd: ${{ secrets.K8S_REGISTRY_HTPASSWD }}
+          k8s_backup_passphrase: ${{ secrets.K8S_BACKUP_PASSPHRASE }}
