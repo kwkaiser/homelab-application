@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: borgmatic
 spec:
-  schedule: "0 4 * * *"
+  schedule: "*/3 * * * *"
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
