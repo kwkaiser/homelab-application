@@ -1,0 +1,41 @@
+source_directories:
+  - /bulk/application/autobrr
+  - /bulk/application/gitea/data
+  - /bulk/application/gitea/repos
+  - /bulk/application/jellyfin
+  - /bulk/application/prometheus 
+  - /bulk/application/qbittorrent
+  - /bulk/application/registry
+  - /bulk/application/calibre
+  - /bulk/application/grafana
+  - /bulk/application/loki
+  - /bulk/application/openldap
+  - /bulk/application/prowlarr
+  - /bulk/application/radarr
+  - /bulk/application/sonarr
+  - /bulk/shared/books
+
+postgresql_databases:
+  - name: postgres
+    hostname: giteadb
+    username: postgres
+    password: ${GITEA_DB_PASSWORD}
+    format: tar
+
+  - name: postgres
+    hostname: minifluxdb
+    username: postgres
+    password: ${MINIFLUX_DB_PASSWORD}
+    format: tar
+
+repositories:
+  - path: /raw-backup
+    label: local
+
+after_backup:
+  - borg check /raw-backup --verify-data && echo 'data integrity check ok, uploading' || exit 1
+  - apk update
+  - pip install s3cmd
+  - tar cvf /tar-dir/{{ .Values.backupName}}.tar /raw-backup/*
+  - s3cmd put /tar-dir/{{ .Values.backupName }}.tar s3://borg-backup/dev-backup.tar --access_key=${LINODE_CLI_OBJ_ACCESS_KEY} --secret_key=${LINODE_CLI_OBJ_SECRET_KEY} --host='borg-backup.us-east-1.linodeobjects.com' --host-bucket='borg-backup'
+  

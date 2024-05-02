@@ -6,3 +6,4 @@ nfsArray: "192.168.2.103"
 promHosts: ["192.168.2.103:9100"]
 volBulkSize: 14.4T 
 volCacheSize: 220G
+backupName: prod-backup

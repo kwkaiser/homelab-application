@@ -15,38 +15,7 @@ spec:
         app: miniflux
         app.kubernetes.io/name: miniflux
     spec:
-      volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: bulk-nfs
-
       containers:
-        - name: miniflux-db
-          image: {{ .Values.image_miniflux_db }}
-          ports:
-            - containerPort: 5432
-
-          env:
-            - name: POSTGRES_USER
-              value: postgres
-
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: miniflux.db.password
-                  key: value
-
-          readinessProbe:
-            tcpSocket:
-              port: 5432
-            initialDelaySeconds: 15
-            periodSeconds: 10
-
-          volumeMounts:
-            - name: data
-              mountPath: /var/lib/postgresql/data
-              subPath: application/miniflux/db
-
         - name: miniflux
           image: {{ .Values.image_miniflux }}
           ports:
