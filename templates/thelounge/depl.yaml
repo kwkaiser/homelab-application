@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: qbittorrent
+  name: vpn
 spec:
   selector:
     matchLabels:
-      app: qbittorrent
+      app: vpn
   replicas: 1
   template:
     metadata:
       labels:
-        app: qbittorrent
-        app.kubernetes.io/name: qbittorrent
+        app: vpn
+        app.kubernetes.io/name: vpn
     spec:
       securityContext:
         sysctls:
@@ -32,6 +32,13 @@ spec:
         - name: modules
           hostPath:
             path: /lib/modules
+
+        - name: thelounge-configs
+          configMap:
+            name: thelounge-configs
+            items:
+              - key: config.js
+                path: config.js
 
         {{- range $name := list "wireguard-key" }}
         - name: {{$name}}
@@ -99,3 +106,33 @@ spec:
             - name: cache-data
               mountPath: /cache/torrents
               subPath: shared/torrents
+
+        - name: thelounge
+          image: {{ .Values.image_thelounge }}
+          ports:
+            - containerPort: 9000
+
+          env:
+            - name: PUID
+              value: "0"
+
+            - name: PGID
+              value: "0"
+
+          volumeMounts:
+            - name: data
+              mountPath: /config/logs
+              subPath: application/thelounge/logs
+
+            - name: data
+              mountPath: /config/users
+              subPath: application/thelounge/users
+
+            - name: data
+              mountPath: /config/packages
+              subPath: application/thelounge/packages
+
+            - name: thelounge-configs
+              mountPath: /config/config.js
+              subPath: config.js
+              readOnly: false
