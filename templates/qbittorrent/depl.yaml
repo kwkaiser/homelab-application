@@ -25,6 +25,10 @@ spec:
           persistentVolumeClaim:
             claimName: bulk-nfs
 
+        - name: cache-data
+          persistentVolumeClaim:
+            claimName: cache-nfs
+
         - name: modules
           hostPath:
             path: /lib/modules
@@ -83,6 +87,8 @@ spec:
 
             - name: data
               mountPath: /shared/torrents
-              subPath: shared/torrents  
+              subPath: shared/torrents 
 
-        
+            - name: cache-data
+              mountPath: /cache/torrents
+              subPath: shared/torrents
