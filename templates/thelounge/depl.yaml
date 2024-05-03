@@ -33,6 +33,13 @@ spec:
           hostPath:
             path: /lib/modules
 
+        - name: thelounge-configs
+          configMap:
+            name: thelounge-configs
+            items:
+              - key: config.js
+                path: config.js
+
         {{- range $name := list "wireguard-key" }}
         - name: {{$name}}
           secret:
@@ -114,5 +121,18 @@ spec:
 
           volumeMounts:
             - name: data
-              mountPath: /config
-              subPath: application/thelounge
+              mountPath: /config/logs
+              subPath: application/thelounge/logs
+
+            - name: data
+              mountPath: /config/users
+              subPath: application/thelounge/users
+
+            - name: data
+              mountPath: /config/packages
+              subPath: application/thelounge/packages
+
+            - name: thelounge-configs
+              mountPath: /config/config.js
+              subPath: config.js
+              readOnly: false
