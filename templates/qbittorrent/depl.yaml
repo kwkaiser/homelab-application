@@ -80,6 +80,13 @@ spec:
             - containerPort: 8080
             - containerPort: 6881
 
+          env:
+            - name: PUID
+              value: "0"
+
+            - name: PGID
+              value: "0"
+
           volumeMounts:
             - name: data
               mountPath: /config
