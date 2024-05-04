@@ -28,6 +28,12 @@ spec:
             - name: DOCKER_MODS
               value: linuxserver/mods:universal-calibre
 
+            - name: PUID
+              value: "0"
+
+            - name: PGID
+              value: "0"
+
           volumeMounts:
             - name: data
               mountPath: /config
