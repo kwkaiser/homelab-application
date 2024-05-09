@@ -16,3 +16,8 @@ spec:
       name: thelounge
       port: 9000
       targetPort: 9000
+
+    - protocol: TCP
+      name: prowlarr
+      port: 9696
+      targetPort: 9696

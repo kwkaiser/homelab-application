@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: calibre
+  name: readarr
 spec:
   selector:
     matchLabels:
-      app: calibre
+      app: readarr
   replicas: 1
   template:
     metadata:
       labels:
-        app: calibre
-        app.kubernetes.io/name: calibre
+        app: readarr
+        app.kubernetes.io/name: readarr
     spec:
       volumes:
         - name: data
@@ -19,11 +19,10 @@ spec:
             claimName: bulk-nfs
 
       containers:
-        - name: calibre
-          image: {{ .Values.image_calibre }}
+        - name: readarr
+          image: {{ .Values.image_readarr }}
           ports:
-            - containerPort: 8080
-            - containerPort: 8081
+            - containerPort: 8787
 
           env:
             - name: PUID
@@ -35,8 +34,12 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /config
-              subPath: application/calibre
+              subPath: application/readarr
 
             - name: data
-              mountPath: /books
+              mountPath: /shared/torrents
+              subPath: shared/torrents
+
+            - name: data
+              mountPath: /shared/books
               subPath: shared/books

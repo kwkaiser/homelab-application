@@ -107,6 +107,16 @@ spec:
               mountPath: /cache/torrents
               subPath: shared/torrents
 
+        - name: prowlarr
+          image: {{ .Values.image_prowlarr }}
+          ports:
+            - containerPort: 9696
+
+          volumeMounts:
+            - name: data
+              mountPath: /config
+              subPath: application/prowlarr
+
         - name: thelounge
           image: {{ .Values.image_thelounge }}
           ports:

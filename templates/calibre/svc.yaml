@@ -7,6 +7,12 @@ spec:
     app: calibre
     app.kubernetes.io/name: calibre
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 80
-      targetPort: 8083
+      targetPort: 8080
+
+    - name: content-server
+      protocol: TCP
+      port: 8081
+      targetPort: 8081
