@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+spec:
+  selector:
+    matchLabels:
+      app: radarr
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: radarr
+        app.kubernetes.io/name: radarr
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: radarr
+          image: {{ .Values.image_radarr }}
+          ports:
+            - containerPort: 7878
+
+          env:
+            - name: PUID
+              value: "0"
+
+            - name: PGID
+              value: "0"
+
+          volumeMounts:
+            - name: data
+              mountPath: /config
+              subPath: application/radarr
+
+            - name: data
+              mountPath: /shared/torrents
+              subPath: shared/torrents
+
+            - name: data
+              mountPath: /shared/movies
+              subPath: shared/movies
