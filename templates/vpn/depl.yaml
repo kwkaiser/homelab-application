@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "wireguard.key"
   name: vpn
 spec:
   selector:
@@ -65,13 +67,13 @@ spec:
               readOnly: true
 
           # Hooks to guarantee we connected to target IP & stayed connected.
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - sh
-                  - -c
-                  - sleep 30 && until curl --connect-timeout 10 ifconfig.me | grep -i "{{ .Values.qbittorrentIp }}"; do echo "Waiting for ifconfig response"; sleep 10; done;
+          # lifecycle:
+          #   postStart:
+          #     exec:
+          #       command:
+          #         - sh
+          #         - -c
+          #         - sleep 30 && until curl --connect-timeout 10 ifconfig.me | grep -i "{{ .Values.qbittorrentIp }}"; do echo "Waiting for ifconfig response"; sleep 10; done;
           securityContext:
             privileged: true
             capabilities:
@@ -102,6 +104,10 @@ spec:
             - name: data
               mountPath: /shared/torrents
               subPath: shared/torrents 
+
+            - name: data
+              mountPath: /shared/upload
+              subPath: shared/upload
 
             - name: cache-data
               mountPath: /cache/torrents

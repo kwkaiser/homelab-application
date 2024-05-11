@@ -38,5 +38,13 @@ spec:
               subPath: application/calibre
 
             - name: data
-              mountPath: /books
+              mountPath: /shared/books
               subPath: shared/books
+
+            - name: data
+              mountPath: /shared/upload
+              subPath: shared/upload
+
+            - name: data
+              mountPath: /shared/torrents/books
+              subPath: shared/torrents/books
