@@ -44,7 +44,3 @@ spec:
             - name: data
               mountPath: /shared/upload
               subPath: shared/upload
-
-            - name: data
-              mountPath: /shared/torrents/books
-              subPath: shared/torrents/books
