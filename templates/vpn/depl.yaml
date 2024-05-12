@@ -60,7 +60,7 @@ spec:
           volumeMounts:
             - name: wireguard-key
               mountPath: /config/wg0.conf
-              subPath: value
+              subPath: value 
 
             - mountPath: /lib/modules
               name: modules
@@ -97,6 +97,11 @@ spec:
               value: "0"
 
           volumeMounts:
+            - name: vpn-configs
+              mountPath: /copy-book.sh
+              subPath: copy-book.sh
+              readOnly: false
+
             - name: data
               mountPath: /config
               subPath: application/qbittorrent
@@ -148,7 +153,7 @@ spec:
               mountPath: /config/packages
               subPath: application/thelounge/packages
 
-            - name: thelounge-configs
+            - name: vpn-configs
               mountPath: /config/config.js
               subPath: config.js
               readOnly: false
