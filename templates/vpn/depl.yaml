@@ -35,12 +35,14 @@ spec:
           hostPath:
             path: /lib/modules
 
-        - name: thelounge-configs
+        - name: vpn-configs
           configMap:
-            name: thelounge-configs
+            name: vpn-configs
             items:
               - key: config.js
                 path: config.js
+              - key: copy-book.sh
+                path: copy-book.sh
 
         {{- range $name := list "wireguard-key" }}
         - name: {{$name}}
