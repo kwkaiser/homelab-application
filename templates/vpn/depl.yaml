@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "wireguard.key"
   name: vpn
 spec:
   selector:
@@ -33,12 +35,14 @@ spec:
           hostPath:
             path: /lib/modules
 
-        - name: thelounge-configs
+        - name: vpn-configs
           configMap:
-            name: thelounge-configs
+            name: vpn-configs
             items:
               - key: config.js
                 path: config.js
+              - key: copy-book.sh
+                path: copy-book.sh
 
         {{- range $name := list "wireguard-key" }}
         - name: {{$name}}
@@ -58,7 +62,7 @@ spec:
           volumeMounts:
             - name: wireguard-key
               mountPath: /config/wg0.conf
-              subPath: value
+              subPath: value 
 
             - mountPath: /lib/modules
               name: modules
@@ -95,6 +99,11 @@ spec:
               value: "0"
 
           volumeMounts:
+            - name: vpn-configs
+              mountPath: /copy-book.sh
+              subPath: copy-book.sh
+              readOnly: false
+
             - name: data
               mountPath: /config
               subPath: application/qbittorrent
@@ -102,6 +111,10 @@ spec:
             - name: data
               mountPath: /shared/torrents
               subPath: shared/torrents 
+
+            - name: data
+              mountPath: /shared/upload
+              subPath: shared/upload
 
             - name: cache-data
               mountPath: /cache/torrents
@@ -142,7 +155,7 @@ spec:
               mountPath: /config/packages
               subPath: application/thelounge/packages
 
-            - name: thelounge-configs
+            - name: vpn-configs
               mountPath: /config/config.js
               subPath: config.js
               readOnly: false

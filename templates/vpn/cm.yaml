@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: thelounge-configs
+  name: vpn-configs
 data:
   config.js: {{ .Files.Get "config/vpn/config.js" | quote }}
+  copy-book.sh: {{ .Files.Get "config/vpn/copy-book.sh" | quote }}
