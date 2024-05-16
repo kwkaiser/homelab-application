@@ -85,6 +85,15 @@ spec:
                 - NET_RAW
                 - SYS_MODULE
 
+        - name: chrome
+          image: {{ .Values.image_kasm }}
+          ports:
+            - containerPort: 6901
+
+          env:
+            - name: VNC_PW
+              value: foo
+
         - name: qbittorrent
           image: {{ .Values.image_qbittorrent }}
           ports:

@@ -21,3 +21,9 @@ spec:
       name: prowlarr
       port: 9696
       targetPort: 9696
+
+    - protocol: TCP
+      name: kasm
+      port: 6901
+      targetPort: 6901
+
