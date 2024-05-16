@@ -92,7 +92,7 @@ spec:
 
           env:
             - name: VNC_PW
-              value: foo
+              value: foobarbaz
 
         - name: qbittorrent
           image: {{ .Values.image_qbittorrent }}
