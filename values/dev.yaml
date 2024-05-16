@@ -4,6 +4,6 @@ tld: io
 piracyIp: "143.244.47.87"
 nfsArray: "192.168.1.68"
 promHosts: ["192.168.1.68:9100"]
-volBulkSize: 1Gi
-volCacheSize: 1Gi
+volBulkSize: 20Gi
+volCacheSize: 10Gi
 backupName: dev-backup

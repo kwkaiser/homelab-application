@@ -65,7 +65,7 @@ password_policy:
 access_control:
   default_policy: deny
   rules:
-    - domain_regex: '(scurvy|movies|tv|trackers|ratio|games|lib|metrics|readarr|calibre).{{ .Values.domainName }}.{{ .Values.tld }}'
+    - domain_regex: '(scurvy|movies|tv|trackers|ratio|games|lib|metrics|readarr|calibre|browser).{{ .Values.domainName }}.{{ .Values.tld }}'
       policy: one_factor
       subject:
         - ["user:kwkaiser"] 

@@ -69,13 +69,13 @@ spec:
               readOnly: true
 
           # Hooks to guarantee we connected to target IP & stayed connected.
-          # lifecycle:
-          #   postStart:
-          #     exec:
-          #       command:
-          #         - sh
-          #         - -c
-          #         - sleep 30 && until curl --connect-timeout 10 ifconfig.me | grep -i "{{ .Values.qbittorrentIp }}"; do echo "Waiting for ifconfig response"; sleep 10; done;
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - sleep 30 && until curl --connect-timeout 10 ifconfig.me | grep -i "{{ .Values.qbittorrentIp }}"; do echo "Waiting for ifconfig response"; sleep 10; done;
           securityContext:
             privileged: true
             capabilities:
@@ -84,6 +84,15 @@ spec:
                 - NET_BIND
                 - NET_RAW
                 - SYS_MODULE
+
+        - name: chrome
+          image: {{ .Values.image_kasm }}
+          ports:
+            - containerPort: 6901
+
+          env:
+            - name: VNC_PW
+              value: foo
 
         - name: qbittorrent
           image: {{ .Values.image_qbittorrent }}
@@ -119,25 +128,6 @@ spec:
             - name: cache-data
               mountPath: /cache/torrents
               subPath: shared/torrents
-
-        - name: prowlarr
-          image: {{ .Values.image_prowlarr }}
-          ports:
-            - containerPort: 9696
-
-          volumeMounts:
-            - name: data
-              mountPath: /config
-              subPath: application/prowlarr
-
-        - name: kasm
-          image: {{ .Values.image_kasm }}
-          ports:
-            - containerPort: 6901
-
-          env:
-            - name: VNC_PW
-              value: abc123
 
         - name: prowlarr
           image: {{ .Values.image_prowlarr }}

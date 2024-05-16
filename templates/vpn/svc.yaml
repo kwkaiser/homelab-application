@@ -26,3 +26,4 @@ spec:
       name: kasm
       port: 6901
       targetPort: 6901
+
