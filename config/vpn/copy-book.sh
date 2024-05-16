@@ -1,6 +1,14 @@
 #! /bin/bash
 
+
+if [[ "$1" != *"/shared/torrents/books"* ]];
+then
+  echo 'non-book torrent -- skipping'
+  exit 0
+fi
+
 echo "Copying books from torrent: '$1'"
 
-FILES=$(find "$1" -type f -regex '.*\.\(pdf\|mobi\|epub\|azw\|azw3\|djvu\|fb2\|lit\|pdb\)$' | grep -i '/shared/torrents/books' | xargs)
-cp $FILES /shared/upload/
+cd "$1"
+
+find . -type f -regex '.*\.\(pdf\|mobi\|epub\|azw\|azw3\|djvu\|fb2\|lit\|pdb\)$' -exec cp {} /shared/upload \;
