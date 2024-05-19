@@ -85,15 +85,6 @@ spec:
                 - NET_RAW
                 - SYS_MODULE
 
-        - name: chrome
-          image: {{ .Values.image_kasm }}
-          ports:
-            - containerPort: 6901
-
-          env:
-            - name: VNC_PW
-              value: foobarbaz
-
         - name: qbittorrent
           image: {{ .Values.image_qbittorrent }}
           ports:
@@ -128,16 +119,6 @@ spec:
             - name: cache-data
               mountPath: /cache/torrents
               subPath: shared/torrents
-
-        - name: prowlarr
-          image: {{ .Values.image_prowlarr }}
-          ports:
-            - containerPort: 9696
-
-          volumeMounts:
-            - name: data
-              mountPath: /config
-              subPath: application/prowlarr
 
         - name: thelounge
           image: {{ .Values.image_thelounge }}

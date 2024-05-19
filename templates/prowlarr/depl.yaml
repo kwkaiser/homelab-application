@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: calibre
+  name: prowlarr
 spec:
   selector:
     matchLabels:
-      app: calibre
+      app: prowlarr
   replicas: 1
   template:
     metadata:
       labels:
-        app: calibre
-        app.kubernetes.io/name: calibre
+        app: prowlarr
+        app.kubernetes.io/name: prowlarr
     spec:
       volumes:
         - name: data
@@ -19,11 +19,10 @@ spec:
             claimName: bulk-nfs
 
       containers:
-        - name: calibre
-          image: {{ .Values.image_calibre }}
+        - name: prowlarr
+          image: {{ .Values.image_prowlarr }}
           ports:
-            - containerPort: 8080
-            - containerPort: 8081
+            - containerPort: 9696
 
           env:
             - name: PUID
@@ -35,12 +34,4 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /config
-              subPath: application/calibre
-
-            - name: data
-              mountPath: /shared/books
-              subPath: shared/books
-
-            - name: data
-              mountPath: /shared/upload
-              subPath: shared/upload
+              subPath: application/prowlarr 
