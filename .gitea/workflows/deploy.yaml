@@ -89,3 +89,4 @@ jobs:
           k8s_backup_passphrase: ${{ secrets.K8S_BACKUP_PASSPHRASE }}
           k8s_linode_cli_obj_access_key: ${{ secrets.K8S_LINODE_CLI_OBJ_ACCESS_KEY }}
           k8s_linode_cli_obj_secret_key: ${{ secrets.K8S_LINODE_CLI_OBJ_SECRET_KEY }}
+          k8s_immich_db_password: ${{ secrets.K8S_IMMICH_DB_PASSWORD }}

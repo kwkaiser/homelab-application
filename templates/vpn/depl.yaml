@@ -41,8 +41,6 @@ spec:
             items:
               - key: config.js
                 path: config.js
-              - key: copy-book.sh
-                path: copy-book.sh
 
         {{- range $name := list "wireguard-key" }}
         - name: {{$name}}

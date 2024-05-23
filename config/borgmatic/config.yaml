@@ -13,6 +13,7 @@ source_directories:
   - /bulk/application/prowlarr
   - /bulk/application/radarr
   - /bulk/application/sonarr
+  - /bulk/application/immich/media
   - /bulk/shared/books
 
 retention:
@@ -35,6 +36,12 @@ postgresql_databases:
     hostname: minifluxdb
     username: postgres
     password: ${MINIFLUX_DB_PASSWORD}
+    format: tar
+
+  - name: postgres
+    hostname: immichdb
+    username: postgres
+    password: ${IMMICH_DB_PASSWORD}
     format: tar
 
 repositories:

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "immich.db.password"
+  name: immichdb
+spec:
+  selector:
+    matchLabels:
+      app: immichdb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: immichdb
+        app.kubernetes.io/name: immichdb
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: immichdb
+          image: {{ .Values.image_immich_db }}
+          ports:
+            - containerPort: 5432
+
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: immich.db.password
+                  key: value           
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+              subPath: application/immich/db

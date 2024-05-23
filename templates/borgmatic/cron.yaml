@@ -53,6 +53,12 @@ spec:
                       name: gitea.db.password
                       key: value
 
+                - name: IMMICH_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: immich.db.password
+                      key: value
+
                 - name: LINODE_CLI_OBJ_ACCESS_KEY
                   valueFrom:
                     secretKeyRef:
@@ -101,6 +107,12 @@ spec:
                   valueFrom:
                     secretKeyRef:
                       name: gitea.db.password
+                      key: value
+
+                - name: IMMICH_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: immich.db.password
                       key: value
 
                 - name: LINODE_CLI_OBJ_ACCESS_KEY
