@@ -97,11 +97,6 @@ spec:
               value: "0"
 
           volumeMounts:
-            - name: vpn-configs
-              mountPath: /copy-book.sh
-              subPath: copy-book.sh
-              readOnly: false
-
             - name: data
               mountPath: /config
               subPath: application/qbittorrent
