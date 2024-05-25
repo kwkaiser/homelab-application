@@ -59,7 +59,7 @@ spec:
 
           volumeMounts:
             - name: wireguard-key
-              mountPath: /config/wg0.conf
+              mountPath: /config/wg_confs/wg0.conf
               subPath: value 
 
             - mountPath: /lib/modules
