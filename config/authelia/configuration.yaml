@@ -78,7 +78,7 @@ session:
   domain: {{ .Values.domainName }}.{{ .Values.tld }}
   name: authelia_session
   same_site: lax
-  inactivity: 5m
+  inactivity: 30m
   expiration: 1h
 
 regulation:
