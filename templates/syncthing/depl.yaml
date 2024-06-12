@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: syncthing
+spec:
+  selector:
+    matchLabels:
+      app: syncthing
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: syncthing
+        app.kubernetes.io/name: syncthing
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: syncthing
+          image: {{ .Values.image_syncthing }}
+          ports:
+            - containerPort: 8384
+
+          env:
+            - name: PUID
+              value: "0"
+
+            - name: PGID
+              value: "0"
+
+          volumeMounts:
+            - name: data
+              mountPath: /config
+              subPath: application/syncthing/config
+
+            - name: data
+              mountPath: /data
+              subPath: application/syncthing/data
