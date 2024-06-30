@@ -1,14 +1,10 @@
 source_directories:
-  - /bulk/application/autobrr
   - /bulk/application/gitea/data
   - /bulk/application/gitea/repos
   - /bulk/application/jellyfin
-  - /bulk/application/prometheus 
   - /bulk/application/qbittorrent
   - /bulk/application/registry
   - /bulk/application/calibre
-  - /bulk/application/grafana
-  - /bulk/application/loki
   - /bulk/application/openldap
   - /bulk/application/prowlarr
   - /bulk/application/radarr
