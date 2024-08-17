@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "mealie.db.password"
+  name: mealiedb
+spec:
+  selector:
+    matchLabels:
+      app: mealiedb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mealiedb
+        app.kubernetes.io/name: mealiedb
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: mealiedb-db
+          image: {{ .Values.image_mealie_db }}
+          ports:
+            - containerPort: 5432
+
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mealie.db.password
+                  key: value
+
+          readinessProbe:
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 15
+            periodSeconds: 10
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+              subPath: application/mealie/db 

@@ -41,6 +41,12 @@ postgresql_databases:
     password: ${IMMICH_DB_PASSWORD}
     format: tar
 
+  - name: postgres
+    hostname: mealiedb
+    username: postgres
+    password: ${MEALIE_DB_PASSWORD}
+    format: tar
+
 repositories:
   - path: /raw-backup
     label: local

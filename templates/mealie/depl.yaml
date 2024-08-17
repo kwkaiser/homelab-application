@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "mealie.db.password"
+  name: mealie
+spec:
+  selector:
+    matchLabels:
+      app: mealie
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mealie
+        app.kubernetes.io/name: mealie
+    spec:
+      containers:
+        - name: mealie
+          image: {{ .Values.image_mealie }}
+          ports:
+            - containerPort: 9000
+
+          env:
+            - name: ALLOW_SIGNUP 
+              value: "false"
+
+            - name: API_DOCS 
+              value: "false"
+
+            - name: BASE_URL
+              value: food.{{ .Values.domainName }}.{{ .Values.tld }}
+
+            - name: DB_ENGINE
+              value: postgres
+
+            - name: POSTGRES_USER 
+              value: postgres
+
+            - name: POSTGRES_SERVER
+              value: mealiedb
+
+            - name: POSTGRES_DB
+              value: postgres
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mealie.db.password
+                  key: value
