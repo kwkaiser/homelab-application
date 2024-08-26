@@ -16,10 +16,6 @@ spec:
               persistentVolumeClaim:
                 claimName: bulk-nfs
 
-            - name: cache-data
-              persistentVolumeClaim:
-                claimName: cache-nfs
-
             - name: borgmatic-configs
               configMap:
                 name: borgmatic-configs
@@ -81,7 +77,7 @@ spec:
                 - name: bulk-data
                   mountPath: /bulk
 
-                - name: cache-data
+                - name: bulk-data
                   mountPath: /raw-backup
                   subPath: application/borgmatic/backup
 
@@ -149,11 +145,11 @@ spec:
                 - name: bulk-data
                   mountPath: /bulk
 
-                - name: cache-data
+                - name: bulk-data 
                   mountPath: /raw-backup
                   subPath: application/borgmatic/backup
 
-                - name: cache-data
+                - name: bulk-data
                   mountPath: /tar-dir
                   subPath: application/borgmatic/tardir
 
