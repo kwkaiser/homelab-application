@@ -59,8 +59,5 @@ after_backup:
   - s3cmd put /tar-dir/{{ .Values.backupName }}.tar s3://borg-backup/{{ .Values.backupName }}.tar --access_key=${LINODE_CLI_OBJ_ACCESS_KEY} --secret_key=${LINODE_CLI_OBJ_SECRET_KEY} --host='borg-backup.us-east-1.linodeobjects.com' --host-bucket='borg-backup'
 
 extra_borg_options:
-  init: --verbosity=2
-  create: --verbosity=2
-  prune: --verbosity=2
-  compact: --verbosity=2
-  check: --verbosity=2
+  init: --verbosity 2
+  create: --debug
