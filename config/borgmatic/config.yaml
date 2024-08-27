@@ -14,13 +14,10 @@ source_directories:
   - /bulk/shared/books
 
 retention:
-  keep_within: 3H
-  keep_minutely: 60
-  keep_hourly: 24
+  keep_within: 7d
   keep_daily: 7
   keep_weekly: 4
-  keep_monthly: 6
-  keep_yearly: 1
+  keep_monthly: 3 
 
 postgresql_databases:
   - name: postgres
@@ -50,6 +47,28 @@ postgresql_databases:
 repositories:
   - path: /raw-backup
     label: local
+
+
+before_prune:
+  - echo 'Starting prune'
+  
+after_prune:
+  - echo 'Ended prune'
+
+before_compact:
+  - echo 'Starting compact'
+
+after_compact:
+  - echo 'Ended compact'
+
+before_check:
+  - echo 'Starting checks'
+
+after_check:
+  - echo 'Ended checks'
+
+before_backup:
+  - echo 'Starting backup'
 
 after_backup:
   - borg check /raw-backup --verify-data && echo 'data integrity check ok, uploading' || exit 1
