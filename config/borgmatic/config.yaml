@@ -48,30 +48,37 @@ repositories:
   - path: /raw-backup
     label: local
 
+checks:
+    - name: repository
+    - name: archives
+      frequency: 2 weeks
 
-before_prune:
-  - echo 'Starting prune'
-  
-after_prune:
-  - echo 'Ended prune'
+before_backup:
+  - echo 'Starting backup'
 
-before_compact:
-  - echo 'Starting compact'
-
-after_compact:
-  - echo 'Ended compact'
+after_backup:
+  - echo 'Ended backup'
+  - borgmatic check
 
 before_check:
   - echo 'Starting checks'
 
 after_check:
   - echo 'Ended checks'
+  - borgmatic prune
 
-before_backup:
-  - echo 'Starting backup'
+before_prune:
+  - echo 'Starting prune'
+  
+after_prune:
+  - echo 'Ended prune'
+  - borgmatic compact
 
-after_backup:
-  - borg check /raw-backup --verify-data && echo 'data integrity check ok, uploading' || exit 1
+before_compact:
+  - echo 'Starting compact'
+
+after_compact:
+  - echo 'Ended compact'
   - apk update
   - pip install s3cmd
   - tar cvf /tar-dir/{{ .Values.backupName}}.tar /raw-backup/*
