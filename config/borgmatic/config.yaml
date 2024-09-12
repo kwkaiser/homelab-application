@@ -13,11 +13,10 @@ source_directories:
   - /bulk/application/syncthing
   - /bulk/shared/books
 
-retention:
-  keep_within: 7d
-  keep_daily: 7
-  keep_weekly: 4
-  keep_monthly: 3 
+keep_within: 7d
+keep_daily: 7
+keep_weekly: 4
+keep_monthly: 3 
 
 postgresql_databases:
   - name: postgres
@@ -79,6 +78,9 @@ before_compact:
 
 after_compact:
   - echo 'Ended compact'
+  - echo 'Summary stats:'
+  - borgmatic list --archive latest | tail -n +2  | awk '{ printf "%-20s %-10s\n", $4, $8 }' | sort -rh
+  - echo 'Creating and uploading backup file'
   - apk update
   - pip install s3cmd
   - tar cvf /tar-dir/{{ .Values.backupName}}.tar /raw-backup/*
