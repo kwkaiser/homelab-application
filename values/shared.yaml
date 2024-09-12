@@ -1,5 +1,5 @@
 image_dind: docker:23.0.6-dind
-image_jellyfin: "linuxserver/jellyfin:10.9.10"
+image_jellyfin: "linuxserver/jellyfin:10.9.11"
 image_nginx: "nginx:stable-alpine3.17-slim"
 image_wireguard: "linuxserver/wireguard:1.0.20210914-legacy"
 image_qbittorrent: "linuxserver/qbittorrent:4.6.4"
