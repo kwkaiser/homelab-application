@@ -79,9 +79,9 @@ before_compact:
 after_compact:
   - echo 'Ended compact'
   - echo 'Summary stats:'
-  - borgmatic list --archive latest | tail -n +2  | awk '{ printf "%-20s %-10s\n", $4, $8 }' | sort -rh
+  - borgmatic list --archive latest | tail -n +2  | awk '{ printf "%-20s %-10s\n", $4, $8 }' | sort -rh | head -n 10
   - echo 'Creating and uploading backup file'
   - apk update
   - pip install s3cmd
   - tar cvf /tar-dir/{{ .Values.backupName}}.tar /raw-backup/*
-  - s3cmd put /tar-dir/{{ .Values.backupName }}.tar s3://borg-backup/{{ .Values.backupName }}.tar --access_key=${LINODE_CLI_OBJ_ACCESS_KEY} --secret_key=${LINODE_CLI_OBJ_SECRET_KEY} --host='borg-backup.us-east-1.linodeobjects.com' --host-bucket='borg-backup'
+  - s3cmd put /tar-dir/{{ .Values.backupName }}.tar s3://borg-backup/{{ .Values.backupName }}.tar --access_key=${LINODE_CLI_OBJ_ACCESS_KEY} --secret_key=${LINODE_CLI_OBJ_SECRET_KEY} --host='borg-backup.us-east-1.linodeobjects.com' --host-bucket='borg-backup' --multipart-chunk-size-mb=100
