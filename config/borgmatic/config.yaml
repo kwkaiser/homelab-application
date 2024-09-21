@@ -10,6 +10,7 @@ source_directories:
   - /bulk/application/radarr
   - /bulk/application/sonarr
   - /bulk/application/immich/media
+  - /bulk/application/mealie/app
   - /bulk/application/syncthing
   - /bulk/shared/books
 
