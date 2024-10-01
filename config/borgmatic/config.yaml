@@ -84,5 +84,5 @@ after_compact:
   - echo 'Creating and uploading backup file'
   - apk update
   - pip install s3cmd
-  - tar cvf /tar-dir/{{ .Values.backupName}}.tar /raw-backup/*
+  - tar cf /tar-dir/{{ .Values.backupName}}.tar /raw-backup/*
   - s3cmd put /tar-dir/{{ .Values.backupName }}.tar s3://borg-backup/{{ .Values.backupName }}.tar --access_key=${LINODE_CLI_OBJ_ACCESS_KEY} --secret_key=${LINODE_CLI_OBJ_SECRET_KEY} --host='borg-backup.us-east-1.linodeobjects.com' --host-bucket='borg-backup' --multipart-chunk-size-mb=100
