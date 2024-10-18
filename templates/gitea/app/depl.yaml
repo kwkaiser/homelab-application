@@ -41,6 +41,24 @@ spec:
                   name: gitea.db.password
                   key: value
 
+            - name: GITEA__oauth2__JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: gitea.oauth2.jwt.secret
+                  key: value
+
+            - name: GITEA__security__INTERNAL_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: gitea.security.internal.token
+                  key: value
+
+            - name: GITEA__server__LFS_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: gitea.server.lfs.jwt.secret
+                  key: value
+
           volumeMounts:
             - name: data
               mountPath: /data/gitea
@@ -55,6 +73,6 @@ spec:
               subPath: application/gitea/lfs
 
             - name: gitea-configs
-              mountPath: /etc/templates/app.ini
+              mountPath: /data/gitea/conf/app.ini
               subPath: app.ini
               readOnly: false
