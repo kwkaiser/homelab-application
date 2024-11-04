@@ -83,35 +83,35 @@ spec:
                 - NET_RAW
                 - SYS_MODULE
 
-        - name: qbittorrent
-          image: {{ .Values.image_qbittorrent }}
-          ports:
-            - containerPort: 8080
-            - containerPort: 6881
+        # - name: qbittorrent
+        #   image: {{ .Values.image_qbittorrent }}
+        #   ports:
+        #     - containerPort: 8080
+        #     - containerPort: 6881
 
-          env:
-            - name: PUID
-              value: "0"
+        #   env:
+        #     - name: PUID
+        #       value: "0"
 
-            - name: PGID
-              value: "0"
+        #     - name: PGID
+        #       value: "0"
 
-          volumeMounts:
-            - name: data
-              mountPath: /config
-              subPath: application/qbittorrent
+        #   volumeMounts:
+        #     - name: data
+        #       mountPath: /config
+        #       subPath: application/qbittorrent
 
-            - name: data
-              mountPath: /shared/torrents
-              subPath: shared/torrents 
+        #     - name: data
+        #       mountPath: /shared/torrents
+        #       subPath: shared/torrents 
 
-            - name: data
-              mountPath: /shared/upload
-              subPath: shared/upload
+        #     - name: data
+        #       mountPath: /shared/upload
+        #       subPath: shared/upload
 
-            - name: cache-data
-              mountPath: /cache/torrents
-              subPath: shared/torrents
+        #     - name: cache-data
+        #       mountPath: /cache/torrents
+        #       subPath: shared/torrents
 
         - name: thelounge
           image: {{ .Values.image_thelounge }}
