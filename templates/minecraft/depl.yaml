@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft
+spec:
+  selector:
+    matchLabels:
+      app: minecraft
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: minecraft
+        app.kubernetes.io/name: minecraft
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: minecraft
+          image: {{ .Values.image_minecraft }}
+          ports:
+            - containerPort: 25565
+
+          env:
+            - name: PUID
+              value: "0"
+
+            - name: PGID
+              value: "0"
+
+          volumeMounts:
+            - name: data
+              mountPath: /data
+              subPath: application/minecraft
