@@ -31,6 +31,9 @@ spec:
             - name: PGID
               value: "0"
 
+            - name: EULA
+              value: "TRUE"
+
           volumeMounts:
             - name: data
               mountPath: /data
