@@ -12,6 +12,7 @@ source_directories:
   - /bulk/application/immich/media
   - /bulk/application/mealie/app
   - /bulk/application/syncthing
+  - /bulk/application/minecraft
   - /bulk/shared/books
 
 keep_within: 7d

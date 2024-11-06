@@ -34,6 +34,12 @@ spec:
             - name: EULA
               value: "TRUE"
 
+            - name: INIT_MEMORY
+              value: 1G
+
+            - name: MAX_MEMORY
+              value: 4G
+
           volumeMounts:
             - name: data
               mountPath: /data
