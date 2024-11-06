@@ -40,6 +40,9 @@ spec:
             - name: MAX_MEMORY
               value: 4G
 
+            - name: DIFFICULTY
+              value: normal
+
           volumeMounts:
             - name: data
               mountPath: /data
