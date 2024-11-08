@@ -48,6 +48,10 @@ repositories:
   - path: /raw-backup
     label: local
 
+  # ssh://kwkaiser@localhost/home/kwkaiser/desktop/borgmatic-test/dest-remote
+  - path: ssh://w80na89t@w80na89t.repo.borgbase.com/./repo
+    label: borgbase
+
 checks:
     - name: repository
     - name: archives

@@ -1,0 +1,184 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: borgmatic
+spec:
+  schedule: "0 4 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 10
+      template:
+        spec:
+          restartPolicy: Never
+          volumes:
+            - name: bulk-data
+              persistentVolumeClaim:
+                claimName: bulk-nfs
+
+            - name: borgmatic-configs
+              configMap:
+                name: borgmatic-configs
+                items:
+                  - key: config.yaml
+                    path: config.yaml
+
+            {{- range $name := list "borgmatic-borgbase-key" }}
+            - name: {{$name}}
+              secret:
+                secretName: {{ regexReplaceAll "-" $name "." }}
+                items:
+                  - key: value
+                    path: value
+            {{- end }}
+
+          initContainers:
+            - name: borgmatic-init
+              image: {{ .Values.image_borgmatic }}
+
+              command: ["/usr/local/bin/borgmatic"]
+              args: ["rcreate", "-e", "repokey"]
+
+              env:
+                - name: BORG_RSH
+                  value: 'ssh -i /borgmatic-borgbase-key'
+
+                - name: BORG_PASSPHRASE
+                  valueFrom:
+                    secretKeyRef:
+                      name: backup.passphrase
+                      key: value
+
+                - name: MINIFLUX_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: miniflux.db.password
+                      key: value
+
+                - name: GITEA_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: gitea.db.password
+                      key: value
+
+                - name: IMMICH_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: immich.db.password
+                      key: value
+
+                - name: MEALIE_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: mealie.db.password
+                      key: value
+
+                - name: LINODE_CLI_OBJ_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: linode.cli.obj.access.key
+                      key: value
+
+                - name: LINODE_CLI_OBJ_SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: linode.cli.obj.secret.key
+                      key: value
+
+              volumeMounts:
+                - name: bulk-data
+                  mountPath: /bulk
+
+                - name: bulk-data
+                  mountPath: /raw-backup
+                  subPath: application/borgmatic/backup
+
+                - name: borgmatic-configs
+                  mountPath: /etc/borgmatic/config.yaml
+                  subPath: config.yaml
+                  readOnly: false
+
+                - name: borgmatic-borgbase-key 
+                  mountPath: /borgmatic-borgbase-key
+                  subPath: value
+                  readOnly: true
+
+          containers:
+            - name: borgmatic-create
+              image: {{ .Values.image_borgmatic }}
+
+              command: ["/usr/local/bin/borgmatic"]
+              args: ["create"]
+
+              lifecycle:
+                preStop:
+                  exec:
+                    command: ["/usr/local/bin/borgmatic", "break-lock"]
+
+              env:
+                - name: BORG_RSH
+                  value: 'ssh -i /borgmatic-borgbase-key'
+
+                - name: MINIFLUX_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: miniflux.db.password
+                      key: value
+
+                - name: GITEA_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: gitea.db.password
+                      key: value
+
+                - name: IMMICH_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: immich.db.password
+                      key: value
+
+                - name: MEALIE_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: mealie.db.password
+                      key: value
+
+                - name: LINODE_CLI_OBJ_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: linode.cli.obj.access.key
+                      key: value
+
+                - name: LINODE_CLI_OBJ_SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: linode.cli.obj.secret.key
+                      key: value
+
+                - name: BORG_PASSPHRASE
+                  valueFrom:
+                    secretKeyRef:
+                      name: backup.passphrase
+                      key: value
+
+              volumeMounts:
+                - name: bulk-data
+                  mountPath: /bulk
+
+                - name: bulk-data 
+                  mountPath: /raw-backup
+                  subPath: application/borgmatic/backup
+
+                - name: bulk-data
+                  mountPath: /tar-dir
+                  subPath: application/borgmatic/tardir
+
+                - name: borgmatic-configs
+                  mountPath: /etc/borgmatic/config.yaml
+                  subPath: config.yaml
+                  readOnly: false
+
+                - name: borgmatic-borgbase-key 
+                  mountPath: /borgmatic-borgbase-key
+                  subPath: value
+                  readOnly: true

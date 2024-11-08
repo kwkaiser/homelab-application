@@ -91,3 +91,4 @@ jobs:
           k8s_linode_cli_obj_secret_key: ${{ secrets.K8S_LINODE_CLI_OBJ_SECRET_KEY }}
           k8s_immich_db_password: ${{ secrets.K8S_IMMICH_DB_PASSWORD }}
           k8s_mealie_db_password: ${{ secrets.K8S_MEALIE_DB_PASSWORD }}
+          k8s_borgmatic_borgbase_key: ${{ secrets.K8S_BORGMATIC_BORGBASE_KEY }}
