@@ -40,9 +40,6 @@ spec:
               args: ["rcreate", "-e", "repokey"]
 
               env:
-                - name: BORG_RSH
-                  value: 'ssh -i /borgmatic-borgbase-key'
-
                 - name: BORG_PASSPHRASE
                   valueFrom:
                     secretKeyRef:
@@ -116,9 +113,6 @@ spec:
                     command: ["/usr/local/bin/borgmatic", "break-lock"]
 
               env:
-                - name: BORG_RSH
-                  value: 'ssh -i /borgmatic-borgbase-key'
-
                 - name: MINIFLUX_DB_PASSWORD
                   valueFrom:
                     secretKeyRef:

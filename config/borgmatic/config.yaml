@@ -44,6 +44,8 @@ postgresql_databases:
     password: ${MEALIE_DB_PASSWORD}
     format: tar
 
+ssh_command: ssh -i /borgmatic-borgbase-key 
+
 repositories:
   - path: /raw-backup
     label: local
@@ -59,6 +61,7 @@ checks:
 
 before_backup:
   - echo 'Starting backup'
+  - cat /borgmatic-borgbase-key
 
 after_backup:
   - echo 'Ended backup'
