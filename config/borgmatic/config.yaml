@@ -61,7 +61,6 @@ checks:
 
 before_backup:
   - echo 'Starting backup'
-  - cat /borgmatic-borgbase-key
 
 after_backup:
   - echo 'Ended backup'
