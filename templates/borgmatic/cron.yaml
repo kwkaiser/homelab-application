@@ -104,8 +104,9 @@ spec:
             - name: borgmatic-create
               image: {{ .Values.image_borgmatic }}
 
-              command: ["/usr/local/bin/borgmatic"]
-              args: ["info"]
+              # command: ["/usr/local/bin/borgmatic"]
+              command: ["/bin/sh", "-c"]
+              args: ["chmod 0644 /borgmatic-borgbase-key", "/usr/local/bin/borgmatic info"]
 
               lifecycle:
                 preStop:
@@ -175,4 +176,4 @@ spec:
                 - name: borgmatic-borgbase-key 
                   mountPath: /borgmatic-borgbase-key
                   subPath: value
-                  readOnly: true
+                  readOnly: false
