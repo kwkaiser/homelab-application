@@ -106,7 +106,7 @@ spec:
 
               # command: ["/usr/local/bin/borgmatic"]
               command: ["/bin/sh", "-c"]
-              args: ["chmod 0644 /borgmatic-borgbase-key", "/usr/local/bin/borgmatic info"]
+              args: ["cp /borgmatic-borgbase-key /borgmatic-borgbase-key-2; chmod 0644 /borgmatic-borgbase-key2; /usr/local/bin/borgmatic info"]
 
               lifecycle:
                 preStop:
@@ -176,4 +176,4 @@ spec:
                 - name: borgmatic-borgbase-key 
                   mountPath: /borgmatic-borgbase-key
                   subPath: value
-                  readOnly: false
+                  readOnly: true
