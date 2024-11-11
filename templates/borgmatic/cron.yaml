@@ -32,7 +32,7 @@ spec:
                     path: value
             {{- end }}
 
-          initContainers:
+          # initContainers:
             # - name: borgmatic-init
             #   image: {{ .Values.image_borgmatic }}
 
