@@ -38,7 +38,13 @@ spec:
               image: {{ .Values.image_borgmatic }}
 
               command: ["/bin/sh", "-c"]
-              args: ["cp /borgmatic-borgbase-key /borgmatic-borgbase-key-2; echo '' >> /borgmatic-borgbase-key-2; chmod 0600 /borgmatic-borgbase-key-2; /usr/local/bin/borgmatic break-lock || true; /usr/local/bin/borgmatic rcreate -e repokey"]
+              # Pad SSH key & attempt to break lock. If it doesn't exist, ignore 
+              args: >
+                "cp /borgmatic-borgbase-key /borgmatic-borgbase-key-2;" 
+                "echo '' >> /borgmatic-borgbase-key-2;" 
+                "chmod 0600 /borgmatic-borgbase-key-2;"
+                "/usr/local/bin/borgmatic break-lock || true;" 
+                "/usr/local/bin/borgmatic rcreate -e repokey"
 
               env:
                 - name: BORG_PASSPHRASE
@@ -106,7 +112,11 @@ spec:
               image: {{ .Values.image_borgmatic }}
 
               command: ["/bin/sh", "-c"]
-              args: ["cp /borgmatic-borgbase-key /borgmatic-borgbase-key-2; echo '' >> /borgmatic-borgbase-key-2; chmod 0600 /borgmatic-borgbase-key-2;  /usr/local/bin/borgmatic create"]
+              args: >
+                "cp /borgmatic-borgbase-key /borgmatic-borgbase-key-2;"
+                "echo '' >> /borgmatic-borgbase-key-2;"
+                "chmod 0600 /borgmatic-borgbase-key-2;"
+                "/usr/local/bin/borgmatic create"
 
               lifecycle:
                 preStop:

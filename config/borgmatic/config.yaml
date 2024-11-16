@@ -1,3 +1,4 @@
+# Sources
 source_directories:
   - /bulk/application/gitea/data
   - /bulk/application/gitea/repos
@@ -13,13 +14,6 @@ source_directories:
   - /bulk/application/mealie/app
   - /bulk/application/syncthing
   - /bulk/shared/books
-
-keep_within: 7d
-keep_daily: 7
-keep_weekly: 4
-keep_monthly: 3 
-
-relocated_repo_access_is_ok: true
 
 postgresql_databases:
   - name: postgres
@@ -46,16 +40,28 @@ postgresql_databases:
     password: ${MEALIE_DB_PASSWORD}
     format: tar
 
-ssh_command: ssh -v -o StrictHostKeyChecking=no -i /borgmatic-borgbase-key-2
+# Retention
+keep_within: 7d
+keep_daily: 7
+keep_weekly: 4
+keep_monthly: 3 
 
+# Repos
 repositories:
   - path: /raw-backup
     label: local
 
-  # ssh://kwkaiser@localhost/home/kwkaiser/desktop/borgmatic-test/dest-remote
   - path: ssh://gyd00bnt@gyd00bnt.repo.borgbase.com/./repo
     label: borgbase
 
+# Remote
+relocated_repo_access_is_ok: true
+ssh_command: ssh -v -o StrictHostKeyChecking=no -i /borgmatic-borgbase-key-2
+
+extra_borg_options:
+  create: --repository local --progress
+
+# Actions
 checks:
     - name: repository
     - name: archives
@@ -66,30 +72,36 @@ before_backup:
 
 after_backup:
   - echo 'Ended backup'
-  - borgmatic check
+
+  # Sync repositories
+  - borgmatic transfer --source-repository local --repository borgbase --progress
+
+  # Trigger checks
+  - borgmatic check --repository local --progress
+  - borgmatic check --repository borgbase --progress
 
 before_check:
   - echo 'Starting checks'
 
 after_check:
   - echo 'Ended checks'
-  - borgmatic prune
+  - borgmatic prune --repository local --stats
+  - borgmatic prune --repository borgbase --stats
 
 before_prune:
   - echo 'Starting prune'
   
 after_prune:
   - echo 'Ended prune'
-  - borgmatic compact
+  - borgmatic compact --repository local --progress
+  - borgmatic compact --repository borgbase --progress
 
 before_compact:
   - echo 'Starting compact'
 
 after_compact:
   - echo 'Ended compact'
-  - echo 'Transferring between repositories'
-  - borgmatic transfer --source-repository local --repository borgbase --progress
-  # - borgmatic list --archive latest | tail -n +2  | awk '{ printf "%-20s %-10s\n", $4, $8 }' | sort -rh | head -n 10
+  
   # - echo 'Creating and uploading backup file'
   # - apk update
   # - pip install s3cmd
