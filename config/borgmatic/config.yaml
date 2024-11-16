@@ -19,6 +19,8 @@ keep_daily: 7
 keep_weekly: 4
 keep_monthly: 3 
 
+relocated_repo_access_is_ok: true
+
 postgresql_databases:
   - name: postgres
     hostname: giteadb
