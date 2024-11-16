@@ -37,7 +37,7 @@ spec:
               image: {{ .Values.image_borgmatic }}
 
               command: ["/bin/sh", "-c"]
-              args: ["cp /borgmatic-borgbase-key /borgmatic-borgbase-key-2; echo '' >> /borgmatic-borgbase-key-2; chmod 0600 /borgmatic-borgbase-key-2; /usr/local/bin/borgmatic check"]
+              args: ["cp /borgmatic-borgbase-key /borgmatic-borgbase-key-2; echo '' >> /borgmatic-borgbase-key-2; chmod 0600 /borgmatic-borgbase-key-2; /usr/local/bin/borgmatic break-lock; /usr/local/bin/borgmatic check"]
 
               env:
                 - name: BORG_PASSPHRASE
