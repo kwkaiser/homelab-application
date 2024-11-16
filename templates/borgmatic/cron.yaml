@@ -37,7 +37,12 @@ spec:
               image: {{ .Values.image_borgmatic }}
 
               command: ["/bin/sh", "-c"]
-              args: ["cp /borgmatic-borgbase-key /borgmatic-borgbase-key-2; echo '' >> /borgmatic-borgbase-key-2; chmod 0600 /borgmatic-borgbase-key-2; /usr/local/bin/borgmatic break-lock; /usr/local/bin/borgmatic rcreate -e repokey"]
+              args: ["cp /borgmatic-borgbase-key /borgmatic-borgbase-key-2; echo '' >> /borgmatic-borgbase-key-2; chmod 0600 /borgmatic-borgbase-key-2; /usr/local/bin/borgmatic rcreate -e repokey"]
+
+              lifecycle:
+                preStop:
+                  exec:
+                    command: ["/usr/local/bin/borgmatic", "break-lock"]
 
               env:
                 - name: BORG_PASSPHRASE
@@ -105,7 +110,12 @@ spec:
               image: {{ .Values.image_borgmatic }}
 
               command: ["/bin/sh", "-c"]
-              args: ["cp /borgmatic-borgbase-key /borgmatic-borgbase-key-2; echo '' >> /borgmatic-borgbase-key-2; chmod 0600 /borgmatic-borgbase-key-2; /usr/local/bin/borgmatic break-lock; /usr/local/bin/borgmatic create"]
+              args: ["cp /borgmatic-borgbase-key /borgmatic-borgbase-key-2; echo '' >> /borgmatic-borgbase-key-2; chmod 0600 /borgmatic-borgbase-key-2;  /usr/local/bin/borgmatic create"]
+
+              lifecycle:
+                preStop:
+                  exec:
+                    command: ["/usr/local/bin/borgmatic", "break-lock"]
 
               env:
                 - name: MINIFLUX_DB_PASSWORD
