@@ -59,7 +59,7 @@ relocated_repo_access_is_ok: true
 ssh_command: ssh -v -o StrictHostKeyChecking=no -i /borgmatic-borgbase-key-2
 
 extra_borg_options:
-  create: --progress
+  create: --progress --stats
 
 # Actions
 checks:
@@ -72,26 +72,21 @@ before_backup:
 
 after_backup:
   - echo 'Ended backup'
-
-  # Trigger checks
-  - borgmatic check --repository local --progress
-  - borgmatic check --repository borgbase --progress
+  - borgmatic check --progress
 
 before_check:
   - echo 'Starting checks'
 
 after_check:
   - echo 'Ended checks'
-  - borgmatic prune --repository local --stats
-  - borgmatic prune --repository borgbase --stats
+  - borgmatic prune --stats
 
 before_prune:
   - echo 'Starting prune'
   
 after_prune:
   - echo 'Ended prune'
-  - borgmatic compact --repository local --progress
-  - borgmatic compact --repository borgbase --progress
+  - borgmatic compact --progress
 
 before_compact:
   - echo 'Starting compact'
@@ -99,8 +94,8 @@ before_compact:
 after_compact:
   - echo 'Ended compact'
   
-  # - echo 'Creating and uploading backup file'
-  # - apk update
-  # - pip install s3cmd
-  # - tar cf /tar-dir/{{ .Values.backupName}}.tar /raw-backup/*
-  # - s3cmd put /tar-dir/{{ .Values.backupName }}.tar s3://borg-backup/{{ .Values.backupName }}.tar --access_key=${LINODE_CLI_OBJ_ACCESS_KEY} --secret_key=${LINODE_CLI_OBJ_SECRET_KEY} --host='borg-backup.us-east-1.linodeobjects.com' --host-bucket='borg-backup' --multipart-chunk-size-mb=100
+# - echo 'Creating and uploading backup file'
+# - apk update
+# - pip install s3cmd
+# - tar cf /tar-dir/{{ .Values.backupName}}.tar /raw-backup/*
+# - s3cmd put /tar-dir/{{ .Values.backupName }}.tar s3://borg-backup/{{ .Values.backupName }}.tar --access_key=${LINODE_CLI_OBJ_ACCESS_KEY} --secret_key=${LINODE_CLI_OBJ_SECRET_KEY} --host='borg-backup.us-east-1.linodeobjects.com' --host-bucket='borg-backup' --multipart-chunk-size-mb=100
