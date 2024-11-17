@@ -59,7 +59,7 @@ relocated_repo_access_is_ok: true
 ssh_command: ssh -v -o StrictHostKeyChecking=no -i /borgmatic-borgbase-key-2
 
 extra_borg_options:
-  create: --repository local --repository borgbase --progress
+  create: --progress
 
 # Actions
 checks:
