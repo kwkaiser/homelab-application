@@ -59,7 +59,7 @@ relocated_repo_access_is_ok: true
 ssh_command: ssh -v -o StrictHostKeyChecking=no -i /borgmatic-borgbase-key-2
 
 extra_borg_options:
-  create: --repository local --progress
+  create: --repository local --repository borgbase --progress
 
 # Actions
 checks:
@@ -72,9 +72,6 @@ before_backup:
 
 after_backup:
   - echo 'Ended backup'
-
-  # Sync repositories
-  - borgmatic transfer --source-repository local --repository borgbase --progress
 
   # Trigger checks
   - borgmatic check --repository local --progress
