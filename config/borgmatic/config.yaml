@@ -43,8 +43,8 @@ postgresql_databases:
 # Retention
 keep_within: 7d
 keep_daily: 7
-keep_weekly: 4
-keep_monthly: 3 
+keep_weekly: 1 
+keep_monthly: 1 
 
 # Repos
 repositories:
