@@ -54,7 +54,7 @@ spec:
         - name: immich-server
           image: {{ .Values.image_immich_server }}
           ports:
-            - containerPort: 3001
+            - containerPort: 2283
           env:
             - name: DB_USERNAME
               value: postgres
@@ -64,9 +64,6 @@ spec:
 
             - name: DB_HOSTNAME
               value: immichdb
-
-            - name: IMMICH_PORT
-              value: '3001'
 
             - name: IMMICH_HOST
               value: localhost
