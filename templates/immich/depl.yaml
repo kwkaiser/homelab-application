@@ -65,6 +65,9 @@ spec:
             - name: DB_HOSTNAME
               value: immichdb
 
+            - name: IMMICH_PORT
+              value: '2283'
+
             - name: IMMICH_HOST
               value: localhost
 
