@@ -93,6 +93,9 @@ before_compact:
 
 after_compact:
   - echo 'Ended compact'
+  - apk update
+  - apk add -U curl 
+  - curl -d "Completed server backup" ntf.sh/KAyIMTgBtdbI2uWHVZFS
   
 # - echo 'Creating and uploading backup file'
 # - apk update
