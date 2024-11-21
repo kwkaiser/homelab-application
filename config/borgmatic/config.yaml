@@ -60,6 +60,9 @@ ssh_command: ssh -v -o StrictHostKeyChecking=no -i /borgmatic-borgbase-key-2
 
 extra_borg_options:
   create: --progress --stats
+  prune: --stats
+  compact: --progress
+  check: --progress
 
 # Actions
 checks:
@@ -72,30 +75,30 @@ before_backup:
 
 after_backup:
   - echo 'Ended backup'
-  - borgmatic check --progress
+#   - borgmatic check --progress
 
-before_check:
-  - echo 'Starting checks'
+# before_check:
+#   - echo 'Starting checks'
 
-after_check:
-  - echo 'Ended checks'
-  - borgmatic prune --stats
+# after_check:
+#   - echo 'Ended checks'
+#   - borgmatic prune --stats
 
-before_prune:
-  - echo 'Starting prune'
+# before_prune:
+#   - echo 'Starting prune'
   
-after_prune:
-  - echo 'Ended prune'
-  - borgmatic compact --progress
+# after_prune:
+#   - echo 'Ended prune'
+#   - borgmatic compact --progress
 
-before_compact:
-  - echo 'Starting compact'
+# before_compact:
+#   - echo 'Starting compact'
 
-after_compact:
-  - echo 'Ended compact'
-  - apk update
-  - apk add -U curl 
-  - curl -d "Completed server backup" ntfy.sh/KAyIMTgBtdbI2uWHVZFS
+# after_compact:
+#   - echo 'Ended compact'
+#   - apk update
+#   - apk add -U curl 
+#   - curl -d "Completed server backup" ntfy.sh/KAyIMTgBtdbI2uWHVZFS
   
 # - echo 'Creating and uploading backup file'
 # - apk update
