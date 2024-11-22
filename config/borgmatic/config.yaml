@@ -75,30 +75,32 @@ before_backup:
 
 after_backup:
   - echo 'Ended backup'
-#   - borgmatic check --progress
+  - borgmatic check 
 
-# before_check:
-#   - echo 'Starting checks'
+before_check:
+  - echo 'Starting checks'
 
-# after_check:
-#   - echo 'Ended checks'
-#   - borgmatic prune --stats
+after_check:
+  - echo 'Ended checks'
+  - borgmatic prune 
 
-# before_prune:
-#   - echo 'Starting prune'
+before_prune:
+  - echo 'Starting prune'
   
-# after_prune:
-#   - echo 'Ended prune'
-#   - borgmatic compact --progress
+after_prune:
+  - echo 'Ended prune'
+  - borgmatic compact 
 
-# before_compact:
-#   - echo 'Starting compact'
+before_compact:
+  - echo 'Starting compact'
 
-# after_compact:
-#   - echo 'Ended compact'
-#   - apk update
-#   - apk add -U curl 
-#   - curl -d "Completed server backup" ntfy.sh/KAyIMTgBtdbI2uWHVZFS
+after_compact:
+  - echo 'Ended compact'
+
+after_everything:
+  - apk update
+  - apk add -U curl 
+  - curl -d "Completed server backup" ntfy.sh/KAyIMTgBtdbI2uWHVZFS
   
 # - echo 'Creating and uploading backup file'
 # - apk update
