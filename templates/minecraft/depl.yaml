@@ -43,6 +43,11 @@ spec:
             - name: DIFFICULTY
               value: normal
 
+            - name: OPS
+              value: |
+                Quidic
+                Blackjack1768
+
           volumeMounts:
             - name: data
               mountPath: /data
