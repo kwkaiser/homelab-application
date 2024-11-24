@@ -46,7 +46,6 @@ spec:
             - name: OPS
               value: |
                 Quidic
-                Blackjack1768
 
           volumeMounts:
             - name: data
