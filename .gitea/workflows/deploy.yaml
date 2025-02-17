@@ -67,10 +67,10 @@ jobs:
       - name: Run helm command
         run: |
           mkdir $HOME/.kube
-          echo $KUBE_CONFIG > $HOME/.kube/config
-          task deploy -y
+          task list
         env:
           MODE: 'prod'
+          KUBECONFIG: $HOME/.kube/config
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
           k8s_nginx_certificate: ${{ secrets.K8S_NGINX_CERTIFICATE }}
           k8s_nginx_certificate_key: ${{ secrets.K8S_NGINX_CERTIFICATE_KEY }}
