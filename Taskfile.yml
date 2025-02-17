@@ -29,8 +29,10 @@ tasks:
     desc: "Lists pods"
     cmds:
       - |
-        echo $(env) 
+        - echo "Home directory is: {{.HOME}}"
         # kubectl --kubeconfig {{.ENV.KUBECONFIG}} get pods
+    env:
+      HOME: '{{.KUBECONFIG}}'
 
   # Local and prod
   apply-secrets:
