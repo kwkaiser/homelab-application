@@ -6,36 +6,36 @@ on:
       - main
 
 jobs:
-  # code-quality:
-  #   name: Code quality
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+  code-quality:
+    name: Code quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  #     - name: Install helm
-  #       run: |
-  #         curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
-  #         apt-get install apt-transport-https --yes
-  #         echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
-  #         apt-get update
-  #         apt-get install helm
+      - name: Install helm
+        run: |
+          curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
+          apt-get install apt-transport-https --yes
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
+          apt-get update
+          apt-get install helm
 
-  #     - name: Install kubeconform
-  #       run: |
-  #         wget https://github.com/yannh/kubeconform/releases/download/v0.6.4/kubeconform-linux-amd64.tar.gz
-  #         tar xf kubeconform-linux-amd64.tar.gz
-  #         cp kubeconform /usr/local/bin
+      - name: Install kubeconform
+        run: |
+          wget https://github.com/yannh/kubeconform/releases/download/v0.6.4/kubeconform-linux-amd64.tar.gz
+          tar xf kubeconform-linux-amd64.tar.gz
+          cp kubeconform /usr/local/bin
 
-  #     - name: Install taskfile
-  #       run: sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
+      - name: Install taskfile
+        run: sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
 
-  #     - name: Lint helm chart
-  #       run: ./bin/task lint --yes
+      - name: Lint helm chart
+        run: ./bin/task lint --yes
 
   release:
     name: Release
-    # needs: code-quality
+    needs: code-quality
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout
@@ -68,8 +68,7 @@ jobs:
         run: |
           mkdir $HOME/.kube
           echo $KUBE_CONFIG > $HOME/.kube/config
-          cat $HOME/.kube/config 
-          task list 
+          task deploy -y
         env:
           MODE: 'prod'
           KUBECONFIG: $HOME/.kube/config
