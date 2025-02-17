@@ -1,5 +1,4 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:base"],
   "platform": "gitea",
   "endpoint": "http://gitea",
@@ -11,5 +10,10 @@
       "matchStrings": ["(image_.*): \"(?<depName>.+):(?<currentValue>.+)\""],
       "datasourceTemplate": "docker"
     }
-  ]
+  ],
+  "packageRules": [{
+    "matchPackagePatterns": ["*"],
+    "matchUpdateTypes": ["major", "minor", "patch"],
+    "versioning": "semver"
+  }]
 }
