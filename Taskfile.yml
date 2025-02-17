@@ -29,7 +29,7 @@ tasks:
     desc: "Lists pods"
     cmds:
       - |
-        kubectl get pods
+        kubectl --kubeconfig=$HOME/.kube/config get pods
 
   # Local and prod
   apply-secrets:
