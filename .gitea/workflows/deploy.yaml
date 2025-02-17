@@ -68,8 +68,7 @@ jobs:
         run: |
           mkdir $HOME/.kube
           echo $KUBE_CONFIG > $HOME/.kube/config
-          cat $HOME/.kube/config
-          task list
+          task deploy -y
         env:
           MODE: 'prod'
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
