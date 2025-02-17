@@ -67,7 +67,9 @@ jobs:
       - name: Run helm command
         run: |
           mkdir $HOME/.kube
-          task list
+          echo $KUBE_CONFIG > $HOME/.kube/config
+          cat $HOME/.kube/config 
+          task list 
         env:
           MODE: 'prod'
           KUBECONFIG: $HOME/.kube/config

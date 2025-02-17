@@ -29,7 +29,6 @@ tasks:
     desc: "Lists pods"
     cmds:
       - |
-        echo "config path: $KUBECONFIG"
         kubectl get pods
 
   # Local and prod
