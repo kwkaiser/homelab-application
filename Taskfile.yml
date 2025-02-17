@@ -25,6 +25,12 @@ tasks:
       - helm lint .
       - cat template.yaml | kubeconform
 
+  list:
+    desc: "Lists pods"
+    cmds:
+      - |
+        kubectl --kubeconfig {{.KUBECONFIG}} get pods
+
   # Local and prod
   apply-secrets:
     desc: "Creates or updates secrets in the cluster" 
@@ -50,7 +56,7 @@ tasks:
           cleaned_name=$(echo "$cleaned_key" | cut -c5- | sed 's/_/./g' )
           value=$(jq -n env | jq ".$cleaned_key")
           cleaned_value=$(printf "$(echo ${value:1:-1})")
-          kubectl create secret generic "$cleaned_name" --from-literal=value="$cleaned_value" --dry-run=client -o yaml | kubectl apply -f -
+          kubectl --kubeconfig {{.KUBECONFIG}} create secret generic "$cleaned_name" --from-literal=value="$cleaned_value" --dry-run=client -o yaml | kubectl --kubeconfig {{.KUBECONFIG}} apply -f -
         done
 
   deploy:
@@ -67,4 +73,4 @@ tasks:
           ARGS="--values ./values/shared.yaml --values ./values/dev.yaml"
         fi
 
-        helm upgrade bingus . $ARGS --dependency-update && echo 'Updated!' || helm install bingus . $ARGS --dependency-update
+        helm --kubeconfig {{.KUBECONFIG}} upgrade bingus . $ARGS --dependency-update && echo 'Updated!' || helm --kubeconfig {{.KUBECONFIG}} install bingus . $ARGS --dependency-update
