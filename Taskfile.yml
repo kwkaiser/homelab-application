@@ -25,6 +25,12 @@ tasks:
       - helm lint .
       - cat template.yaml | kubeconform
 
+  list:
+    desc: "Lists pods"
+    cmds:
+      - |
+        kubectl get pods
+
   # Local and prod
   apply-secrets:
     desc: "Creates or updates secrets in the cluster" 
