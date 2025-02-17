@@ -67,4 +67,4 @@ tasks:
           ARGS="--values ./values/shared.yaml --values ./values/dev.yaml"
         fi
 
-        helm --kubeconfig {{.KUBECONFIG}} upgrade bingus . $ARGS --dependency-update && echo 'Updated!' || helm --kubeconfig {{.KUBECONFIG}} install bingus . $ARGS --dependency-update
+        helm --kubeconfig {{.KUBECONFIG}} --wait upgrade bingus . $ARGS --dependency-update && echo 'Updated!' || helm --kubeconfig {{.KUBECONFIG}} --wait install bingus . $ARGS --dependency-update
