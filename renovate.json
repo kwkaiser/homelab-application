@@ -12,8 +12,7 @@
     }
   ],
   "packageRules": [{
-    "matchPackagePatterns": ["*"],
-    "matchUpdateTypes": ["major", "minor", "patch"],
-    "versioning": "semver"
+    "matchPackagePatterns": ["semver"],
+    "matchUpdateTypes": ["major", "minor", "patch"]
   }]
 }
