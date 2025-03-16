@@ -27,7 +27,6 @@ spec:
           env:
             - name: COUCHDB_USER
               value: admin
-
             - name: COUCHDB_REQUIRE_VALID_USER
               value: "true"
 
