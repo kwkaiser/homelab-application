@@ -142,3 +142,12 @@ spec:
               mountPath: /config/config.js
               subPath: config.js
               readOnly: false
+      
+        - name: chrome
+            image: {{ .Values.image_kasm }}
+            ports:
+              - containerPort: 6901
+
+            env:
+              - name: VNC_PW
+                value: foo
