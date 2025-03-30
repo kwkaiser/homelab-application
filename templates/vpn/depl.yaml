@@ -144,10 +144,10 @@ spec:
               readOnly: false
       
         - name: chrome
-            image: {{ .Values.image_kasm }}
-            ports:
-              - containerPort: 6901
+          image: {{ .Values.image_kasm }}
+          ports:
+            - containerPort: 6901
 
-            env:
-              - name: VNC_PW
-                value: foo
+          env:
+            - name: VNC_PW
+              value: foo
