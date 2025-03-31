@@ -151,3 +151,11 @@ spec:
           env:
             - name: VNC_PW
               value: foo
+
+          resources:
+            requests:
+              memory: "2Gi"  # Minimum memory allocation
+              cpu: "1"       # Minimum CPU allocation
+            limits:
+              memory: "4Gi"  # Maximum memory allocation
+              cpu: "2"       # Maximum CPU allocation
