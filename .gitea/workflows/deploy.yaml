@@ -30,7 +30,7 @@ jobs:
       - name: Install taskfile
         run: |
           sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
-          echo $(ls -la)
+          ls -la
 
       - name: Lint helm chart
         run: ./bin/task lint --yes
