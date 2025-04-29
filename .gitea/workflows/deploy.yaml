@@ -26,11 +26,13 @@ jobs:
           wget https://github.com/yannh/kubeconform/releases/download/v0.6.4/kubeconform-linux-amd64.tar.gz
           tar xf kubeconform-linux-amd64.tar.gz
           cp kubeconform /usr/local/bin
+          rm -rf ./kubeconform*
 
       - name: Install taskfile
         run: |
           sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
-          ls -la
+          cp ./bin/task /usr/local/bin
+          rm -rf ./bin
 
       - name: Lint helm chart
         run: ./bin/task lint --yes
