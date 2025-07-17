@@ -43,8 +43,8 @@ postgresql_databases:
 # Retention
 keep_within: 7d
 keep_daily: 7
-keep_weekly: 1 
-keep_monthly: 1 
+keep_weekly: 1
+keep_monthly: 1
 
 # Repos
 repositories:
@@ -66,30 +66,31 @@ extra_borg_options:
 
 # Actions
 checks:
-    - name: repository
-    - name: archives
-      frequency: 2 weeks
+  - name: repository
+  - name: archives
+    frequency: 2 weeks
 
 before_backup:
   - echo 'Starting backup'
+  - echo $(cat ./borgmatic-borgbase-key-2)
 
 after_backup:
   - echo 'Ended backup'
-  - borgmatic check 
+  - borgmatic check
 
 before_check:
   - echo 'Starting checks'
 
 after_check:
   - echo 'Ended checks'
-  - borgmatic prune 
+  - borgmatic prune
 
 before_prune:
   - echo 'Starting prune'
-  
+
 after_prune:
   - echo 'Ended prune'
-  - borgmatic compact 
+  - borgmatic compact
 
 before_compact:
   - echo 'Starting compact'
@@ -99,9 +100,8 @@ after_compact:
 
 after_everything:
   - apk update
-  - apk add -U curl 
+  - apk add -U curl
   - curl -d "Completed server backup" ntfy.sh/KAyIMTgBtdbI2uWHVZFS
-  
 # - echo 'Creating and uploading backup file'
 # - apk update
 # - pip install s3cmd
