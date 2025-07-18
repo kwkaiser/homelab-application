@@ -60,7 +60,7 @@ ssh_command: ssh -v -o StrictHostKeyChecking=no -i /borgmatic-borgbase-key-2
 
 extra_borg_options:
   create: --progress --stats
-  prune: --stats
+  prune: --match-archives '*' --stats
   compact: --progress
   check: --progress
 
