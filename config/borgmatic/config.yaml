@@ -72,7 +72,6 @@ checks:
 
 before_backup:
   - echo 'Starting backup'
-  - echo $(cat ./borgmatic-borgbase-key-2)
 
 after_backup:
   - echo 'Ended backup'
