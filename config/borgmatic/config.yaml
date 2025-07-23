@@ -48,15 +48,15 @@ keep_monthly: 1
 
 # Repos
 repositories:
-  # - path: /raw-backup
-  #   label: local
+  - path: /raw-backup
+    label: local
 
   - path: ssh://gyd00bnt@gyd00bnt.repo.borgbase.com/./repo
     label: borgbase
 
 # Remote
 relocated_repo_access_is_ok: true
-ssh_command: ssh -v -o StrictHostKeyChecking=no -i /borgmatic-borgbase-key-2
+ssh_command: ssh -o StrictHostKeyChecking=no -i /borgmatic-borgbase-key-2
 
 extra_borg_options:
   create: --progress --stats
@@ -82,7 +82,7 @@ before_check:
 
 after_check:
   - echo 'Ended checks'
-  - borgmatic prune --match-archives '*'
+  - borgmatic prune --match-archives '*' --list
 
 before_prune:
   - echo 'Starting prune'
