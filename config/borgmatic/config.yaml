@@ -48,9 +48,6 @@ keep_monthly: 1
 
 # Repos
 repositories:
-  - path: /raw-backup
-    label: local
-
   - path: ssh://gyd00bnt@gyd00bnt.repo.borgbase.com/./repo
     label: borgbase
 
