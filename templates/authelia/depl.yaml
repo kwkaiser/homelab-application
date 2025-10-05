@@ -26,7 +26,7 @@ spec:
 
       containers:
         - name: authelia
-          image: { { .Values.image_authelia } }
+          image: {{ .Values.image_authelia }}
           ports:
             - containerPort: 80
 
