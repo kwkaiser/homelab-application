@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     configmap.reloader.stakater.com/reload: "authelia-configs"
-    secret.reloader.stakater.com/reload: "openldap.binddn.password,authelia.session.secret,authelia.encryption.key"
+    secret.reloader.stakater.com/reload: "openldap.binddn.password,authelia.session.secret,authelia.encryption.key,authelia.oidc.hmac.secret,authelia.oidc.issuer.private.key,n8n.oidc.client.secret"
   name: authelia
 spec:
   selector:
@@ -26,7 +26,7 @@ spec:
 
       containers:
         - name: authelia
-          image: {{ .Values.image_authelia }}
+          image: { { .Values.image_authelia } }
           ports:
             - containerPort: 80
 
@@ -49,9 +49,20 @@ spec:
                   name: authelia.encryption.key
                   key: value
 
+            - name: AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: authelia.oidc.hmac.secret
+                  key: value
+
+            - name: AUTHELIA_IDENTITY_PROVIDERS_OIDC_ISSUER_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: authelia.oidc.issuer.private.key
+                  key: value
+
           volumeMounts:
             - name: authelia-configs
               mountPath: /config/configuration.yml # expects path at .yml!
               subPath: configuration.yaml
               readOnly: false
-

@@ -97,3 +97,6 @@ jobs:
           k8s_immich_db_password: ${{ secrets.K8S_IMMICH_DB_PASSWORD }}
           k8s_mealie_db_password: ${{ secrets.K8S_MEALIE_DB_PASSWORD }}
           k8s_borgmatic_borgbase_key: ${{ secrets.K8S_BORGMATIC_BORGBASE_KEY }}
+          k8s_n8n_oidc_client_secret: ${{ secrets.K8S_N8N_OIDC_CLIENT_SECRET }}
+          k8s_authelia_oidc_hmac_secret: ${{ secrets.K8S_AUTHELIA_OIDC_HMAC_SECRET }}
+          k8s_authelia_oidc_issuer_private_key: ${{ secrets.K8S_AUTHELIA_OIDC_ISSUER_PRIVATE_KEY }}

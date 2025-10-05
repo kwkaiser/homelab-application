@@ -65,7 +65,7 @@ password_policy:
 access_control:
   default_policy: deny
   rules:
-    - domain_regex: '(scurvy|movies|tv|trackers|ratio|games|lib|metrics|readarr|calibre|browser|sync).{{ .Values.domainName }}.{{ .Values.tld }}'
+    - domain_regex: '(scurvy|movies|tv|trackers|ratio|games|lib|metrics|readarr|calibre|browser|sync|workflows).{{ .Values.domainName }}.{{ .Values.tld }}'
       policy: one_factor
       subject:
         - ["user:kwkaiser"] 
@@ -85,6 +85,26 @@ regulation:
   max_retries: 3
   find_time: 2m
   ban_time: 5m
+
+identity_providers:
+  oidc:
+    # hmac_secret and issuer_private_key are injected via environment variables
+    # AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET
+    # AUTHELIA_IDENTITY_PROVIDERS_OIDC_ISSUER_PRIVATE_KEY
+    clients:
+      - id: n8n
+        description: n8n Workflow Automation
+        # Client secret hash - corresponds to the plaintext secret injected in n8n deployment
+        secret: '$6$.4cXwr8Y1n6zi0Xw$Qaej2uSi3JUcMIummoa1HIhVahAuqyazxWFAE21r7J8hfgClwVx25aZUwyf2VcLv6EwfTOjA9mr5Cxz0AJeG2.'
+        public: false
+        authorization_policy: one_factor
+        redirect_uris:
+          - https://workflows.{{ .Values.domainName }}.{{ .Values.tld }}/rest/sso/oidc/callback
+        scopes:
+          - openid
+          - profile
+          - email
+        userinfo_signing_algorithm: none
 
 notifier:
   disable_startup_check: true
