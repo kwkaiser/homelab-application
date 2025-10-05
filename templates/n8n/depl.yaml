@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: n8n
-          image: { { .Values.image_n8n } }
+          image: {{ .Values.image_n8n }}
           ports:
             - containerPort: 5678
 
