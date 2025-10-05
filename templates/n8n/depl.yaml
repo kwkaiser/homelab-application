@@ -20,22 +20,6 @@ spec:
           persistentVolumeClaim:
             claimName: bulk-nfs
 
-      initContainers:
-        - name: fix-permissions
-          image: busybox
-          command:
-            [
-              "sh",
-              "-c",
-              "chown -R 1000:1000 /home/node/.n8n && chmod -R 755 /home/node/.n8n",
-            ]
-          volumeMounts:
-            - name: data
-              mountPath: /home/node/.n8n
-              subPath: application/n8n/data
-          securityContext:
-            runAsUser: 0 # Run as root to change ownership
-
       containers:
         - name: n8n
           image: {{ .Values.image_n8n }}
@@ -98,9 +82,8 @@ spec:
               subPath: application/n8n/data
 
           securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
+            runAsUser: 0
+            runAsGroup: 0
 
           livenessProbe:
             httpGet:
