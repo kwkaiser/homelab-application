@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     configmap.reloader.stakater.com/reload: "authelia-configs"
-    secret.reloader.stakater.com/reload: "openldap.binddn.password,authelia.session.secret,authelia.encryption.key,authelia.oidc.hmac.secret,authelia.oidc.issuer.private.key,n8n.oidc.client.secret"
+    secret.reloader.stakater.com/reload: "openldap.binddn.password,authelia.session.secret,authelia.encryption.key"
   name: authelia
 spec:
   selector:
@@ -47,18 +47,6 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: authelia.encryption.key
-                  key: value
-
-            - name: AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: authelia.oidc.hmac.secret
-                  key: value
-
-            - name: AUTHELIA_IDENTITY_PROVIDERS_OIDC_ISSUER_PRIVATE_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: authelia.oidc.issuer.private.key
                   key: value
 
           volumeMounts:
