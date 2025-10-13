@@ -67,13 +67,19 @@ tasks:
           ARGS="--values ./values/shared.yaml --values ./values/dev.yaml"
         fi
 
-        # Check if the bingus release exists
-        if helm --kubeconfig {{.KUBECONFIG}} list -q | grep -q "^bingus$"; then
-          echo "Release 'bingus' exists, upgrading..."
+        # Check if the bingus release exists (including failed/pending states)
+        if helm --kubeconfig {{.KUBECONFIG}} list -a -q | grep -q "^bingus$"; then
+          echo "Release 'bingus' exists (in any state), upgrading..."
           helm --kubeconfig {{.KUBECONFIG}} upgrade bingus . $ARGS --dependency-update --wait
           echo 'Updated!'
         else
           echo "Release 'bingus' does not exist, installing..."
-          helm --kubeconfig {{.KUBECONFIG}} install bingus . $ARGS --dependency-update --wait
-          echo 'Installed!'
+          # Try install first, if it fails due to name conflict, try upgrade instead
+          if ! helm --kubeconfig {{.KUBECONFIG}} install bingus . $ARGS --dependency-update --wait; then
+            echo "Install failed (likely name conflict), attempting upgrade instead..."
+            helm --kubeconfig {{.KUBECONFIG}} upgrade bingus . $ARGS --dependency-update --wait
+            echo 'Updated!'
+          else
+            echo 'Installed!'
+          fi
         fi
