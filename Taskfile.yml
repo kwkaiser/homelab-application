@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 tasks:
   # Local dev
@@ -10,7 +10,7 @@ tasks:
 
   # Util
   template:
-    desc:  "Builds helm template"
+    desc: "Builds helm template"
     prompt: "Did you set the MODE envar to dev | prod? (Defaults to: dev)"
     cmds:
       - |
@@ -27,7 +27,7 @@ tasks:
 
   # Local and prod
   apply-secrets:
-    desc: "Creates or updates secrets in the cluster" 
+    desc: "Creates or updates secrets in the cluster"
     prompt: "Did you set the MODE envar to dev | prod? (Defaults to: dev)"
     cmds:
       - |
@@ -54,7 +54,7 @@ tasks:
         done
 
   deploy:
-    desc:  "Redeploys k8s template"
+    desc: "Redeploys k8s template"
     deps: [apply-secrets]
     prompt: "Did you set the MODE envar to dev | prod? (Defaults to: dev)"
     cmds:
@@ -67,4 +67,13 @@ tasks:
           ARGS="--values ./values/shared.yaml --values ./values/dev.yaml"
         fi
 
-        helm --kubeconfig {{.KUBECONFIG}} upgrade bingus . $ARGS --dependency-update --wait && echo 'Updated!' || helm --kubeconfig {{.KUBECONFIG}} install bingus . $ARGS --dependency-update --wait
+        # Check if the bingus release exists
+        if helm --kubeconfig {{.KUBECONFIG}} list -q | grep -q "^bingus$"; then
+          echo "Release 'bingus' exists, upgrading..."
+          helm --kubeconfig {{.KUBECONFIG}} upgrade bingus . $ARGS --dependency-update --wait
+          echo 'Updated!'
+        else
+          echo "Release 'bingus' does not exist, installing..."
+          helm --kubeconfig {{.KUBECONFIG}} install bingus . $ARGS --dependency-update --wait
+          echo 'Installed!'
+        fi
