@@ -9,6 +9,35 @@ tasks:
       - sudo ssh -g -L 443:localhost:6840 -f -N kwkaiser@localhost
 
   # Util
+  helm-status:
+    desc: "Check Helm release status and pending operations"
+    cmds:
+      - |
+        echo "=== Helm Releases (all states) ==="
+        helm --kubeconfig {{.KUBECONFIG}} list -a
+        echo ""
+        echo "=== Checking for stuck operations ==="
+        helm --kubeconfig {{.KUBECONFIG}} list -a --pending
+        echo ""
+        echo "=== Bingus release history ==="
+        helm --kubeconfig {{.KUBECONFIG}} history bingus 2>/dev/null || echo "No history found for 'bingus'"
+
+  helm-cleanup:
+    desc: "Clean up stuck Helm operations"
+    prompt: "This will rollback any pending operations. Continue?"
+    cmds:
+      - |
+        echo "=== Rolling back stuck operations ==="
+        if helm --kubeconfig {{.KUBECONFIG}} list -a --pending | grep -q bingus; then
+          echo "Found pending operation for 'bingus', rolling back..."
+          helm --kubeconfig {{.KUBECONFIG}} rollback bingus 0
+        else
+          echo "No pending operations found for 'bingus'"
+        fi
+
+        echo "=== Current status after cleanup ==="
+        helm --kubeconfig {{.KUBECONFIG}} list -a | grep bingus || echo "No 'bingus' release found"
+
   template:
     desc: "Builds helm template"
     prompt: "Did you set the MODE envar to dev | prod? (Defaults to: dev)"
@@ -55,7 +84,7 @@ tasks:
 
   deploy:
     desc: "Redeploys k8s template"
-    deps: [apply-secrets]
+    deps: [apply-secrets, helm-status, helm-cleanup]
     prompt: "Did you set the MODE envar to dev | prod? (Defaults to: dev)"
     cmds:
       - |
