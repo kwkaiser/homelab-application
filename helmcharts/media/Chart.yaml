@@ -1,0 +1,7 @@
+apiVersion: v2
+name: media
+description: Media metadata aggregators (Radarr, Sonarr, Prowlarr)
+type: application
+version: 0.1.0
+appVersion: "1.0"
+

@@ -1,9 +1,6 @@
 image_jellyfin: "linuxserver/jellyfin:10.10.7"
 image_wireguard: "linuxserver/wireguard:1.0.20210914-legacy"
 image_qbittorrent: "linuxserver/qbittorrent:5.0.1"
-image_radarr: "linuxserver/radarr:5.27.5"
-image_sonarr: "linuxserver/sonarr:4.0.16"
-image_prowlarr: "linuxserver/prowlarr:1.37.0"
 image_calibre_web: "linuxserver/calibre-web:0.6.25"
 image_prometheus: "bitnami/prometheus:3.5.0"
 image_grafana: "grafana/grafana:11.6.6"
@@ -60,3 +57,12 @@ _miniflux: &miniflux_values
 <<: *miniflux_values
 miniflux:
   <<: *miniflux_values
+
+## Media values
+_media: &media_values
+  image_radarr: "linuxserver/radarr:5.27.5"
+  image_sonarr: "linuxserver/sonarr:4.0.16"
+  image_prowlarr: "linuxserver/prowlarr:1.37.0"
+<<: *media_values
+media:
+  <<: *media_values

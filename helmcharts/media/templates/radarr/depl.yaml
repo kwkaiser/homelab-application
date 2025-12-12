@@ -43,3 +43,4 @@ spec:
             - name: data
               mountPath: /shared/movies
               subPath: shared/movies
+

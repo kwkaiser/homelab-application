@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prowlarr
+  name: sonarr
 spec:
   selector:
     matchLabels:
-      app: prowlarr
+      app: sonarr
   replicas: 1
   template:
     metadata:
       labels:
-        app: prowlarr
-        app.kubernetes.io/name: prowlarr
+        app: sonarr
+        app.kubernetes.io/name: sonarr
     spec:
       volumes:
         - name: data
@@ -19,10 +19,10 @@ spec:
             claimName: bulk-nfs
 
       containers:
-        - name: prowlarr
-          image: {{ .Values.image_prowlarr }}
+        - name: sonarr
+          image: {{ .Values.image_sonarr }}
           ports:
-            - containerPort: 9696
+            - containerPort: 8989
 
           env:
             - name: PUID
@@ -34,4 +34,13 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /config
-              subPath: application/prowlarr 
+              subPath: application/sonarr
+
+            - name: data
+              mountPath: /shared/torrents
+              subPath: shared/torrents
+
+            - name: data
+              mountPath: /shared/tv
+              subPath: shared/tv
+

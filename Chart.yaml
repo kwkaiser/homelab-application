@@ -44,3 +44,9 @@ dependencies:
     version: "0.1.0"
     repository: file://./helmcharts/miniflux
     condition: miniflux.enabled
+
+  # Media (Radarr, Sonarr, Prowlarr)
+  - name: media
+    version: "0.1.0"
+    repository: file://./helmcharts/media
+    condition: media.enabled

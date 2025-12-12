@@ -34,3 +34,6 @@ mealie:
 
 miniflux:
   enabled: false
+
+media:
+  enabled: false
