@@ -6,37 +6,6 @@ on:
       - main
 
 jobs:
-
-  # foo:  
-  #   name: Foo
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-
-  #     - name: Install helm
-  #       run: |
-  #         apt-get install curl gpg apt-transport-https --yes
-  #         curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
-  #         echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
-  #         apt-get update
-  #         apt-get install helm
-
-  #     - name: Install kubectl
-  #       run: |
-  #         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
-  #         install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-  #         rm ./kubectl
-
-  #     - name: Check pods
-  #       run: |
-  #         mkdir $HOME/.kube
-  #         echo "$KUBE_CONFIG" > $HOME/.kube/config
-  #         kubectl get pods
-  #         helm list
-  #       env:
-  #         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-
   code-quality:
     name: Code quality
     runs-on: ubuntu-latest
