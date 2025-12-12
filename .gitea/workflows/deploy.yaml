@@ -23,9 +23,10 @@ jobs:
       - name: Check pods
         run: |
           mkdir $HOME/.kube
-          echo ${{ secrets.KUBE_CONFIG }} > $HOME/.kube/config
+          echo "$KUBE_CONFIG" > $HOME/.kube/config
           kubectl --kubeconfig $HOME/.kube/config get pods
-
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
 
   # code-quality:
   #   name: Code quality
