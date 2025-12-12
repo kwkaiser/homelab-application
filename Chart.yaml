@@ -62,3 +62,33 @@ dependencies:
     version: "0.1.0"
     repository: file://./helmcharts/vpn
     condition: vpn.enabled
+
+  # Borgmatic (Backup solution)
+  - name: borgmatic
+    version: "0.1.0"
+    repository: file://./helmcharts/borgmatic
+    condition: borgmatic.enabled
+
+  # Calibre Web (E-book server)
+  - name: calibre-web
+    version: "0.1.0"
+    repository: file://./helmcharts/calibre-web
+    condition: calibre-web.enabled
+
+  # Jellyfin (Media server)
+  - name: jellyfin
+    version: "0.1.0"
+    repository: file://./helmcharts/jellyfin
+    condition: jellyfin.enabled
+
+  # Minecraft (Game server)
+  - name: minecraft
+    version: "0.1.0"
+    repository: file://./helmcharts/minecraft
+    condition: minecraft.enabled
+
+  # Syncthing (File synchronization)
+  - name: syncthing
+    version: "0.1.0"
+    repository: file://./helmcharts/syncthing
+    condition: syncthing.enabled

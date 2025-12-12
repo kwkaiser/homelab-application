@@ -1,24 +1,14 @@
 ## Global values
-_global: &global_values
+global:
   domainName: kwkaiser
   tld: io
-<<: *global_values
-global:
-  <<: *global_values
 
 ## Storage related values
-_storage: &storage_values
+storage:
+  enabled: true
   nfsArray: "192.168.2.103"
   volBulkSize: 14.4T
   volCacheSize: 220G
-<<: *storage_values
-storage:
-  <<: *storage_values
-  enabled: true
-
-piracyIp: "143.244.47.73"
-promHosts: ["192.168.2.103:9100"]
-backupName: prod-backup
 
 core:
   enabled: true
@@ -45,3 +35,18 @@ observability:
 vpn:
   enabled: true
   qbittorrentIp: "143.244.47.73"
+
+borgmatic:
+  enabled: true
+
+calibre-web:
+  enabled: true
+
+jellyfin:
+  enabled: true
+
+minecraft:
+  enabled: true
+
+syncthing:
+  enabled: true

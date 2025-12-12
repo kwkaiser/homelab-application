@@ -1,80 +1,71 @@
-image_jellyfin: "linuxserver/jellyfin:10.10.7"
-image_calibre_web: "linuxserver/calibre-web:0.6.25"
-image_borgmatic: "b3vis/borgmatic:2.0.11"
-image_syncthing: "linuxserver/syncthing:1.30.0"
-image_minecraft: "itzg/minecraft-server:latest"
 ## Core values
-_core: &core_values
+core:
   image_nginx: "openresty/openresty:1.27.1.2-0-alpine"
   image_authelia: "authelia/authelia:4.39"
   image_openldap: "osixia/openldap:1.5.0"
   image_ldap_user_manager: "wheelybird/ldap-user-manager:v1.11"
-<<: *core_values
-core:
-  <<: *core_values
 
 ## Gitea values
-_gitea: &gitea_values
+gitea:
   image_gitea: "gitea/gitea:1.25.1"
   image_gitea_db: "postgres:16.4-alpine3.19"
   image_gitea_runner: "gitea/act_runner:0.2.13"
   image_gitea_renovate: "renovate/renovate:37-slim"
   image_dind: "docker:23.0.6-dind"
-<<: *gitea_values
-gitea:
-  <<: *gitea_values
 
 ## Immich values
-_immich: &immich_values
+immich:
   image_immich_db: "registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0"
   image_immich_redis: "redis:7.4.4-bookworm"
   image_immich_ml: "ghcr.io/immich-app/immich-machine-learning:v2.0.1"
   image_immich_server: "ghcr.io/immich-app/immich-server:v2.0.1"
-<<: *immich_values
-immich:
-  <<: *immich_values
 
 ## Mealie values
-_mealie: &mealie_values
+mealie:
   image_mealie: "hkotel/mealie:v2.8.0"
   image_mealie_db: "postgres:16.4-alpine3.19"
-<<: *mealie_values
-mealie:
-  <<: *mealie_values
 
 ## Miniflux values
-_miniflux: &miniflux_values
+miniflux:
   image_miniflux: "miniflux/miniflux:2.2.13"
   image_miniflux_db: "postgres:16.4-alpine3.19"
-<<: *miniflux_values
-miniflux:
-  <<: *miniflux_values
 
 ## Media values
-_media: &media_values
+media:
   image_radarr: "linuxserver/radarr:5.27.5"
   image_sonarr: "linuxserver/sonarr:4.0.16"
   image_prowlarr: "linuxserver/prowlarr:1.37.0"
-<<: *media_values
-media:
-  <<: *media_values
 
 ## Observability values
-_observability: &observability_values
+observability:
   image_prometheus: "prom/prometheus:v2.54.0"
   image_grafana: "grafana/grafana:11.6.6"
   image_promtail: "grafana/promtail:3.6.2"
   image_loki: "grafana/loki:3.5.8"
-<<: *observability_values
-observability:
-  <<: *observability_values
 
 ## VPN values
-_vpn: &vpn_values
+vpn:
   image_wireguard: "linuxserver/wireguard:1.0.20210914-legacy"
   image_qbittorrent: "linuxserver/qbittorrent:5.0.1"
   image_thelounge: "linuxserver/thelounge:4.4.3-next"
   image_kasm: "kasmweb/chrome:1.18.0"
-<<: *vpn_values
-vpn:
-  <<: *vpn_values
+
+## Borgmatic values
+borgmatic:
+  image_borgmatic: "b3vis/borgmatic:2.0.11"
+
+## Calibre Web values
+calibre-web:
+  image_calibre_web: "linuxserver/calibre-web:0.6.25"
+
+## Jellyfin values
+jellyfin:
+  image_jellyfin: "linuxserver/jellyfin:10.10.7"
+
+## Minecraft values
+minecraft:
+  image_minecraft: "itzg/minecraft-server:latest"
+
+## Syncthing values
+syncthing:
+  image_syncthing: "linuxserver/syncthing:1.30.0"

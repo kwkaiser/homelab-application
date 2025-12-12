@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: syncthing
+  name: calibre-web
 spec:
   selector:
     matchLabels:
-      app: syncthing
+      app: calibre-web
   replicas: 1
   template:
     metadata:
       labels:
-        app: syncthing
-        app.kubernetes.io/name: syncthing
+        app: calibre-web
+        app.kubernetes.io/name: calibre-web
     spec:
       volumes:
         - name: data
@@ -19,10 +19,10 @@ spec:
             claimName: bulk-nfs
 
       containers:
-        - name: syncthing
-          image: {{ .Values.image_syncthing }}
+        - name: calibre-web
+          image: {{ .Values.image_calibre_web }}
           ports:
-            - containerPort: 8384
+            - containerPort: 8083
 
           env:
             - name: PUID
@@ -31,11 +31,15 @@ spec:
             - name: PGID
               value: "0"
 
+            - name: DOCKER_MODS
+              value: linuxserver/mods:universal-calibre
+
           volumeMounts:
             - name: data
               mountPath: /config
-              subPath: application/syncthing/config
+              subPath: application/calibre-web
 
             - name: data
-              mountPath: /data
-              subPath: application/syncthing/data
+              mountPath: /books
+              subPath: shared/books
+

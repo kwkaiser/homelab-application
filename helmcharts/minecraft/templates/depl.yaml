@@ -51,3 +51,4 @@ spec:
             - name: data
               mountPath: /data
               subPath: application/minecraft
+

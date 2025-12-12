@@ -12,3 +12,4 @@ spec:
       port: 25565
       targetPort: 25565
       nodePort: 32555
+
