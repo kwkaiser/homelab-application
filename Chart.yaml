@@ -26,3 +26,9 @@ dependencies:
     version: "0.1.0"
     repository: file://./helmcharts/gitea
     condition: gitea.enabled
+
+  # Immich (Photo management, database, redis, ML)
+  - name: immich
+    version: "0.1.0"
+    repository: file://./helmcharts/immich
+    condition: immich.enabled

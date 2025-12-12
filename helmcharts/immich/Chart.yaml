@@ -1,0 +1,7 @@
+apiVersion: v2
+name: immich
+description: Immich photo management service with PostgreSQL database, Redis, and ML
+type: application
+version: 0.1.0
+appVersion: "1.0"
+

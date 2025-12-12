@@ -25,3 +25,6 @@ core:
 
 gitea:
   enabled: true
+
+immich:
+  enabled: true
