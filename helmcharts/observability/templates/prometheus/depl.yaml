@@ -15,9 +15,6 @@ spec:
         app: prometheus
         app.kubernetes.io/name: prometheus
     spec:
-      securityContext:
-        runAsUser: 0
-
       volumes:
         - name: data
           persistentVolumeClaim:
@@ -33,15 +30,20 @@ spec:
       containers:
         - name: prometheus
           image: {{ .Values.image_prometheus }}
+          securityContext:
+            runAsUser: 0
           ports:
-            - containerPort: 9090 
+            - containerPort: 9090
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus"
 
           volumeMounts:
             - name: data
-              mountPath: /opt/bitnami/prometheus/data
+              mountPath: /prometheus
               subPath: application/prometheus
 
             - name: prometheus-configs
-              mountPath: /opt/bitnami/prometheus/conf/prometheus.yml
+              mountPath: /etc/prometheus/prometheus.yml
               subPath: configuration.yaml
               readOnly: false

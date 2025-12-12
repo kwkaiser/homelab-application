@@ -37,3 +37,7 @@ miniflux:
 
 media:
   enabled: true
+
+observability:
+  enabled: true
+  promHosts: ["192.168.2.103:9100"]

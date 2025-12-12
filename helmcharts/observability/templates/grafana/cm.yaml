@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-configs
+data:
+  config.ini: {{ tpl (.Files.Get "config/grafana/config.ini") $ | quote }}
+

@@ -59,3 +59,4 @@ spec:
               mountPath: /etc/promtail/promtail.yaml
               subPath: promtail.yaml
               readOnly: false
+

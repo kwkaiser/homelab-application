@@ -4,3 +4,4 @@ metadata:
   name: promtail-configs
 data:
   promtail.yaml: {{ tpl (.Files.Get "config/promtail/promtail.yaml") $ | quote }}
+

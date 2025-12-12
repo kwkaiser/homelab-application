@@ -46,3 +46,4 @@ spec:
               mountPath: config.ini 
               subPath: config.ini
               readOnly: false
+
