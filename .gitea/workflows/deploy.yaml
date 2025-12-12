@@ -24,7 +24,7 @@ jobs:
         run: |
           mkdir $HOME/.kube
           echo "$KUBE_CONFIG" > $HOME/.kube/config
-          kubectl --kubeconfig $HOME/.kube/config get pods
+          kubectl get pods
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
 
