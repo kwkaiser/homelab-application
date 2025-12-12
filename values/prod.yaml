@@ -46,7 +46,7 @@ jellyfin:
   enabled: true
 
 minecraft:
-  enabled: true
+  enabled: false
 
 syncthing:
   enabled: true
