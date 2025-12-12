@@ -42,3 +42,4 @@ spec:
                 secretKeyRef:
                   name: miniflux.db.connection.string
                   key: value
+

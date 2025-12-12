@@ -31,3 +31,6 @@ immich:
 
 mealie:
   enabled: false
+
+miniflux:
+  enabled: false
