@@ -4,7 +4,6 @@ source_directories:
   - /bulk/application/gitea/repos
   - /bulk/application/jellyfin
   - /bulk/application/qbittorrent
-  - /bulk/application/registry
   - /bulk/application/calibre
   - /bulk/application/openldap
   - /bulk/application/prowlarr

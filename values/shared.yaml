@@ -9,14 +9,11 @@ image_prometheus: "bitnami/prometheus:3.5.0"
 image_grafana: "grafana/grafana:11.6.6"
 image_promtail: "grafana/promtail:3.6.2"
 image_loki: "grafana/loki:3.5.8"
-image_registry: "registry:2"
 image_borgmatic: "b3vis/borgmatic:2.0.11"
 image_thelounge: "linuxserver/thelounge:4.4.3-next"
 image_syncthing: "linuxserver/syncthing:1.30.0"
 image_minecraft: "itzg/minecraft-server:latest"
 image_kasm: "kasmweb/chrome:1.18.0"
-image_n8n: "docker.n8n.io/n8nio/n8n:latest"
-
 ## Core values
 _core: &core_values
   image_nginx: "openresty/openresty:1.27.1.2-0-alpine"
