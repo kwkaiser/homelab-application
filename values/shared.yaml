@@ -4,7 +4,7 @@ image_nginx: "nginx:stable-alpine3.17-slim"
 image_wireguard: "linuxserver/wireguard:1.0.20210914-legacy"
 image_qbittorrent: "linuxserver/qbittorrent:5.0.1"
 image_radarr: "linuxserver/radarr:5.27.5"
-image_sonarr: "linuxserver/sonarr:4.0.15"
+image_sonarr: "linuxserver/sonarr:4.0.16"
 image_prowlarr: "linuxserver/prowlarr:1.37.0"
 image_ldap_user_manager: "wheelybird/ldap-user-manager:v1.11"
 image_openldap: "osixia/openldap:1.5.0"
@@ -18,7 +18,7 @@ image_calibre_web: "linuxserver/calibre-web:0.6.25"
 image_authelia: "authelia/authelia:4.39"
 image_prometheus: "bitnami/prometheus:3.5.0"
 image_grafana: "grafana/grafana:11.6.6"
-image_promtail: "grafana/promtail:3.5.7"
+image_promtail: "grafana/promtail:3.6.2"
 image_loki: "grafana/loki:3.5.8"
 image_registry: "registry:2"
 image_borgmatic: "b3vis/borgmatic:2.0.11"
@@ -33,3 +33,13 @@ image_mealie: "hkotel/mealie:v2.8.0"
 image_minecraft: "itzg/minecraft-server:latest"
 image_kasm: "kasmweb/chrome:1.18.0"
 image_n8n: "docker.n8n.io/n8nio/n8n:latest"
+
+## Core values
+_core: &core_values
+  image_nginx: "openresty/openresty:1.27.1.2-0-alpine"
+  image_authelia: "authelia/authelia:4.39"
+  image_openldap: "osixia/openldap:1.5.0"
+  image_ldap_user_manager: "wheelybird/ldap-user-manager:v1.11"
+<<: *core_values
+core:
+  <<: *core_values

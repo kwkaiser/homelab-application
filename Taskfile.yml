@@ -10,10 +10,10 @@ tasks:
 
   template:
     desc: "Builds helm template"
-    prompt: "Did you set the MODE envar to dev | prod? (Defaults to: dev)"
     cmds:
       - |
         DEPL_ENV="${MODE:-dev}"
+        rm -f template.yaml
         helm dependency build
         helm template . --values ./values/shared.yaml --values ./values/$DEPL_ENV.yaml > template.yaml
 
@@ -21,16 +21,16 @@ tasks:
     desc: "Lint generated template"
     deps: [template]
     cmds:
-      - helm lint .
+      - |
+        DEPL_ENV="${MODE:-dev}"
+        helm lint . --values ./values/shared.yaml --values ./values/$DEPL_ENV.yaml
       - cat template.yaml | kubeconform
 
   # Local and prod
   apply-secrets:
     desc: "Creates or updates secrets in the cluster"
-    prompt: "Did you set the MODE envar to dev | prod? (Defaults to: dev)"
     cmds:
       - |
-        # Assume non prod-like
         DEPL_ENV="${MODE:-dev}"
 
         # If local, load secrets from defaults
@@ -55,7 +55,6 @@ tasks:
   deploy:
     desc: "Redeploys k8s template"
     deps: [apply-secrets]
-    prompt: "Did you set the MODE envar to dev | prod? (Defaults to: dev)"
     cmds:
       - |
         DEPL_ENV="${MODE:-dev}"

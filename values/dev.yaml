@@ -1,9 +1,20 @@
-env: dev
-domainName: kwkaiser-test
-tld: io
+## Global values
+_global: &global_values
+  domainName: kwkaiser-test
+  tld: io
+<<: *global_values
+global:
+  <<: *global_values
+
+## Storage related values
+_storage: &storage_values
+  nfsArray: "10.0.2.15"
+  volBulkSize: 1Gi
+  volCacheSize: 1Gi
+<<: *storage_values
+storage:
+  <<: *storage_values
+
 piracyIp: "143.244.47.73"
-nfsArray: "192.168.1.68"
-promHosts: ["192.168.1.68:9100"]
-volBulkSize: 20Gi
-volCacheSize: 10Gi
+promHosts: ["10.0.2.15:9100"]
 backupName: dev-backup
