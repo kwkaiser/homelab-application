@@ -47,19 +47,19 @@ spec:
               value: /auth/registry.password
 
             - name: REGISTRY_HTTP_TLS_CERTIFICATE
-              value: /certs/{{ .Values.domainName }}.{{ .Values.tld }}.crt
+              value: /certs/{{ .Values.global.domainName }}.{{ .Values.global.tld }}.crt
 
             - name: REGISTRY_HTTP_TLS_KEY
-              value: /certs/{{ .Values.domainName }}.{{ .Values.tld }}.key
+              value: /certs/{{ .Values.global.domainName }}.{{ .Values.global.tld }}.key
 
           volumeMounts:
             - name: registry-certificate
-              mountPath: /certs/{{ .Values.domainName }}.{{ .Values.tld }}.crt
+              mountPath: /certs/{{ .Values.global.domainName }}.{{ .Values.global.tld }}.crt
               subPath: value
               readOnly: true
 
             - name: registry-certificate-key
-              mountPath: /certs/{{ .Values.domainName }}.{{ .Values.tld }}.key
+              mountPath: /certs/{{ .Values.global.domainName }}.{{ .Values.global.tld }}.key
               subPath: value
               readOnly: true
 

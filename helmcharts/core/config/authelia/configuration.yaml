@@ -1,0 +1,92 @@
+---
+theme: dark
+jwt_secret: a_very_important_secret
+default_redirection_url: https://google.com
+default_2fa_method: ""
+
+server:
+  host: 0.0.0.0
+  port: 9091
+  path: ""
+  disable_healthcheck: false
+
+telemetry:
+  metrics:
+    enabled: true
+    address: "tcp://0.0.0.0:9959"
+    buffers:
+      read: 4096
+      write: 4096
+    timeouts:
+      read: 6s
+      write: 6s
+      idle: 30s
+
+log:
+  level: trace
+  format: json
+
+authentication_backend:
+  password_reset:
+    disable: false
+  refresh_interval: 1m
+
+  ldap:
+    implementation: custom
+    url: ldap://openldap
+    timeout: 30s
+    start_tls: false
+    base_dn: dc={{ .Values.global.domainName }},dc={{ .Values.global.tld }}
+    additional_users_dn: ou=people
+    users_filter: ({username_attribute}={input})
+    username_attribute: uid
+    mail_attribute: mail
+    display_name_attribute: displayName
+    additional_groups_dn: ou=groups
+    groups_filter: (&(member={dn})(|(sAMAccountType=268435456)(sAMAccountType=536870912)))
+    group_name_attribute: cn
+    permit_referrals: false
+    permit_unauthenticated_bind: false
+    user: CN=admin,DC={{ .Values.global.domainName }},DC={{ .Values.global.tld }}
+
+password_policy:
+  standard:
+    enabled: false
+    min_length: 8
+    max_length: 0
+    require_uppercase: true
+    require_lowercase: true
+    require_number: true
+    require_special: true
+  zxcvbn:
+    enabled: false
+    min_score: 3
+
+access_control:
+  default_policy: deny
+  rules:
+    - domain_regex: '(scurvy|movies|tv|trackers|ratio|games|lib|metrics|readarr|calibre|browser|sync).{{ .Values.global.domainName }}.{{ .Values.global.tld }}'
+      policy: one_factor
+      subject:
+        - ["user:kwkaiser"] 
+
+storage:
+  local:
+    path: /config/db.sqlite3
+
+session:
+  domain: {{ .Values.global.domainName }}.{{ .Values.global.tld }}
+  name: authelia_session
+  same_site: lax
+  inactivity: 30m
+  expiration: 1h
+
+regulation:
+  max_retries: 3
+  find_time: 2m
+  ban_time: 5m
+
+notifier:
+  disable_startup_check: true
+  filesystem:
+    filename: /config/notification.txt

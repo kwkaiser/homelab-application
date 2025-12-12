@@ -1,9 +1,20 @@
-env: prod
-domainName: kwkaiser
-tld: io
+## Global values
+_global: &global_values
+  domainName: kwkaiser
+  tld: io
+<<: *global_values
+global:
+  <<: *global_values
+
+## Storage related values
+_storage: &storage_values
+  nfsArray: "192.168.2.103"
+  volBulkSize: 14.4T
+  volCacheSize: 220G
+<<: *storage_values
+storage:
+  <<: *storage_values
+
 piracyIp: "143.244.47.73"
-nfsArray: "192.168.2.103"
 promHosts: ["192.168.2.103:9100"]
-volBulkSize: 14.4T 
-volCacheSize: 220G
 backupName: prod-backup

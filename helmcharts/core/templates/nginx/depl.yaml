@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    configmap.reloader.stakater.com/reload: "nginx-configs"
+    secret.reloader.stakater.com/reload: "nginx.certificate.key,nginx.certificate"
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx
+        app.kubernetes.io/name: nginx
+    spec: 
+      volumes: 
+        {{- range $name := list "nginx-certificate-key" "nginx-certificate" }}
+        - name: {{$name}}
+          secret:
+            secretName: {{ regexReplaceAll "-" $name "." }}
+            items:
+              - key: value
+                path: value
+        {{- end }}
+
+        - name: nginx-configs
+          configMap:
+            name: nginx-configs
+            items: 
+            {{- range $path, $content := .Files.Glob "config/nginx**" }}
+            {{- $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
+              - key: {{ $cleanedPath }}
+                path: {{ $cleanedPath }} 
+            {{- end }}
+
+      containers:
+        - name: nginx
+          image: {{ .Values.image_nginx }}
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+
+          volumeMounts:
+            - name: nginx-certificate
+              mountPath: /usr/local/openresty/nginx/conf/keys/{{ .Values.global.domainName }}.{{ .Values.global.tld }}.crt
+              subPath: value
+              readOnly: true
+            - name: nginx-certificate-key
+              mountPath: /usr/local/openresty/nginx/conf/keys/{{ .Values.global.domainName }}.{{ .Values.global.tld }}.key
+              subPath: value
+              readOnly: true
+            
+          {{- range $path, $content := .Files.Glob "config/nginx**" }}
+          {{- $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
+            - name: nginx-configs
+              mountPath: {{ printf "%s%s" "/usr/local/openresty/nginx/conf/" (regexReplaceAll "_"  $cleanedPath "/") }} 
+              subPath: {{ $cleanedPath }}
+              readOnly: true
+          {{- end }} 
+
+        

@@ -40,10 +40,10 @@ spec:
               value: "https"
 
             - name: WEBHOOK_URL
-              value: "https://workflows.{{ .Values.domainName }}.{{ .Values.tld }}"
+              value: "https://workflows.{{ .Values.global.domainName }}.{{ .Values.global.tld }}"
 
             - name: N8N_EDITOR_BASE_URL
-              value: "https://workflows.{{ .Values.domainName }}.{{ .Values.tld }}"
+              value: "https://workflows.{{ .Values.global.domainName }}.{{ .Values.global.tld }}"
 
             - name: GENERIC_TIMEZONE
               value: "America/New_York"

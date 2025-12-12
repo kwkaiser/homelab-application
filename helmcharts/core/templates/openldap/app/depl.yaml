@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ldap-user-manager
+  annotations:
+    secret.reloader.stakater.com/reload: "openldap.binddn.password"
+spec:
+  selector:
+    matchLabels:
+      app: ldap-user-manager
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ldap-user-manager
+        app.kubernetes.io/name: ldap-user-manager
+    spec:
+      containers:
+        - name: ldap-user-manager
+          image: {{ .Values.image_ldap_user_manager }}
+          ports:
+            - containerPort: 80
+          env:
+            - name: NO_HTTPS
+              value: "true"
+
+            - name: LDAP_URI
+              value: ldap://openldap
+
+            - name: LDAP_REQUIRE_STARTTLS
+              value: "false"
+
+            - name: LDAP_BASE_DN
+              value: "dc={{ .Values.global.domainName }},dc={{ .Values.global.tld }}"
+
+            - name: LDAP_ADMIN_BIND_DN
+              value: "cn=admin,dc={{ .Values.global.domainName }},dc={{ .Values.global.tld }}"
+
+            - name: LDAP_ADMINS_GROUP
+              value: admins
+
+            - name: ACCEPT_WEAK_PASSWORDS
+              value: "true"
+
+            - name: LDAP_ADMIN_BIND_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: openldap.binddn.password
+                  key: value
+
+            - name: LDAP_IGNORE_CERT_ERRORS
+              value: "true"
+
+            - name: LDAP_VERBOSE_CONNECTION_LOGS
+              value: "true"
+
+            - name: LDAP_DEBUG
+              value: "true"

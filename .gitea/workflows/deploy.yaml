@@ -70,12 +70,25 @@ jobs:
 
       - name: Run helm command
         run: |
-          mkdir $HOME/.kube
-          echo $KUBE_CONFIG > $HOME/.kube/config
+          mkdir -p $HOME/.kube
+          echo "$KUBE_CONFIG" > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+          export KUBECONFIG=$HOME/.kube/config
+          
+          # Debug: verify kubeconfig structure
+          echo "Kubeconfig file size: $(wc -c < $KUBECONFIG) bytes"
+          echo "Kubeconfig line count: $(wc -l < $KUBECONFIG) lines"
+          echo "Auth method used:"
+          grep -E "exec:|token:|client-certificate|auth-provider:" $KUBECONFIG | head -5 || echo "Unknown auth method"
+          echo "Server URL:"
+          grep "server:" $KUBECONFIG | head -1
+          
+          # Test kubectl connectivity
+          kubectl cluster-info --request-timeout=10s || { echo "Failed to connect to cluster"; exit 1; }
+          
           task deploy -y
         env:
           MODE: "prod"
-          KUBECONFIG: $HOME/.kube/config
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
           k8s_nginx_certificate: ${{ secrets.K8S_NGINX_CERTIFICATE }}
           k8s_nginx_certificate_key: ${{ secrets.K8S_NGINX_CERTIFICATE_KEY }}

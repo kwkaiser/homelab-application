@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openldap
+  annotations:
+    secret.reloader.stakater.com/reload: "openldap.binddn.password"
+spec: 
+  selector:
+    matchLabels:
+      app: openldap
+  replicas: 1
+  template:
+    metadata:
+      labels: 
+        app: openldap
+        app.kubernetes.io/name: openldap
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: openldap
+          image: {{ .Values.image_openldap }}
+          ports:
+            - containerPort: 636
+            - containerPort: 389
+
+          args: ["--loglevel", "debug", "--copy-service"]
+
+          env:
+            - name: LDAP_ORGANISATION
+              value: {{ .Values.global.domainName }}.{{ .Values.global.tld }}
+
+            - name: LDAP_DOMAIN
+              value: {{ .Values.global.domainName }}.{{ .Values.global.tld }}
+
+            - name: LDAP_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openldap.binddn.password
+                  key: value
+            
+            - name: LDAP_REQUIRE_STARTTLS
+              value: "false"
+
+            - name: HOSTNAME
+              value: openldap
+
+            - name: LDAP_TLS
+              value: "false"
+
+            - name: LDAP_RFC2307BIS_SCHEMA
+              value: "true"
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/ldap
+              subPath: application/openldap/data
+
+            - name: data 
+              mountPath: /etc/ldap/slapd.d
+              subPath: application/openldap/slapd
+
+            
