@@ -56,3 +56,9 @@ dependencies:
     version: "0.1.0"
     repository: file://./helmcharts/observability
     condition: observability.enabled
+
+  # VPN (WireGuard, qBittorrent, TheLounge, Kasm)
+  - name: vpn
+    version: "0.1.0"
+    repository: file://./helmcharts/vpn
+    condition: vpn.enabled

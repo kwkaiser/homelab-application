@@ -113,36 +113,6 @@ spec:
               mountPath: /cache/torrents
               subPath: shared/torrents
 
-        - name: thelounge
-          image: {{ .Values.image_thelounge }}
-          ports:
-            - containerPort: 9000
-
-          env:
-            - name: PUID
-              value: "0"
-
-            - name: PGID
-              value: "0"
-
-          volumeMounts:
-            - name: data
-              mountPath: /config/logs
-              subPath: application/thelounge/logs
-
-            - name: data
-              mountPath: /config/users
-              subPath: application/thelounge/users
-
-            - name: data
-              mountPath: /config/packages
-              subPath: application/thelounge/packages
-
-            - name: vpn-configs
-              mountPath: /config/config.js
-              subPath: config.js
-              readOnly: false
-      
         - name: chrome
           image: {{ .Values.image_kasm }}
           ports:
@@ -159,3 +129,4 @@ spec:
             limits:
               memory: "4Gi"  # Maximum memory allocation
               cpu: "2"       # Maximum CPU allocation
+

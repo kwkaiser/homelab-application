@@ -1,12 +1,8 @@
 image_jellyfin: "linuxserver/jellyfin:10.10.7"
-image_wireguard: "linuxserver/wireguard:1.0.20210914-legacy"
-image_qbittorrent: "linuxserver/qbittorrent:5.0.1"
 image_calibre_web: "linuxserver/calibre-web:0.6.25"
 image_borgmatic: "b3vis/borgmatic:2.0.11"
-image_thelounge: "linuxserver/thelounge:4.4.3-next"
 image_syncthing: "linuxserver/syncthing:1.30.0"
 image_minecraft: "itzg/minecraft-server:latest"
-image_kasm: "kasmweb/chrome:1.18.0"
 ## Core values
 _core: &core_values
   image_nginx: "openresty/openresty:1.27.1.2-0-alpine"
@@ -72,3 +68,13 @@ _observability: &observability_values
 <<: *observability_values
 observability:
   <<: *observability_values
+
+## VPN values
+_vpn: &vpn_values
+  image_wireguard: "linuxserver/wireguard:1.0.20210914-legacy"
+  image_qbittorrent: "linuxserver/qbittorrent:5.0.1"
+  image_thelounge: "linuxserver/thelounge:4.4.3-next"
+  image_kasm: "kasmweb/chrome:1.18.0"
+<<: *vpn_values
+vpn:
+  <<: *vpn_values

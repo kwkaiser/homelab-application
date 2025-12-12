@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: vpn-configs
-data:
-  config.js: {{ .Files.Get "config/vpn/config.js" | quote }}

@@ -41,3 +41,7 @@ media:
 observability:
   enabled: true
   promHosts: ["192.168.2.103:9100"]
+
+vpn:
+  enabled: true
+  qbittorrentIp: "143.244.47.73"
