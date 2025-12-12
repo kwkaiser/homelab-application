@@ -58,3 +58,4 @@ spec:
             - name: data
               mountPath: /app/data
               subPath: application/mealie/app
+

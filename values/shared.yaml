@@ -15,8 +15,6 @@ image_registry: "registry:2"
 image_borgmatic: "b3vis/borgmatic:2.0.11"
 image_thelounge: "linuxserver/thelounge:4.4.3-next"
 image_syncthing: "linuxserver/syncthing:1.30.0"
-image_mealie_db: "postgres:16.4-alpine3.19"
-image_mealie: "hkotel/mealie:v2.8.0"
 image_minecraft: "itzg/minecraft-server:latest"
 image_kasm: "kasmweb/chrome:1.18.0"
 image_n8n: "docker.n8n.io/n8nio/n8n:latest"
@@ -51,3 +49,11 @@ _immich: &immich_values
 <<: *immich_values
 immich:
   <<: *immich_values
+
+## Mealie values
+_mealie: &mealie_values
+  image_mealie: "hkotel/mealie:v2.8.0"
+  image_mealie_db: "postgres:16.4-alpine3.19"
+<<: *mealie_values
+mealie:
+  <<: *mealie_values

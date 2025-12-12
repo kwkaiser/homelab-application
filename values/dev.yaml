@@ -28,3 +28,6 @@ gitea:
 
 immich:
   enabled: false
+
+mealie:
+  enabled: false

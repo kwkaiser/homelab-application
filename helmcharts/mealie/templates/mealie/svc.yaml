@@ -11,3 +11,4 @@ spec:
       name: mealie
       port: 80
       targetPort: 9000
+
