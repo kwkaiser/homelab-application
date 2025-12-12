@@ -7,70 +7,8 @@ on:
 
 jobs:
 
-  foo:  
-    name: Foo
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install helm
-        run: |
-          apt-get install curl gpg apt-transport-https --yes
-          curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
-          echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
-          apt-get update
-          apt-get install helm
-
-      - name: Install kubectl
-        run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
-          install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-          rm ./kubectl
-
-      - name: Check pods
-        run: |
-          mkdir $HOME/.kube
-          echo "$KUBE_CONFIG" > $HOME/.kube/config
-          kubectl get pods
-          helm list
-        env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-
-  # code-quality:
-  #   name: Code quality
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-
-  #     - name: Install helm
-  #       run: |
-  #         apt-get install curl gpg apt-transport-https --yes
-  #         curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
-  #         echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
-  #         apt-get update
-  #         apt-get install helm
-
-  #     - name: Install kubeconform
-  #       run: |
-  #         wget https://github.com/yannh/kubeconform/releases/download/v0.6.4/kubeconform-linux-amd64.tar.gz
-  #         tar xf kubeconform-linux-amd64.tar.gz
-  #         cp kubeconform /usr/local/bin
-  #         rm -rf ./kubeconform*
-
-  #     - name: Install taskfile
-  #       run: |
-  #         sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
-  #         cp ./bin/task /usr/local/bin
-  #         rm -rf ./bin
-
-  #     - name: Lint helm chart
-  #       run: task lint --yes
-
-  # release:
-  #   name: Release
-  #   needs: code-quality
+  # foo:  
+  #   name: Foo
   #   runs-on: ubuntu-latest
   #   steps:
   #     - name: Checkout
@@ -90,44 +28,105 @@ jobs:
   #         install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
   #         rm ./kubectl
 
-  #     - name: Install jq
-  #       run: apt update && apt install -y jq
-
-  #     - name: Install taskfile
-  #       run: |
-  #         sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
-  #         install -o root -g root -m 0755 bin/task /usr/local/bin/task
-  #         rm -rf ./bin
-
-  #     - name: Run helm command
+  #     - name: Check pods
   #       run: |
   #         mkdir $HOME/.kube
-  #         echo $KUBE_CONFIG > $HOME/.kube/config
-  #         task deploy -y
+  #         echo "$KUBE_CONFIG" > $HOME/.kube/config
+  #         kubectl get pods
+  #         helm list
   #       env:
-  #         MODE: "prod"
-  #         KUBECONFIG: $HOME/.kube/config
   #         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-  #         k8s_nginx_certificate: ${{ secrets.K8S_NGINX_CERTIFICATE }}
-  #         k8s_nginx_certificate_key: ${{ secrets.K8S_NGINX_CERTIFICATE_KEY }}
-  #         k8s_wireguard_key: ${{ secrets.K8S_WIREGUARD_KEY }}
-  #         k8s_authelia_encryption_key: ${{ secrets.K8S_AUTHELIA_ENCRYPTION_KEY }}
-  #         k8s_authelia_session_secret: ${{ secrets.K8S_AUTHELIA_SESSION_SECRET }}
-  #         k8s_openldap_binddn_password: ${{ secrets.K8S_OPENLDAP_BINDDN_PASSWORD }}
-  #         k8s_gitea_db_password: ${{ secrets.K8S_GITEA_DB_PASSWORD }}
-  #         k8s_gitea_renovate_token: ${{ secrets.K8S_GITEA_RENOVATE_TOKEN }}
-  #         k8s_gitea_runner_token: ${{ secrets.K8S_GITEA_RUNNER_TOKEN }}
-  #         k8s_miniflux_db_password: ${{ secrets.K8S_MINIFLUX_DB_PASSWORD }}
-  #         k8s_miniflux_db_connection_string: ${{ secrets.K8S_MINIFLUX_DB_CONNECTION_STRING }}
-  #         k8s_registry_certificate: ${{ secrets.K8S_REGISTRY_CERTIFICATE }}
-  #         k8s_registry_certificate_key: ${{ secrets.K8S_REGISTRY_CERTIFICATE_KEY }}
-  #         k8s_registry_htpasswd: ${{ secrets.K8S_REGISTRY_HTPASSWD }}
-  #         k8s_backup_passphrase: ${{ secrets.K8S_BACKUP_PASSPHRASE }}
-  #         k8s_linode_cli_obj_access_key: ${{ secrets.K8S_LINODE_CLI_OBJ_ACCESS_KEY }}
-  #         k8s_linode_cli_obj_secret_key: ${{ secrets.K8S_LINODE_CLI_OBJ_SECRET_KEY }}
-  #         k8s_immich_db_password: ${{ secrets.K8S_IMMICH_DB_PASSWORD }}
-  #         k8s_mealie_db_password: ${{ secrets.K8S_MEALIE_DB_PASSWORD }}
-  #         k8s_borgmatic_borgbase_key: ${{ secrets.K8S_BORGMATIC_BORGBASE_KEY }}
-  #         k8s_n8n_oidc_client_secret: ${{ secrets.K8S_N8N_OIDC_CLIENT_SECRET }}
-  #         k8s_authelia_oidc_hmac_secret: ${{ secrets.K8S_AUTHELIA_OIDC_HMAC_SECRET }}
-  #         k8s_authelia_oidc_issuer_private_key: ${{ secrets.K8S_AUTHELIA_OIDC_ISSUER_PRIVATE_KEY }}
+
+  code-quality:
+    name: Code quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install helm
+        run: |
+          apt-get install curl gpg apt-transport-https --yes
+          curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
+          apt-get update
+          apt-get install helm
+
+      - name: Install kubeconform
+        run: |
+          wget https://github.com/yannh/kubeconform/releases/download/v0.6.4/kubeconform-linux-amd64.tar.gz
+          tar xf kubeconform-linux-amd64.tar.gz
+          cp kubeconform /usr/local/bin
+          rm -rf ./kubeconform*
+
+      - name: Install taskfile
+        run: |
+          sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
+          cp ./bin/task /usr/local/bin
+          rm -rf ./bin
+
+      - name: Lint helm chart
+        run: task lint --yes
+
+  release:
+    name: Release
+    needs: code-quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install helm
+        run: |
+          apt-get install curl gpg apt-transport-https --yes
+          curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
+          apt-get update
+          apt-get install helm
+
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
+          install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+          rm ./kubectl
+
+      - name: Install jq
+        run: apt update && apt install -y jq
+
+      - name: Install taskfile
+        run: |
+          sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
+          install -o root -g root -m 0755 bin/task /usr/local/bin/task
+          rm -rf ./bin
+
+      - name: Run helm command
+        run: |
+          mkdir $HOME/.kube
+          echo "$KUBE_CONFIG" > $HOME/.kube/config
+          task deploy -y
+        env:
+          MODE: "prod"
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+          k8s_nginx_certificate: ${{ secrets.K8S_NGINX_CERTIFICATE }}
+          k8s_nginx_certificate_key: ${{ secrets.K8S_NGINX_CERTIFICATE_KEY }}
+          k8s_wireguard_key: ${{ secrets.K8S_WIREGUARD_KEY }}
+          k8s_authelia_encryption_key: ${{ secrets.K8S_AUTHELIA_ENCRYPTION_KEY }}
+          k8s_authelia_session_secret: ${{ secrets.K8S_AUTHELIA_SESSION_SECRET }}
+          k8s_openldap_binddn_password: ${{ secrets.K8S_OPENLDAP_BINDDN_PASSWORD }}
+          k8s_gitea_db_password: ${{ secrets.K8S_GITEA_DB_PASSWORD }}
+          k8s_gitea_renovate_token: ${{ secrets.K8S_GITEA_RENOVATE_TOKEN }}
+          k8s_gitea_runner_token: ${{ secrets.K8S_GITEA_RUNNER_TOKEN }}
+          k8s_miniflux_db_password: ${{ secrets.K8S_MINIFLUX_DB_PASSWORD }}
+          k8s_miniflux_db_connection_string: ${{ secrets.K8S_MINIFLUX_DB_CONNECTION_STRING }}
+          k8s_registry_certificate: ${{ secrets.K8S_REGISTRY_CERTIFICATE }}
+          k8s_registry_certificate_key: ${{ secrets.K8S_REGISTRY_CERTIFICATE_KEY }}
+          k8s_registry_htpasswd: ${{ secrets.K8S_REGISTRY_HTPASSWD }}
+          k8s_backup_passphrase: ${{ secrets.K8S_BACKUP_PASSPHRASE }}
+          k8s_linode_cli_obj_access_key: ${{ secrets.K8S_LINODE_CLI_OBJ_ACCESS_KEY }}
+          k8s_linode_cli_obj_secret_key: ${{ secrets.K8S_LINODE_CLI_OBJ_SECRET_KEY }}
+          k8s_immich_db_password: ${{ secrets.K8S_IMMICH_DB_PASSWORD }}
+          k8s_mealie_db_password: ${{ secrets.K8S_MEALIE_DB_PASSWORD }}
+          k8s_borgmatic_borgbase_key: ${{ secrets.K8S_BORGMATIC_BORGBASE_KEY }}
+          k8s_n8n_oidc_client_secret: ${{ secrets.K8S_N8N_OIDC_CLIENT_SECRET }}
+          k8s_authelia_oidc_hmac_secret: ${{ secrets.K8S_AUTHELIA_OIDC_HMAC_SECRET }}
+          k8s_authelia_oidc_issuer_private_key: ${{ secrets.K8S_AUTHELIA_OIDC_ISSUER_PRIVATE_KEY }}
