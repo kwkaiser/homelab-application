@@ -13,8 +13,16 @@ dependencies:
   - name: storage
     version: "0.1.0"
     repository: file://./helmcharts/storage
+    condition: storage.enabled
 
   # Core infrastructure (Nginx, Authelia, OpenLDAP)
   - name: core
     version: "0.1.0"
     repository: file://./helmcharts/core
+    condition: core.enabled
+
+  # Gitea (Git service, database, renovate, runner)
+  - name: gitea
+    version: "0.1.0"
+    repository: file://./helmcharts/gitea
+    condition: gitea.enabled

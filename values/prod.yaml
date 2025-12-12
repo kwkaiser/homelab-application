@@ -14,7 +14,14 @@ _storage: &storage_values
 <<: *storage_values
 storage:
   <<: *storage_values
+  enabled: true
 
 piracyIp: "143.244.47.73"
 promHosts: ["192.168.2.103:9100"]
 backupName: prod-backup
+
+core:
+  enabled: true
+
+gitea:
+  enabled: true

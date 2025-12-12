@@ -43,3 +43,14 @@ _core: &core_values
 <<: *core_values
 core:
   <<: *core_values
+
+## Gitea values
+_gitea: &gitea_values
+  image_gitea: "gitea/gitea:1.25.1"
+  image_gitea_db: "postgres:16.4-alpine3.19"
+  image_gitea_runner: "gitea/act_runner:0.2.13"
+  image_gitea_renovate: "renovate/renovate:37-slim"
+  image_dind: "docker:23.0.6-dind"
+<<: *gitea_values
+gitea:
+  <<: *gitea_values
