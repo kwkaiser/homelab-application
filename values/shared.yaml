@@ -4,8 +4,6 @@ image_qbittorrent: "linuxserver/qbittorrent:5.0.1"
 image_radarr: "linuxserver/radarr:5.27.5"
 image_sonarr: "linuxserver/sonarr:4.0.16"
 image_prowlarr: "linuxserver/prowlarr:1.37.0"
-image_miniflux_db: "postgres:16.4-alpine3.19"
-image_miniflux: "miniflux/miniflux:2.2.13"
 image_calibre_web: "linuxserver/calibre-web:0.6.25"
 image_prometheus: "bitnami/prometheus:3.5.0"
 image_grafana: "grafana/grafana:11.6.6"
@@ -57,3 +55,11 @@ _mealie: &mealie_values
 <<: *mealie_values
 mealie:
   <<: *mealie_values
+
+## Miniflux values
+_miniflux: &miniflux_values
+  image_miniflux: "miniflux/miniflux:2.2.13"
+  image_miniflux_db: "postgres:16.4-alpine3.19"
+<<: *miniflux_values
+miniflux:
+  <<: *miniflux_values

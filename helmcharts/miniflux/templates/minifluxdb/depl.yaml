@@ -46,3 +46,4 @@ spec:
             - name: data
               mountPath: /var/lib/postgresql/data
               subPath: application/miniflux/db 
+
