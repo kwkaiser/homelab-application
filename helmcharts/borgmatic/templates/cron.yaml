@@ -82,6 +82,12 @@ spec:
                       name: linode.cli.obj.secret.key
                       key: value
 
+                - name: AUTHENTIK_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: authentik.db.password
+                      key: value
+
               volumeMounts:
                 - name: bulk-data
                   mountPath: /bulk

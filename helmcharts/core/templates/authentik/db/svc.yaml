@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentikdb
+spec:
+  selector:
+    app: authentikdb
+    app.kubernetes.io/name: authentikdb
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432

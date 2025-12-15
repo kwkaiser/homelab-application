@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "authentik.db.password"
+  name: authentik-server
+spec:
+  selector:
+    matchLabels:
+      app: authentik-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: authentik-server
+        app.kubernetes.io/name: authentik-server
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: authentik-server
+          image: {{ .Values.image_authentik_server }}
+          args: ["server"]
+          ports:
+            - containerPort: 9000
+            - containerPort: 9443
+
+          env:
+            - name: AUTHENTIK_POSTGRESQL__HOST
+              value: authentikdb
+
+            - name: AUTHENTIK_POSTGRESQL__USER
+              value: postgres
+
+            - name: AUTHENTIK_POSTGRESQL__NAME
+              value: postgres
+
+            - name: AUTHENTIK_POSTGRESQL__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authentik.db.password
+                  key: value
+
+            - name: AUTHENTIK_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: authentik.secret.key
+                  key: value
+
+            - name: AUTHENTIK_DOMAIN
+              value: authentik.{{ .Values.global.domainName }}.{{ .Values.global.tld }}
+
+          volumeMounts:
+            - name: data
+              mountPath: /media
+              subPath: application/authentik/server/media
+
+            - name: data
+              mountPath: /custom-templates
+              subPath: application/authentik/server/templates

@@ -57,6 +57,7 @@ tasks:
     deps: [apply-secrets]
     cmds:
       - |
+        rm -rf charts/*
         DEPL_ENV="${MODE:-dev}"
 
         if [[ $DEPL_ENV == 'prod' ]]; then

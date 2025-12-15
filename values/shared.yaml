@@ -4,6 +4,8 @@ core:
   image_authelia: "authelia/authelia:4.39"
   image_openldap: "osixia/openldap:1.5.0"
   image_ldap_user_manager: "wheelybird/ldap-user-manager:v1.11"
+  image_authentik_server: "ghcr.io/goauthentik/server:2025.10.2"
+  image_authentik_db: "postgres:16.4-alpine3.19"
 
 ## Gitea values
 gitea:
