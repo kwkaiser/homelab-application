@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   annotations:
     configmap.reloader.stakater.com/reload: "dashy-configs"
-    secret.reloader.stakater.com/reload: "dashy.certificate.key,nginx.certificate"
   name: dashy
 spec:
   selector:
@@ -29,7 +28,7 @@ spec:
           image: {{ .Values.image_dashy }}
           ports:
             - containerPort: 80
-            - containerPort: 443
+            - containerPort: 8080
 
           volumeMounts:
             - name: dashy-configs

@@ -1,19 +1,27 @@
 pageInfo:
   title: Karl's server
   description: Stuff for friends
-
 appConfig:
-  theme: default
-  layout: auto
-  iconSize: medium
+  disableConfiguration: true
+  hideComponents:
+    hideSearch: true
+    hideSettings: true
+    hideFooter: true
+    hideHeading: true
+  theme: one-dark
+  layout: vertical
+  iconSize: large
   language: en
   openingMethod: newtab
-
 sections:
   - name: Services
     icon: mdi-server
     items:
-      - title: Watch media
+      - &ref_0
+        title: Watch media
         description: Kinda like netflix but more broken
         icon: si-jellyfin
         url: https://watch.kwkaiser.io
+        id: 0_836_watchmedia
+    filteredItems:
+      - *ref_0

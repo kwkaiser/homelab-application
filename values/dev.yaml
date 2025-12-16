@@ -32,7 +32,7 @@ miniflux:
   enabled: false
 
 media:
-  enabled: true
+  enabled: false
 
 observability:
   enabled: false
