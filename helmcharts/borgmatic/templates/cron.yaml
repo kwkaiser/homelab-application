@@ -155,6 +155,12 @@ spec:
                       name: linode.cli.obj.secret.key
                       key: value
 
+                - name: AUTHENTIK_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: authentik.db.password
+                      key: value
+
                 - name: BORG_PASSPHRASE
                   valueFrom:
                     secretKeyRef:
