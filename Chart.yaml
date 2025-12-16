@@ -21,6 +21,11 @@ dependencies:
     repository: file://./helmcharts/core
     condition: core.enabled
 
+  - name: dashy
+    version: "0.1.0"
+    repository: file://./helmcharts/dashy
+    condition: dashy.enabled
+
   # Gitea (Git service, database, renovate, runner)
   - name: gitea
     version: "0.1.0"

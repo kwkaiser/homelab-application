@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    configmap.reloader.stakater.com/reload: "dashy-configs"
+    secret.reloader.stakater.com/reload: "dashy.certificate.key,nginx.certificate"
+  name: dashy
+spec:
+  selector:
+    matchLabels:
+      app: dashy
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dashy
+        app.kubernetes.io/name: dashy
+    spec: 
+      volumes: 
+        - name: dashy-configs
+          configMap:
+            name: dashy-configs
+            items:
+              - key: configuration.yaml
+                path: configuration.yaml
+
+      containers:
+        - name: dashy
+          image: {{ .Values.image_dashy }}
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+
+          volumeMounts:
+            - name: dashy-configs
+              mountPath: /app/user-data/conf.yml
+              subPath: configuration.yaml
+              readOnly: false
+
+        

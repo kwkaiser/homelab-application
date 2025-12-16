@@ -71,3 +71,6 @@ minecraft:
 ## Syncthing values
 syncthing:
   image_syncthing: "linuxserver/syncthing:1.30.0"
+
+dashy:
+  image_dashy: "lissy93/dashy:latest"

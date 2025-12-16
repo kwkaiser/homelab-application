@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dashy-configs
+data:
+{{- range $path, $bytes := .Files.Glob "config/dashy**" }}
+  {{ $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/dashy/" $path ) "_" }}
+  {{ $cleanedPath }}: {{ tpl ($.Files.Get $path) $ | quote }}
+{{- end }}
