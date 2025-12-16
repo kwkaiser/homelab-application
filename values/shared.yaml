@@ -48,7 +48,7 @@ observability:
 ## VPN values
 vpn:
   image_wireguard: "linuxserver/wireguard:1.0.20210914-legacy"
-  image_qbittorrent: "linuxserver/qbittorrent:5.0.1"
+  image_qbittorrent: "linuxserver/qbittorrent:5.1.4"
   image_thelounge: "linuxserver/thelounge:4.4.3-next"
   image_kasm: "kasmweb/chrome:1.18.0"
 
