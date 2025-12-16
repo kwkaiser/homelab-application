@@ -73,4 +73,4 @@ syncthing:
   image_syncthing: "linuxserver/syncthing:1.30.0"
 
 dashy:
-  image_dashy: "lissy93/dashy:latest"
+  image_dashy: "lissy93/dashy:release-3.1.1"

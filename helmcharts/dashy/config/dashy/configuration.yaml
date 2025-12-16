@@ -21,7 +21,7 @@ sections:
         title: Watch media
         description: Kinda like netflix but more broken
         icon: si-jellyfin
-        url: https://watch.kwkaiser.io
+        url: https://watch.{{ .Values.global.domainName }}.{{ .Values.global.tld }}
         id: 0_836_watchmedia
     filteredItems:
       - *ref_0
