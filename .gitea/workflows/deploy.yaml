@@ -101,3 +101,5 @@ jobs:
           k8s_authelia_oidc_issuer_private_key: ${{ secrets.K8S_AUTHELIA_OIDC_ISSUER_PRIVATE_KEY }}
           k8s_authentik_secret_key: ${{ secrets.K8S_AUTHENTIK_SECRET_KEY }}
           k8s_authentik_db_password: ${{ secrets.K8S_AUTHENTIK_DB_PASSWORD }}
+          k8s_grafana_oauth_client_id: ${{ secrets.K8S_GRAFANA_OAUTH_CLIENT_ID }}
+          k8s_grafana_oauth_client_secret: ${{ secrets.K8S_GRAFANA_OAUTH_CLIENT_SECRET }}

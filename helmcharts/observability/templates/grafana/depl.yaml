@@ -37,13 +37,25 @@ spec:
           args:
             - "--config=/config.ini"
 
+          env:
+            - name: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: grafana.oauth.client.id
+                  key: value
+
+            - name: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: grafana.oauth.client.secret
+                  key: value
+
           volumeMounts:
             - name: data
               mountPath: /var/lib/grafana
               subPath: application/grafana
 
             - name: grafana-configs
-              mountPath: config.ini 
+              mountPath: config.ini
               subPath: config.ini
               readOnly: false
-
