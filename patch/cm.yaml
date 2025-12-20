@@ -1,6 +1,8 @@
 # Certain pods need to have their DNS re-written to allow for the same host-mapping
 # behavior we use in the vm-host (generally under /etc/hosts), but using coreDNS to have it
-# apply at the pod level. This is applied separately from
+# apply at the pod level. This is applied separately from the normal helm build process, and
+# only for rare-situations:
+# - immich oidc resolution
 apiVersion: v1
 kind: ConfigMap
 metadata:
