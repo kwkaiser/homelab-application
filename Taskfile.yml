@@ -63,6 +63,8 @@ tasks:
         if [[ $DEPL_ENV == 'prod' ]]; then
           ARGS="--values ./values/shared.yaml --values ./values/prod.yaml"
         else
+          kubectl -n kube-system apply -f ./patch/cm.yaml
+          kubectl -n kube-system rollout restart deployment coredns
           ARGS="--values ./values/shared.yaml --values ./values/dev.yaml"
         fi
 
