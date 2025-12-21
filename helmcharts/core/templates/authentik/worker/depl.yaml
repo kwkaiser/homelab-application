@@ -23,7 +23,19 @@ spec:
       containers:
         - name: authentik-worker
           image: {{ .Values.image_authentik_server }}
-          args: ["worker"]
+          command: 
+            - /bin/sh
+            - -c
+            - |
+              echo "Checking for authentik migrations"
+              until curl -sf http://authentik-server/-/health/ready/; do
+                echo "Waiting for authentik server migrations..."
+                sleep 3
+              done
+              exec dumb-init -- ak worker
+              # echo "yo dawg"
+              
+
           ports:
             - containerPort: 9000
             - containerPort: 9443
