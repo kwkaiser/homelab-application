@@ -41,7 +41,7 @@ media:
 ## Observability values
 observability:
   image_prometheus: "prom/prometheus:v2.54.0"
-  image_grafana: "grafana/grafana:11.6.6"
+  image_grafana: "grafana/grafana:11.6.9"
   image_promtail: "grafana/promtail:3.6.2"
   image_loki: "grafana/loki:3.5.8"
 
