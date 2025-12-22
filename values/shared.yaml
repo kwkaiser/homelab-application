@@ -5,12 +5,12 @@ core:
   image_openldap: "osixia/openldap:1.5.0"
   image_ldap_user_manager: "wheelybird/ldap-user-manager:v1.11"
   image_authentik_server: "ghcr.io/goauthentik/server:2025.10.2"
-  image_authentik_db: "postgres:16.4-alpine3.19"
+  image_authentik_db: "postgres:16.6-alpine3.19"
 
 ## Gitea values
 gitea:
   image_gitea: "gitea/gitea:1.25.3"
-  image_gitea_db: "postgres:16.4-alpine3.19"
+  image_gitea_db: "postgres:16.6-alpine3.19"
   image_gitea_runner: "gitea/act_runner:0.2.13"
   image_gitea_renovate: "renovate/renovate:37-slim"
   image_dind: "docker:23.0.6-dind"
@@ -25,12 +25,12 @@ immich:
 ## Mealie values
 mealie:
   image_mealie: "hkotel/mealie:v2.8.0"
-  image_mealie_db: "postgres:16.4-alpine3.19"
+  image_mealie_db: "postgres:16.6-alpine3.19"
 
 ## Miniflux values
 miniflux:
   image_miniflux: "miniflux/miniflux:2.2.13"
-  image_miniflux_db: "postgres:16.4-alpine3.19"
+  image_miniflux_db: "postgres:16.6-alpine3.19"
 
 ## Media values
 media:
