@@ -1,3 +1,4 @@
+{{- if eq .Values.global.domainName "kwkaiser" }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -13,7 +14,84 @@ spec:
           restartPolicy: Never
           containers:
             - name: dns-poll
-              image: curlimages/curl:latest
+              image: python:3-alpine
               command: ["/bin/sh", "-c"]
               args:
-                ["curl -d $(curl -4 ifconfig.me/ip) ntfy.sh/q1LvGGrzvMGRxlKF"]
+                - |
+                  set -e
+
+                  # Install required tools
+                  apk add --no-cache curl
+                  pip install --no-cache-dir cloudflare
+
+                  # Get current IPv4 address
+                  CURRENT_IP=$(curl -4 -s ifconfig.me/ip)
+                  echo "Current IPv4 address: $CURRENT_IP"
+
+                  # Export for Python script
+                  export CURRENT_IP
+                  export DOMAIN="{{ .Values.global.domainName }}.{{ .Values.global.tld }}"
+
+                  # Python script to update DNS records
+                  python3 << 'EOF'
+                  import os
+                  import sys
+                  import Cloudflare
+
+                  try:
+                      # Initialize Cloudflare client
+                      cf = Cloudflare.Cloudflare(token=os.environ['CF_API_TOKEN'])
+
+                      domain = os.environ['DOMAIN']
+                      current_ip = os.environ['CURRENT_IP']
+
+                      # Get zone ID
+                      zones = cf.zones.get(params={'name': domain})
+                      if not zones:
+                          print(f"Error: Could not find zone for domain {domain}", file=sys.stderr)
+                          sys.exit(1)
+
+                      zone_id = zones[0]['id']
+                      print(f"Zone ID: {zone_id}")
+
+                      # Get all A records
+                      dns_records = cf.zones.dns_records.get(zone_id, params={'type': 'A'})
+
+                      for record in dns_records:
+                          record_name = record['name']
+                          record_ip = record['content']
+
+                          # Skip root domain and www subdomain
+                          if record_name == domain or record_name == f"www.{domain}":
+                              print(f"Skipping {record_name} (excluded from auto-update)")
+                              continue
+
+                          if record_ip != current_ip:
+                              print(f"Would update {record_name} from {record_ip} to {current_ip}")
+                              try:
+                                  record['content'] = current_ip
+                                  # TODO: Uncomment to enable actual DNS updates
+                                  # cf.zones.dns_records.put(zone_id, record['id'], data=record)
+                                  print(f"[DRY RUN] Would have updated {record_name}")
+                              except Exception as e:
+                                  print(f"Error updating {record_name}: {e}", file=sys.stderr)
+                                  sys.exit(1)
+                          else:
+                              print(f"{record_name} is already set to {current_ip}, skipping")
+
+                  except Exception as e:
+                      print(f"Error: {e}", file=sys.stderr)
+                      sys.exit(1)
+                  EOF
+
+                  # Send notification (optional - keeping original functionality)
+                  curl -d "DNS update check completed. Current IP: $CURRENT_IP" ntfy.sh/q1LvGGrzvMGRxlKF || true
+              env:
+                - name: CF_API_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: cloudflare.api.token
+                      key: value
+                - name: DOMAIN
+                  value: "{{ .Values.global.domainName }}.{{ .Values.global.tld }}"
+{{- end }}

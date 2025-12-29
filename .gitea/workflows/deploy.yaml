@@ -103,3 +103,4 @@ jobs:
           k8s_authentik_db_password: ${{ secrets.K8S_AUTHENTIK_DB_PASSWORD }}
           k8s_grafana_oauth_client_id: ${{ secrets.K8S_GRAFANA_OAUTH_CLIENT_ID }}
           k8s_grafana_oauth_client_secret: ${{ secrets.K8S_GRAFANA_OAUTH_CLIENT_SECRET }}
+          k8s_cloudflare_api_token: ${{ secrets.K8S_CLOUDFLARE_API_TOKEN }}
