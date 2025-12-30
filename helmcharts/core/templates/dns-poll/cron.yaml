@@ -14,83 +14,62 @@ spec:
           restartPolicy: Never
           containers:
             - name: dns-poll
-              image: python:3-alpine
+              image: alpine:latest
               command: ["/bin/sh", "-c"]
               args:
                 - |
                   set -e
 
-                  # Install required tools
-                  apk add --no-cache curl
+                  # Install curl and jq
+                  apk add --no-cache curl jq
 
-                  # Create virtual environment
-                  python3 -m venv /venv
+                  DOMAIN="{{ .Values.global.domainName }}.{{ .Values.global.tld }}"
                   
-                  # Activate virtual environment and install required packages
-                  source /venv/bin/activate
-                  pip install --no-cache-dir cloudflare
-
                   # Get current IPv4 address
                   CURRENT_IP=$(curl -4 -s ifconfig.me/ip)
                   echo "Current IPv4 address: $CURRENT_IP"
 
-                  # Export for Python script
-                  export CURRENT_IP
-                  export DOMAIN="{{ .Values.global.domainName }}.{{ .Values.global.tld }}"
+                  # Get zone ID
+                  ZONE_RESPONSE=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAIN}" \
+                    -H "Authorization: Bearer ${CF_API_TOKEN}" \
+                    -H "Content-Type: application/json")
+                  
+                  ZONE_ID=$(echo "$ZONE_RESPONSE" | jq -r '.result[0].id // empty')
+                  
+                  if [ -z "$ZONE_ID" ]; then
+                    echo "Error: Could not find zone for domain ${DOMAIN}" >&2
+                    exit 1
+                  fi
+                  
+                  echo "Zone ID: $ZONE_ID"
 
-                  # Python script to update DNS records (using venv python)
-                  /venv/bin/python3 << 'EOF'
-                  import os
-                  import sys
-                  import Cloudflare
+                  # Get all A records
+                  DNS_RESPONSE=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records?type=A" \
+                    -H "Authorization: Bearer ${CF_API_TOKEN}" \
+                    -H "Content-Type: application/json")
 
-                  try:
-                      # Initialize Cloudflare client
-                      cf = Cloudflare.Cloudflare(token=os.environ['CF_API_TOKEN'])
+                  # Parse and update records
+                  echo "$DNS_RESPONSE" | jq -r '.result[] | "\(.id)|\(.name)|\(.content)"' | while IFS='|' read -r RECORD_ID RECORD_NAME RECORD_IP; do
+                    # Skip root domain and www subdomain
+                    if [ "$RECORD_NAME" = "$DOMAIN" ] || [ "$RECORD_NAME" = "www.${DOMAIN}" ]; then
+                      echo "Skipping $RECORD_NAME (excluded from auto-update)"
+                      continue
+                    fi
 
-                      domain = os.environ['DOMAIN']
-                      current_ip = os.environ['CURRENT_IP']
+                    if [ "$RECORD_IP" != "$CURRENT_IP" ]; then
+                      echo "Would update $RECORD_NAME from $RECORD_IP to $CURRENT_IP"
+                      # TODO: Uncomment to enable actual DNS updates
+                      # curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${RECORD_ID}" \
+                      #   -H "Authorization: Bearer ${CF_API_TOKEN}" \
+                      #   -H "Content-Type: application/json" \
+                      #   -d "{\"type\":\"A\",\"name\":\"${RECORD_NAME}\",\"content\":\"${CURRENT_IP}\"}"
+                      echo "[DRY RUN] Would have updated $RECORD_NAME"
+                    else
+                      echo "$RECORD_NAME is already set to $CURRENT_IP, skipping"
+                    fi
+                  done
 
-                      # Get zone ID
-                      zones = cf.zones.get(params={'name': domain})
-                      if not zones:
-                          print(f"Error: Could not find zone for domain {domain}", file=sys.stderr)
-                          sys.exit(1)
-
-                      zone_id = zones[0]['id']
-                      print(f"Zone ID: {zone_id}")
-
-                      # Get all A records
-                      dns_records = cf.zones.dns_records.get(zone_id, params={'type': 'A'})
-
-                      for record in dns_records:
-                          record_name = record['name']
-                          record_ip = record['content']
-
-                          # Skip root domain and www subdomain
-                          if record_name == domain or record_name == f"www.{domain}":
-                              print(f"Skipping {record_name} (excluded from auto-update)")
-                              continue
-
-                          if record_ip != current_ip:
-                              print(f"Would update {record_name} from {record_ip} to {current_ip}")
-                              try:
-                                  record['content'] = current_ip
-                                  # TODO: Uncomment to enable actual DNS updates
-                                  # cf.zones.dns_records.put(zone_id, record['id'], data=record)
-                                  print(f"[DRY RUN] Would have updated {record_name}")
-                              except Exception as e:
-                                  print(f"Error updating {record_name}: {e}", file=sys.stderr)
-                                  sys.exit(1)
-                          else:
-                              print(f"{record_name} is already set to {current_ip}, skipping")
-
-                  except Exception as e:
-                      print(f"Error: {e}", file=sys.stderr)
-                      sys.exit(1)
-                  EOF
-
-                  # Send notification (optional - keeping original functionality)
+                  # Send notification
                   curl -d "DNS update check completed. Current IP: $CURRENT_IP" ntfy.sh/q1LvGGrzvMGRxlKF || true
               env:
                 - name: CF_API_TOKEN
