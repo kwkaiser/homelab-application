@@ -22,7 +22,13 @@ spec:
 
                   # Install required tools
                   apk add --no-cache curl
-                  python3 -m pip install --no-cache-dir cloudflare
+
+                  # Create virtual environment
+                  python3 -m venv /venv
+                  
+                  # Activate virtual environment and install required packages
+                  source /venv/bin/activate
+                  pip install --no-cache-dir cloudflare
 
                   # Get current IPv4 address
                   CURRENT_IP=$(curl -4 -s ifconfig.me/ip)
@@ -32,8 +38,8 @@ spec:
                   export CURRENT_IP
                   export DOMAIN="{{ .Values.global.domainName }}.{{ .Values.global.tld }}"
 
-                  # Python script to update DNS records
-                  python3 << 'EOF'
+                  # Python script to update DNS records (using venv python)
+                  /venv/bin/python3 << 'EOF'
                   import os
                   import sys
                   import Cloudflare
