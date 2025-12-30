@@ -22,7 +22,7 @@ spec:
 
                   # Install required tools
                   apk add --no-cache curl
-                  pip install --no-cache-dir cloudflare
+                  python3 -m pip install --no-cache-dir cloudflare
 
                   # Get current IPv4 address
                   CURRENT_IP=$(curl -4 -s ifconfig.me/ip)
