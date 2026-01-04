@@ -50,5 +50,5 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
-              subPath: application/minecraft
+              subPath: application/minecraft2
 
