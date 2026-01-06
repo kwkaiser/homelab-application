@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: actual-budget
+spec:
+  selector:
+    matchLabels:
+      app: actual-budget
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: actual-budget
+        app.kubernetes.io/name: actual-budget
+    spec:
+      volumes:
+          - name: data
+            persistentVolumeClaim:
+              claimName: bulk-nfs
+
+      containers:
+        - name: actual-budget
+          image: {{ .Values.image_actual_budget }}
+          ports:
+            - containerPort: 5006
+
+          volumeMounts:
+            - name: data
+              mountPath: /data
+              subPath: application/actual-budget
+

@@ -56,3 +56,6 @@ minecraft:
 
 syncthing:
   enabled: false
+
+actual-budget:
+  enabled: false
