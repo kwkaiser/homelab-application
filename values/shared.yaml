@@ -74,3 +74,7 @@ syncthing:
 
 dashy:
   image_dashy: "lissy93/dashy:release-3.1.1"
+
+## Actual budget values
+actual-budget:
+  image_actual_budget: "actualbudget/actual-server:26.1.0"
