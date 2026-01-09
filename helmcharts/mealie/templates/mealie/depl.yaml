@@ -48,6 +48,36 @@ spec:
             - name: POSTGRES_DB
               value: postgres
 
+            - name: OIDC_AUTH_ENABLED
+              value: "true"
+
+            - name: OIDC_PROVIDER_NAME
+              value: "authentik"
+
+            - name: OIDC_CONFIGURATION_URL
+              value: "https://authentik.{{ .Values.global.domainName }}.{{ .Values.global.tld }}/application/o/mealie/.well-known/openid-configuration"
+
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: mealie.oidc.clientid
+                  key: value
+
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: mealie.oidc.clientsecret
+                  key: value
+
+            - name: OIDC_SIGNUP_ENABLED
+              value: "true"
+
+            - name: OIDC_ADMIN_GROUP
+              value: "mealie-admin"
+
+            - name: OIDC_REMEMBER_ME
+              value: "true"
+
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
