@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: mealie
-          image: { { .Values.image_mealie } }
+          image: {{ .Values.image_mealie }}
           ports:
             - containerPort: 9000
 
