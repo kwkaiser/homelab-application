@@ -24,7 +24,7 @@ immich:
 
 ## Mealie values
 mealie:
-  image_mealie: "hkotel/mealie:v2.8.0"
+  image_mealie: "hkotel/mealie:v3.9.2"
   image_mealie_db: "postgres:16.4-alpine3.19"
 
 ## Miniflux values
