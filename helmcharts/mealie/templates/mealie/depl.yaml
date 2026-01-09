@@ -34,7 +34,7 @@ spec:
               value: "false"
 
             - name: BASE_URL
-              value: food.{{ .Values.global.domainName }}.{{ .Values.global.tld }}
+              value: https://food.{{ .Values.global.domainName }}.{{ .Values.global.tld }}
 
             - name: DB_ENGINE
               value: postgres
