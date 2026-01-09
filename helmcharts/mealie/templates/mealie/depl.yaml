@@ -16,30 +16,33 @@ spec:
         app.kubernetes.io/name: mealie
     spec:
       volumes:
-          - name: data
-            persistentVolumeClaim:
-              claimName: bulk-nfs
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
 
       containers:
         - name: mealie
-          image: {{ .Values.image_mealie }}
+          image: { { .Values.image_mealie } }
           ports:
             - containerPort: 9000
 
           env:
-            - name: ALLOW_SIGNUP 
+            - name: ALLOW_SIGNUP
               value: "false"
 
-            - name: API_DOCS 
+            - name: API_DOCS
               value: "false"
 
             - name: BASE_URL
               value: https://food.{{ .Values.global.domainName }}.{{ .Values.global.tld }}
 
+            - name: FORWARDED_ALLOW_IPS
+              value: "*"
+
             - name: DB_ENGINE
               value: postgres
 
-            - name: POSTGRES_USER 
+            - name: POSTGRES_USER
               value: postgres
 
             - name: POSTGRES_SERVER
@@ -88,4 +91,3 @@ spec:
             - name: data
               mountPath: /app/data
               subPath: application/mealie/app
-
