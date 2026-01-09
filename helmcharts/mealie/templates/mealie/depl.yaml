@@ -81,6 +81,9 @@ spec:
             - name: OIDC_REMEMBER_ME
               value: "true"
 
+            - name: OIDC_AUTO_REDIRECT
+              value: "true"
+
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
