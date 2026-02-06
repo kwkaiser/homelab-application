@@ -47,6 +47,9 @@ spec:
               value: |
                 Quidic
 
+            - name: WHITELIST
+              value: "Quidic,__Blackjack__,leechmother"
+
           volumeMounts:
             - name: data
               mountPath: /data
