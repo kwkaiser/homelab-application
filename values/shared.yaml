@@ -19,8 +19,8 @@ gitea:
 immich:
   image_immich_db: "registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0"
   image_immich_redis: "redis:7.4.7-bookworm"
-  image_immich_ml: "ghcr.io/immich-app/immich-machine-learning:v2.4.1"
-  image_immich_server: "ghcr.io/immich-app/immich-server:v2.4.1"
+  image_immich_ml: "ghcr.io/immich-app/immich-machine-learning:v2.5.6"
+  image_immich_server: "ghcr.io/immich-app/immich-server:v2.5.6"
 
 ## Mealie values
 mealie:
