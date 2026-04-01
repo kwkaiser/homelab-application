@@ -62,7 +62,7 @@ calibre-web:
 
 ## Jellyfin values
 jellyfin:
-  image_jellyfin: "linuxserver/jellyfin:10.10.7"
+  image_jellyfin: "linuxserver/jellyfin:10.11.7"
 
 ## Minecraft values
 minecraft:
