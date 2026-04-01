@@ -46,7 +46,7 @@ calibre-web:
   enabled: true
 
 jellyfin:
-  enabled: true
+  enabled: false
 
 minecraft:
   enabled: true
