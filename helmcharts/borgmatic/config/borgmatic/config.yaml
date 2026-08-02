@@ -79,7 +79,7 @@ before_backup:
   - echo 'Starting backup'
   - apk add -U curl
   - mkdir -p /bulk/application/opnsense
-  - curl -sSfk -u "${OPNSENSE_API_KEY}:${OPNSENSE_API_SECRET}" "https://${OPNSENSE_HOST}/api/core/backup/download/this" -o /bulk/application/opnsense/config.xml || echo 'WARNING: opnsense config backup failed, continuing without it'
+  - curl -sSfk -u "${OPNSENSE_API_KEY}:${OPNSENSE_API_SECRET}" "https://${OPNSENSE_HOST}/api/core/backup/download/this" -o /bulk/application/opnsense/config.xml || echo 'WARNING - opnsense config backup failed, continuing without it'
 
 after_backup:
   - echo 'Ended backup'
