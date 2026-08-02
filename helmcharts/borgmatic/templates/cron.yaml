@@ -88,6 +88,21 @@ spec:
                       name: authentik.db.password
                       key: value
 
+                - name: OPNSENSE_HOST
+                  value: {{ .Values.opnsenseHost | quote }}
+
+                - name: OPNSENSE_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: opnsense.api.key
+                      key: value
+
+                - name: OPNSENSE_API_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: opnsense.api.secret
+                      key: value
+
               volumeMounts:
                 - name: bulk-data
                   mountPath: /bulk
@@ -101,7 +116,7 @@ spec:
                   subPath: config.yaml
                   readOnly: false
 
-                - name: borgmatic-borgbase-key 
+                - name: borgmatic-borgbase-key
                   mountPath: /borgmatic-borgbase-key
                   subPath: value
                   readOnly: true
