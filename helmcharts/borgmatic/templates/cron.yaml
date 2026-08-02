@@ -167,11 +167,26 @@ spec:
                       name: backup.passphrase
                       key: value
 
+                - name: OPNSENSE_HOST
+                  value: {{ .Values.opnsenseHost | quote }}
+
+                - name: OPNSENSE_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: opnsense.api.key
+                      key: value
+
+                - name: OPNSENSE_API_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: opnsense.api.secret
+                      key: value
+
               volumeMounts:
                 - name: bulk-data
                   mountPath: /bulk
 
-                - name: bulk-data 
+                - name: bulk-data
                   mountPath: /raw-backup
                   subPath: application/borgmatic/backup
 
