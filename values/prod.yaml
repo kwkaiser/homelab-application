@@ -37,7 +37,6 @@ observability:
 
 vpn:
   enabled: true
-  qbittorrentIp: "143.244.47.77"
 
 borgmatic:
   enabled: true
