@@ -62,6 +62,9 @@ jobs:
       - name: Install jq
         run: apt update && apt install -y jq
 
+      - name: Install secretspec
+        run: curl -sSL https://install.secretspec.dev | sh
+
       - name: Install taskfile
         run: |
           sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
@@ -76,35 +79,35 @@ jobs:
         env:
           MODE: "prod"
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-          k8s_nginx_certificate: ${{ secrets.K8S_NGINX_CERTIFICATE }}
-          k8s_nginx_certificate_key: ${{ secrets.K8S_NGINX_CERTIFICATE_KEY }}
-          k8s_wireguard_key: ${{ secrets.K8S_WIREGUARD_KEY }}
-          k8s_authelia_encryption_key: ${{ secrets.K8S_AUTHELIA_ENCRYPTION_KEY }}
-          k8s_authelia_session_secret: ${{ secrets.K8S_AUTHELIA_SESSION_SECRET }}
-          k8s_openldap_binddn_password: ${{ secrets.K8S_OPENLDAP_BINDDN_PASSWORD }}
-          k8s_gitea_db_password: ${{ secrets.K8S_GITEA_DB_PASSWORD }}
-          k8s_gitea_renovate_token: ${{ secrets.K8S_GITEA_RENOVATE_TOKEN }}
-          k8s_gitea_runner_token: ${{ secrets.K8S_GITEA_RUNNER_TOKEN }}
-          k8s_miniflux_db_password: ${{ secrets.K8S_MINIFLUX_DB_PASSWORD }}
-          k8s_miniflux_db_connection_string: ${{ secrets.K8S_MINIFLUX_DB_CONNECTION_STRING }}
-          k8s_registry_certificate: ${{ secrets.K8S_REGISTRY_CERTIFICATE }}
-          k8s_registry_certificate_key: ${{ secrets.K8S_REGISTRY_CERTIFICATE_KEY }}
-          k8s_registry_htpasswd: ${{ secrets.K8S_REGISTRY_HTPASSWD }}
-          k8s_backup_passphrase: ${{ secrets.K8S_BACKUP_PASSPHRASE }}
-          k8s_linode_cli_obj_access_key: ${{ secrets.K8S_LINODE_CLI_OBJ_ACCESS_KEY }}
-          k8s_linode_cli_obj_secret_key: ${{ secrets.K8S_LINODE_CLI_OBJ_SECRET_KEY }}
-          k8s_immich_db_password: ${{ secrets.K8S_IMMICH_DB_PASSWORD }}
-          k8s_mealie_db_password: ${{ secrets.K8S_MEALIE_DB_PASSWORD }}
-          k8s_borgmatic_borgbase_key: ${{ secrets.K8S_BORGMATIC_BORGBASE_KEY }}
-          k8s_n8n_oidc_client_secret: ${{ secrets.K8S_N8N_OIDC_CLIENT_SECRET }}
-          k8s_authelia_oidc_hmac_secret: ${{ secrets.K8S_AUTHELIA_OIDC_HMAC_SECRET }}
-          k8s_authelia_oidc_issuer_private_key: ${{ secrets.K8S_AUTHELIA_OIDC_ISSUER_PRIVATE_KEY }}
-          k8s_authentik_secret_key: ${{ secrets.K8S_AUTHENTIK_SECRET_KEY }}
-          k8s_authentik_db_password: ${{ secrets.K8S_AUTHENTIK_DB_PASSWORD }}
-          k8s_grafana_oauth_client_id: ${{ secrets.K8S_GRAFANA_OAUTH_CLIENT_ID }}
-          k8s_grafana_oauth_client_secret: ${{ secrets.K8S_GRAFANA_OAUTH_CLIENT_SECRET }}
-          k8s_cloudflare_api_token: ${{ secrets.K8S_CLOUDFLARE_API_TOKEN }}
-          k8s_mealie_oidc_clientid: ${{ secrets.K8S_MEALIE_OIDC_CLIENTID }}
-          k8s_mealie_oidc_clientsecret: ${{ secrets.K8S_MEALIE_OIDC_CLIENTSECRET }}
-          k8s_opnsense_api_key: ${{ secrets.K8S_OPNSENSE_API_KEY }}
-          k8s_opnsense_api_secret: ${{ secrets.K8S_OPNSENSE_API_SECRET }}
+          K8S_NGINX_CERTIFICATE: ${{ secrets.K8S_NGINX_CERTIFICATE }}
+          K8S_NGINX_CERTIFICATE_KEY: ${{ secrets.K8S_NGINX_CERTIFICATE_KEY }}
+          K8S_WIREGUARD_KEY: ${{ secrets.K8S_WIREGUARD_KEY }}
+          K8S_AUTHELIA_ENCRYPTION_KEY: ${{ secrets.K8S_AUTHELIA_ENCRYPTION_KEY }}
+          K8S_AUTHELIA_SESSION_SECRET: ${{ secrets.K8S_AUTHELIA_SESSION_SECRET }}
+          K8S_OPENLDAP_BINDDN_PASSWORD: ${{ secrets.K8S_OPENLDAP_BINDDN_PASSWORD }}
+          K8S_GITEA_DB_PASSWORD: ${{ secrets.K8S_GITEA_DB_PASSWORD }}
+          K8S_GITEA_RENOVATE_TOKEN: ${{ secrets.K8S_GITEA_RENOVATE_TOKEN }}
+          K8S_GITEA_RUNNER_TOKEN: ${{ secrets.K8S_GITEA_RUNNER_TOKEN }}
+          K8S_MINIFLUX_DB_PASSWORD: ${{ secrets.K8S_MINIFLUX_DB_PASSWORD }}
+          K8S_MINIFLUX_DB_CONNECTION_STRING: ${{ secrets.K8S_MINIFLUX_DB_CONNECTION_STRING }}
+          K8S_REGISTRY_CERTIFICATE: ${{ secrets.K8S_REGISTRY_CERTIFICATE }}
+          K8S_REGISTRY_CERTIFICATE_KEY: ${{ secrets.K8S_REGISTRY_CERTIFICATE_KEY }}
+          K8S_REGISTRY_HTPASSWD: ${{ secrets.K8S_REGISTRY_HTPASSWD }}
+          K8S_BACKUP_PASSPHRASE: ${{ secrets.K8S_BACKUP_PASSPHRASE }}
+          K8S_LINODE_CLI_OBJ_ACCESS_KEY: ${{ secrets.K8S_LINODE_CLI_OBJ_ACCESS_KEY }}
+          K8S_LINODE_CLI_OBJ_SECRET_KEY: ${{ secrets.K8S_LINODE_CLI_OBJ_SECRET_KEY }}
+          K8S_IMMICH_DB_PASSWORD: ${{ secrets.K8S_IMMICH_DB_PASSWORD }}
+          K8S_MEALIE_DB_PASSWORD: ${{ secrets.K8S_MEALIE_DB_PASSWORD }}
+          K8S_BORGMATIC_BORGBASE_KEY: ${{ secrets.K8S_BORGMATIC_BORGBASE_KEY }}
+          K8S_N8N_OIDC_CLIENT_SECRET: ${{ secrets.K8S_N8N_OIDC_CLIENT_SECRET }}
+          K8S_AUTHELIA_OIDC_HMAC_SECRET: ${{ secrets.K8S_AUTHELIA_OIDC_HMAC_SECRET }}
+          K8S_AUTHELIA_OIDC_ISSUER_PRIVATE_KEY: ${{ secrets.K8S_AUTHELIA_OIDC_ISSUER_PRIVATE_KEY }}
+          K8S_AUTHENTIK_SECRET_KEY: ${{ secrets.K8S_AUTHENTIK_SECRET_KEY }}
+          K8S_AUTHENTIK_DB_PASSWORD: ${{ secrets.K8S_AUTHENTIK_DB_PASSWORD }}
+          K8S_GRAFANA_OAUTH_CLIENT_ID: ${{ secrets.K8S_GRAFANA_OAUTH_CLIENT_ID }}
+          K8S_GRAFANA_OAUTH_CLIENT_SECRET: ${{ secrets.K8S_GRAFANA_OAUTH_CLIENT_SECRET }}
+          K8S_CLOUDFLARE_API_TOKEN: ${{ secrets.K8S_CLOUDFLARE_API_TOKEN }}
+          K8S_MEALIE_OIDC_CLIENTID: ${{ secrets.K8S_MEALIE_OIDC_CLIENTID }}
+          K8S_MEALIE_OIDC_CLIENTSECRET: ${{ secrets.K8S_MEALIE_OIDC_CLIENTSECRET }}
+          K8S_OPNSENSE_API_KEY: ${{ secrets.K8S_OPNSENSE_API_KEY }}
+          K8S_OPNSENSE_API_SECRET: ${{ secrets.K8S_OPNSENSE_API_SECRET }}

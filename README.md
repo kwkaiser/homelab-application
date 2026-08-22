@@ -13,8 +13,8 @@ Contains config files mounted into the applications
 **`values`**:
 Contains value files for environmentally-dependent configs
 
-**`vars`**:
-Contains mock secrets for local development & misc values
+**`secretspec.toml`**:
+Declares every secret the chart needs, per environment profile (`default` = prod, `dev`). Real values are resolved from a kdbx vault (or, in CI, from already-set env vars) via [secretspec](https://github.com/cachix/secretspec) - see `task apply-secrets`.
 
 ### Deployments
 This repo relies heavily on [taskfile.dev](https://taskfile.dev/) for most development / deployment operations

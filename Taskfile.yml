@@ -33,20 +33,22 @@ tasks:
       - |
         DEPL_ENV="${MODE:-dev}"
 
-        # If local, load secrets from defaults
-        if [[ $DEPL_ENV != 'prod' ]];
-        then
-          set -a
-          source ./vars/local-secrets.txt
-          set +a
+        # Resolve secrets via secretspec (see secretspec.toml). "prod" is the
+        # tool's implicit `default` profile; every other MODE maps to the
+        # like-named profile (dev, ...).
+        if [[ $DEPL_ENV == 'prod' ]]; then
+          PROFILE_ARGS=()
+        else
+          PROFILE_ARGS=(--profile "$DEPL_ENV")
         fi
+        eval "$(secretspec export "${PROFILE_ARGS[@]}")"
 
-        KEYS=$(jq -n env | jq 'keys[] | select(startswith("k8s"))')
+        KEYS=$(jq -n env | jq 'keys[] | select(startswith("K8S_"))')
 
-        for KEY in $KEYS; 
+        for KEY in $KEYS;
         do
           cleaned_key=$(echo $KEY | sed 's/"//g')
-          cleaned_name=$(echo "$cleaned_key" | cut -c5- | sed 's/_/./g' )
+          cleaned_name=$(echo "$cleaned_key" | cut -c5- | sed 's/_/./g' | tr 'A-Z' 'a-z')
           value=$(jq -n env | jq ".$cleaned_key")
           cleaned_value=$(printf "$(echo ${value:1:-1})")
           kubectl create secret generic "$cleaned_name" --from-literal=value="$cleaned_value" --dry-run=client -o yaml | kubectl apply -f -

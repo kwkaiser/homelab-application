@@ -10,13 +10,14 @@ storage:
   volBulkSize: 1Gi
   volCacheSize: 1Gi
 
+## Chart set matches the linode-stand-in target (media-acquisition stack and
+## observability suspended) so local dev exercises the same app set.
 core:
   enabled: true
+  authelia:
+    enabled: false
 
 dashy:
-  enabled: false
-
-authentik:
   enabled: false
 
 gitea:
@@ -43,6 +44,7 @@ vpn:
 
 borgmatic:
   enabled: false
+  opnsenseHost: "192.168.1.1"
 
 calibre-web:
   enabled: false
@@ -54,7 +56,4 @@ minecraft:
   enabled: false
 
 syncthing:
-  enabled: false
-
-actual-budget:
-  enabled: false
+  enabled: true
