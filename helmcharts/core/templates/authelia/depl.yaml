@@ -1,3 +1,4 @@
+{{- if .Values.authelia.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -54,3 +55,4 @@ spec:
               mountPath: /config/configuration.yml # expects path at .yml!
               subPath: configuration.yaml
               readOnly: false
+{{- end }}

@@ -1,12 +1,14 @@
+{{- if .Values.authelia.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
   name: ldap-user-manager
-spec: 
+spec:
   selector:
     app: ldap-user-manager
     app.kubernetes.io/name: ldap-user-manager
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80 
+      targetPort: 80
+{{- end }}

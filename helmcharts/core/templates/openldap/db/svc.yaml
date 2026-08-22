@@ -1,12 +1,14 @@
+{{- if .Values.authelia.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
   name: openldap
-spec: 
+spec:
   selector:
     app: openldap
     app.kubernetes.io/name: openldap
   ports:
     - protocol: TCP
-      port: 389 
+      port: 389
       targetPort: 389
+{{- end }}

@@ -1,3 +1,4 @@
+{{- if .Values.authelia.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -59,8 +60,7 @@ spec:
               mountPath: /var/lib/ldap
               subPath: application/openldap/data
 
-            - name: data 
+            - name: data
               mountPath: /etc/ldap/slapd.d
               subPath: application/openldap/slapd
-
-            
+{{- end }}

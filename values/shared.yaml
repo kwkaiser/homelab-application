@@ -1,5 +1,7 @@
 ## Core values
 core:
+  authelia:
+    enabled: true
   image_nginx: "openresty/openresty:1.27.1.2-0-alpine"
   image_authelia: "authelia/authelia:4.39"
   image_openldap: "osixia/openldap:1.5.0"
