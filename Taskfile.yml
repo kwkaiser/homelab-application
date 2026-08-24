@@ -56,6 +56,11 @@ tasks:
           kubectl create secret generic "$cleaned_name" --from-literal=value="$cleaned_value" --dry-run=client -o yaml | kubectl apply -f -
         done
 
+  cert:
+    desc: "Issues/renews the *.kwkaiser.io wildcard cert via certbot + Cloudflare DNS-01 (needs `nix develop` for the certbot+dns-cloudflare plugin)"
+    cmds:
+      - ./scripts/issue-cert.sh
+
   restore:
     desc: "Starts (or, with -- down, tears down) a toolbox pod for restoring from the Borgbase backup - see scripts/borgmatic-restore.sh header"
     cmds:

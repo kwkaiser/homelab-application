@@ -6,7 +6,7 @@ global:
 ## Storage related values
 storage:
   enabled: true
-  nfsArray: "45.79.187.247"
+  nfsArray: "127.0.0.1"
   volBulkSize: 45Gi
   volCacheSize: 5Gi
 

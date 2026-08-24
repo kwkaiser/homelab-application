@@ -25,3 +25,5 @@
 
 # Patches that should be applied outside normal helm build
 patch/*
+
+.direnv
