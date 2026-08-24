@@ -22,10 +22,10 @@ gitea:
   enabled: false
 
 immich:
-  enabled: false
+  enabled: true
 
 mealie:
-  enabled: false
+  enabled: true
 
 miniflux:
   enabled: true
@@ -45,7 +45,7 @@ borgmatic:
   opnsenseHost: "192.168.1.1"
 
 calibre-web:
-  enabled: false
+  enabled: true
 
 jellyfin:
   enabled: false
@@ -54,4 +54,4 @@ minecraft:
   enabled: false
 
 syncthing:
-  enabled: false
+  enabled: true

@@ -61,6 +61,11 @@ tasks:
     cmds:
       - ./scripts/issue-cert.sh
 
+  dns:
+    desc: "Points kwkaiser.io A records (except www/apex) at an IP - dry run by default, pass -- <ip> --apply to actually update. See scripts/update-dns.sh"
+    cmds:
+      - ./scripts/update-dns.sh {{.CLI_ARGS}}
+
   restore:
     desc: "Starts (or, with -- down, tears down) a toolbox pod for restoring from the Borgbase backup - see scripts/borgmatic-restore.sh header"
     cmds:
