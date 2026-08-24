@@ -7,7 +7,7 @@ core:
   image_openldap: "osixia/openldap:1.5.0"
   image_ldap_user_manager: "wheelybird/ldap-user-manager:v1.11"
   image_authentik_server: "ghcr.io/goauthentik/server:2025.10.2"
-  image_authentik_db: "postgres:16.4-alpine3.19"
+  image_authentik_db: "postgres:17.6-alpine3.21"
 
 ## Gitea values
 gitea:
@@ -32,7 +32,7 @@ mealie:
 ## Miniflux values
 miniflux:
   image_miniflux: "miniflux/miniflux:2.2.13"
-  image_miniflux_db: "postgres:16.4-alpine3.19"
+  image_miniflux_db: "postgres:17.6-alpine3.21"
 
 ## Media values
 media:

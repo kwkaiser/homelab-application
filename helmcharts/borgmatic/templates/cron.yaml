@@ -70,18 +70,6 @@ spec:
                       name: mealie.db.password
                       key: value
 
-                - name: LINODE_CLI_OBJ_ACCESS_KEY
-                  valueFrom:
-                    secretKeyRef:
-                      name: linode.cli.obj.access.key
-                      key: value
-
-                - name: LINODE_CLI_OBJ_SECRET_KEY
-                  valueFrom:
-                    secretKeyRef:
-                      name: linode.cli.obj.secret.key
-                      key: value
-
                 - name: AUTHENTIK_DB_PASSWORD
                   valueFrom:
                     secretKeyRef:
@@ -156,18 +144,6 @@ spec:
                   valueFrom:
                     secretKeyRef:
                       name: mealie.db.password
-                      key: value
-
-                - name: LINODE_CLI_OBJ_ACCESS_KEY
-                  valueFrom:
-                    secretKeyRef:
-                      name: linode.cli.obj.access.key
-                      key: value
-
-                - name: LINODE_CLI_OBJ_SECRET_KEY
-                  valueFrom:
-                    secretKeyRef:
-                      name: linode.cli.obj.secret.key
                       key: value
 
                 - name: AUTHENTIK_DB_PASSWORD

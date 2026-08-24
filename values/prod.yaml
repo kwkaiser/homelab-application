@@ -28,7 +28,7 @@ mealie:
   enabled: false
 
 miniflux:
-  enabled: false
+  enabled: true
 
 media:
   enabled: false
