@@ -6,50 +6,52 @@ global:
 ## Storage related values
 storage:
   enabled: true
-  nfsArray: "192.168.2.103"
-  volBulkSize: 14.4T
-  volCacheSize: 220G
+  nfsArray: "45.79.187.247"
+  volBulkSize: 45Gi
+  volCacheSize: 5Gi
 
 core:
   enabled: true
+  authelia:
+    enabled: false
 
 dashy:
-  enabled: true
+  enabled: false
 
 gitea:
-  enabled: true
+  enabled: false
 
 immich:
-  enabled: true
+  enabled: false
 
 mealie:
-  enabled: true
+  enabled: false
 
 miniflux:
-  enabled: true
+  enabled: false
 
 media:
-  enabled: true
+  enabled: false
 
 observability:
-  enabled: true
+  enabled: false
   promHosts: ["192.168.2.103:9100"]
 
 vpn:
-  enabled: true
+  enabled: false
 
 borgmatic:
-  enabled: true
+  enabled: false
   opnsenseHost: "192.168.1.1"
 
 calibre-web:
-  enabled: true
+  enabled: false
 
 jellyfin:
-  enabled: true 
+  enabled: false
 
 minecraft:
-  enabled: true
+  enabled: false
 
 syncthing:
-  enabled: true
+  enabled: false

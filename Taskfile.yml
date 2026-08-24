@@ -31,6 +31,8 @@ tasks:
     desc: "Creates or updates secrets in the cluster"
     cmds:
       - |
+        source ensure-kdbx-password || exit 1
+
         DEPL_ENV="${MODE:-dev}"
 
         # Resolve secrets via secretspec (see secretspec.toml). "prod" is the
@@ -53,6 +55,11 @@ tasks:
           cleaned_value=$(printf "$(echo ${value:1:-1})")
           kubectl create secret generic "$cleaned_name" --from-literal=value="$cleaned_value" --dry-run=client -o yaml | kubectl apply -f -
         done
+
+  restore:
+    desc: "Starts (or, with -- down, tears down) a toolbox pod for restoring from the Borgbase backup - see scripts/borgmatic-restore.sh header"
+    cmds:
+      - ./scripts/borgmatic-restore.sh {{.CLI_ARGS}}
 
   deploy:
     desc: "Redeploys k8s template"
