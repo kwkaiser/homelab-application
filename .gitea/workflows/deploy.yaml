@@ -74,7 +74,7 @@ jobs:
       - name: Run helm command
         run: |
           mkdir $HOME/.kube
-          echo "$KUBE_CONFIG" > $HOME/.kube/config
+          echo "$KUBE_CONFIG" | base64 -d > $HOME/.kube/config
 
           mkdir -p $HOME/.config/secretspec
           cat > $HOME/.config/secretspec/config.toml <<'CFGEOF'
