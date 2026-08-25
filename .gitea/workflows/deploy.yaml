@@ -75,6 +75,16 @@ jobs:
         run: |
           mkdir $HOME/.kube
           echo "$KUBE_CONFIG" > $HOME/.kube/config
+
+          mkdir -p $HOME/.config/secretspec
+          cat > $HOME/.config/secretspec/config.toml <<'CFGEOF'
+          [defaults]
+          provider = "env"
+
+          [defaults.providers.kdbx]
+          uri = "kdbx:/nonexistent/keys.kdbx"
+          CFGEOF
+
           task deploy -y
         env:
           MODE: "prod"
