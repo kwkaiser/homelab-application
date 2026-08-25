@@ -33,6 +33,12 @@ spec:
       containers:
         - name: gitea-runner-daemon
           image: {{ .Values.image_dind }}
+          command: ["sh", "-c"]
+          args:
+            - |
+              ln -sf xtables-nft-multi /sbin/iptables
+              ln -sf xtables-nft-multi /sbin/ip6tables
+              exec dockerd-entrypoint.sh
           env:
           - name: DOCKER_TLS_CERTDIR
             value: /certs

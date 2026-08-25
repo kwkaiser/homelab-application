@@ -7,8 +7,8 @@ global:
 storage:
   enabled: true
   nfsArray: "127.0.0.1"
-  volBulkSize: 45Gi
-  volCacheSize: 5Gi
+  volBulkSize: 60Gi
+  volCacheSize: 15Gi
 
 core:
   enabled: true
@@ -19,7 +19,7 @@ dashy:
   enabled: false
 
 gitea:
-  enabled: false
+  enabled: true
 
 immich:
   enabled: true
@@ -41,7 +41,7 @@ vpn:
   enabled: false
 
 borgmatic:
-  enabled: false
+  enabled: true
   opnsenseHost: "192.168.1.1"
 
 calibre-web:

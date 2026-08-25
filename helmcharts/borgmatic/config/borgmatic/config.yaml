@@ -2,19 +2,19 @@
 source_directories:
   - /bulk/application/gitea/data
   - /bulk/application/gitea/repos
-  - /bulk/application/jellyfin
-  - /bulk/application/qbittorrent
-  - /bulk/application/calibre
+  # - /bulk/application/jellyfin      # not deployed on hetzner
+  # - /bulk/application/qbittorrent   # not deployed on hetzner
+  # - /bulk/application/calibre       # not deployed on hetzner
   - /bulk/application/calibre-web
-  - /bulk/application/openldap
-  - /bulk/application/prowlarr
-  - /bulk/application/radarr
-  - /bulk/application/sonarr
+  # - /bulk/application/openldap      # not deployed on hetzner
+  # - /bulk/application/prowlarr      # not deployed on hetzner
+  # - /bulk/application/radarr        # not deployed on hetzner
+  # - /bulk/application/sonarr        # not deployed on hetzner
   - /bulk/application/immich/media
   - /bulk/application/mealie/app
   - /bulk/application/syncthing
   - /bulk/application/authentik
-  - /bulk/application/opnsense
+  # - /bulk/application/opnsense      # not reachable from hetzner's network
   - /bulk/shared/books
 
 postgresql_databases:
@@ -77,9 +77,9 @@ checks:
 
 before_backup:
   - echo 'Starting backup'
-  - apk add -U curl
-  - mkdir -p /bulk/application/opnsense
-  - curl -sSfk -u "${OPNSENSE_API_KEY}:${OPNSENSE_API_SECRET}" "https://${OPNSENSE_HOST}/api/core/backup/download/this" -o /bulk/application/opnsense/config.xml || echo 'WARNING - opnsense config backup failed, continuing without it'
+  # - apk add -U curl
+  # - mkdir -p /bulk/application/opnsense
+  # - curl -sSfk -u "${OPNSENSE_API_KEY}:${OPNSENSE_API_SECRET}" "https://${OPNSENSE_HOST}/api/core/backup/download/this" -o /bulk/application/opnsense/config.xml || echo 'WARNING - opnsense config backup failed, continuing without it'
 
 after_backup:
   - echo 'Ended backup'
@@ -90,7 +90,7 @@ before_check:
 
 after_check:
   - echo 'Ended checks'
-  - borgmatic prune --match-archives '*' --list
+  - borgmatic prune --match-archives 'sh:borgmatic-*' --list
 
 before_prune:
   - echo 'Starting prune'
