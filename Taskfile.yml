@@ -31,7 +31,9 @@ tasks:
     desc: "Creates or updates secrets in the cluster"
     cmds:
       - |
-        source ensure-kdbx-password || exit 1
+        if command -v ensure-kdbx-password >/dev/null 2>&1; then
+          source ensure-kdbx-password || exit 1
+        fi
 
         DEPL_ENV="${MODE:-dev}"
 
