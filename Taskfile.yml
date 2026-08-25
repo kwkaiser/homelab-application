@@ -33,6 +33,9 @@ tasks:
       - |
         if command -v ensure-kdbx-password >/dev/null 2>&1; then
           source ensure-kdbx-password || exit 1
+          PROVIDER_ARGS=()
+        else
+          PROVIDER_ARGS=(--provider env)
         fi
 
         DEPL_ENV="${MODE:-dev}"
@@ -45,7 +48,7 @@ tasks:
         else
           PROFILE_ARGS=(--profile "$DEPL_ENV")
         fi
-        eval "$(secretspec export "${PROFILE_ARGS[@]}")"
+        eval "$(secretspec export "${PROFILE_ARGS[@]}" "${PROVIDER_ARGS[@]}")"
 
         KEYS=$(jq -n env | jq 'keys[] | select(startswith("K8S_"))')
 
