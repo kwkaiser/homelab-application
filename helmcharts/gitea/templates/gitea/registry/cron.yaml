@@ -13,6 +13,7 @@ spec:
       template:
         spec:
           restartPolicy: Never
+          serviceAccountName: gitea-registry-prune
           volumes:
             - name: registry-prune-scripts
               configMap:
@@ -30,6 +31,9 @@ spec:
               env:
                 - name: GITEA_URL
                   value: "http://gitea"
+
+                - name: REGISTRY_HOST
+                  value: "git.{{ .Values.global.domainName }}.{{ .Values.global.tld }}"
 
                 - name: OWNERS
                   value: {{ .Values.registry.owners | join " " | quote }}
