@@ -24,7 +24,7 @@ gitea:
 
 ## Website values
 website:
-  image_website: "git.kwkaiser.io/kwkaiser/website:1"
+  image_website: "git.kwkaiser.io/kwkaiser/website:latest"
 
 ## Immich values
 immich:
