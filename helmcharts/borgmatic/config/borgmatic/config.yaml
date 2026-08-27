@@ -17,6 +17,9 @@ source_directories:
   # - /bulk/application/opnsense      # not reachable from hetzner's network
   - /bulk/shared/books
 
+exclude_patterns:
+  - /bulk/application/gitea/data/packages
+
 postgresql_databases:
   - name: postgres
     hostname: giteadb

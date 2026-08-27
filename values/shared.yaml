@@ -16,6 +16,11 @@ gitea:
   image_gitea_runner: "gitea/act_runner:0.2.13"
   image_gitea_renovate: "renovate/renovate:37-slim"
   image_dind: "docker:23.0.6-dind"
+  image_registry_prune: "alpine:3.24.1"
+  registry:
+    owners: ["kwkaiser"]
+    keepVersions: 1
+    pruneDryRun: false
 
 ## Immich values
 immich:

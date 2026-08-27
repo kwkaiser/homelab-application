@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "gitea.packages.token"
+  name: gitea-registry-prune
+spec:
+  schedule: "30 23 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 120
+      template:
+        spec:
+          restartPolicy: Never
+          volumes:
+            - name: registry-prune-scripts
+              configMap:
+                name: registry-prune-scripts
+                defaultMode: 0755
+                items:
+                  - key: prune.sh
+                    path: prune.sh
+
+          containers:
+            - name: gitea-registry-prune
+              image: {{ .Values.image_registry_prune }}
+              command: ["/bin/sh", "/scripts/prune.sh"]
+
+              env:
+                - name: GITEA_URL
+                  value: "http://gitea"
+
+                - name: OWNERS
+                  value: {{ .Values.registry.owners | join " " | quote }}
+
+                - name: KEEP_VERSIONS
+                  value: {{ .Values.registry.keepVersions | quote }}
+
+                - name: DRY_RUN
+                  value: {{ .Values.registry.pruneDryRun | quote }}
+
+                - name: GITEA_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: gitea.packages.token
+                      key: value
+
+              volumeMounts:
+                - name: registry-prune-scripts
+                  mountPath: /scripts

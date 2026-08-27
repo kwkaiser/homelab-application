@@ -58,6 +58,23 @@ tasks:
           kubectl create secret generic "$cleaned_name" --from-literal=value="$cleaned_value" --dry-run=client -o yaml | kubectl apply -f -
         done
 
+        REGISTRY_DOMAIN=$(awk '/^global:/{f=1} f&&/domainName:/{print $2; exit}' "values/$DEPL_ENV.yaml")
+        REGISTRY_TLD=$(awk '/^global:/{f=1} f&&/tld:/{print $2; exit}' "values/$DEPL_ENV.yaml")
+        REGISTRY_HOST="git.${REGISTRY_DOMAIN}.${REGISTRY_TLD}"
+
+        if [[ -n "${K8S_GITEA_PACKAGES_TOKEN:-}" ]]; then
+          kubectl create secret docker-registry gitea-registry \
+            --docker-server="$REGISTRY_HOST" \
+            --docker-username="${GITEA_REGISTRY_USER:-kwkaiser}" \
+            --docker-password="$K8S_GITEA_PACKAGES_TOKEN" \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+          kubectl patch serviceaccount default \
+            -p '{"imagePullSecrets":[{"name":"gitea-registry"}]}'
+        else
+          echo "K8S_GITEA_PACKAGES_TOKEN unset - skipping registry pull secret"
+        fi
+
   cert:
     desc: "Issues/renews the *.kwkaiser.io wildcard cert via certbot + Cloudflare DNS-01 (needs `nix develop` for the certbot+dns-cloudflare plugin)"
     cmds:
