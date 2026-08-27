@@ -23,6 +23,9 @@ dashy:
 gitea:
   enabled: false
 
+website:
+  enabled: false
+
 immich:
   enabled: false
 

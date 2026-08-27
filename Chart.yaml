@@ -92,6 +92,12 @@ dependencies:
     repository: file://./helmcharts/minecraft
     condition: minecraft.enabled
 
+  # Website (Static personal site)
+  - name: website
+    version: "0.1.0"
+    repository: file://./helmcharts/website
+    condition: website.enabled
+
   # Syncthing (File synchronization)
   - name: syncthing
     version: "0.1.0"

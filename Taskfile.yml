@@ -28,7 +28,7 @@ tasks:
 
   # Local and prod
   apply-secrets:
-    desc: "Creates or updates secrets in the cluster"
+    desc: "Creates or updates secrets in the cluster" 
     cmds:
       - |
         if command -v ensure-kdbx-password >/dev/null 2>&1; then
@@ -59,21 +59,11 @@ tasks:
         done
 
   apply-registry-secrets:
-    desc: "Creates the Gitea container registry pull secret and makes it the namespace default"
+    desc: "Reshapes the gitea.packages.token secret into a docker-registry pull secret and makes it the namespace default"
+    deps: [apply-secrets]
     cmds:
       - |
-        if command -v ensure-kdbx-password >/dev/null 2>&1; then
-          source ensure-kdbx-password || exit 1
-        fi
-
         DEPL_ENV="${MODE:-dev}"
-
-        if [[ $DEPL_ENV == 'prod' ]]; then
-          PROFILE_ARGS=()
-        else
-          PROFILE_ARGS=(--profile "$DEPL_ENV")
-        fi
-        eval "$(secretspec export "${PROFILE_ARGS[@]}")"
 
         REGISTRY_DOMAIN=$(yq '.global.domainName' "values/$DEPL_ENV.yaml")
         REGISTRY_TLD=$(yq '.global.tld' "values/$DEPL_ENV.yaml")
@@ -85,15 +75,17 @@ tasks:
 
         REGISTRY_HOST="git.${REGISTRY_DOMAIN}.${REGISTRY_TLD}"
 
-        if [[ -z "${K8S_GITEA_PACKAGES_TOKEN:-}" ]]; then
-          echo "K8S_GITEA_PACKAGES_TOKEN unset - skipping registry pull secret"
+        REGISTRY_TOKEN=$(kubectl get secret gitea.packages.token -o jsonpath='{.data.value}' 2>/dev/null | base64 -d)
+
+        if [[ -z "$REGISTRY_TOKEN" ]]; then
+          echo "gitea.packages.token secret not found - skipping registry pull secret"
           exit 0
         fi
 
         kubectl create secret docker-registry gitea-registry \
           --docker-server="$REGISTRY_HOST" \
           --docker-username="${GITEA_REGISTRY_USER:-kwkaiser}" \
-          --docker-password="$K8S_GITEA_PACKAGES_TOKEN" \
+          --docker-password="$REGISTRY_TOKEN" \
           --dry-run=client -o yaml | kubectl apply -f -
 
         kubectl patch serviceaccount default \
@@ -116,9 +108,8 @@ tasks:
 
   deploy:
     desc: "Redeploys k8s template"
-    deps: [apply-secrets]
+    deps: [apply-registry-secrets]
     cmds:
-      - task: apply-registry-secrets
       - |
         rm -rf charts/*
         DEPL_ENV="${MODE:-dev}"

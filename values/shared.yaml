@@ -22,6 +22,10 @@ gitea:
     keepVersions: 1
     pruneDryRun: false
 
+## Website values
+website:
+  image_website: "git.kwkaiser.io/kwkaiser/website:1"
+
 ## Immich values
 immich:
   image_immich_db: "ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0"

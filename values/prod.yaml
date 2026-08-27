@@ -21,6 +21,9 @@ dashy:
 gitea:
   enabled: true
 
+website:
+  enabled: true
+
 immich:
   enabled: true
 
