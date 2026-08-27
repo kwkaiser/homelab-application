@@ -58,22 +58,46 @@ tasks:
           kubectl create secret generic "$cleaned_name" --from-literal=value="$cleaned_value" --dry-run=client -o yaml | kubectl apply -f -
         done
 
-        REGISTRY_DOMAIN=$(awk '/^global:/{f=1} f&&/domainName:/{print $2; exit}' "values/$DEPL_ENV.yaml")
-        REGISTRY_TLD=$(awk '/^global:/{f=1} f&&/tld:/{print $2; exit}' "values/$DEPL_ENV.yaml")
+  apply-registry-secrets:
+    desc: "Creates the Gitea container registry pull secret and makes it the namespace default"
+    cmds:
+      - |
+        if command -v ensure-kdbx-password >/dev/null 2>&1; then
+          source ensure-kdbx-password || exit 1
+        fi
+
+        DEPL_ENV="${MODE:-dev}"
+
+        if [[ $DEPL_ENV == 'prod' ]]; then
+          PROFILE_ARGS=()
+        else
+          PROFILE_ARGS=(--profile "$DEPL_ENV")
+        fi
+        eval "$(secretspec export "${PROFILE_ARGS[@]}")"
+
+        REGISTRY_DOMAIN=$(yq '.global.domainName' "values/$DEPL_ENV.yaml")
+        REGISTRY_TLD=$(yq '.global.tld' "values/$DEPL_ENV.yaml")
+
+        if [[ -z "$REGISTRY_DOMAIN" || "$REGISTRY_DOMAIN" == "null" || -z "$REGISTRY_TLD" || "$REGISTRY_TLD" == "null" ]]; then
+          echo "could not read global.domainName/global.tld from values/$DEPL_ENV.yaml" >&2
+          exit 1
+        fi
+
         REGISTRY_HOST="git.${REGISTRY_DOMAIN}.${REGISTRY_TLD}"
 
-        if [[ -n "${K8S_GITEA_PACKAGES_TOKEN:-}" ]]; then
-          kubectl create secret docker-registry gitea-registry \
-            --docker-server="$REGISTRY_HOST" \
-            --docker-username="${GITEA_REGISTRY_USER:-kwkaiser}" \
-            --docker-password="$K8S_GITEA_PACKAGES_TOKEN" \
-            --dry-run=client -o yaml | kubectl apply -f -
-
-          kubectl patch serviceaccount default \
-            -p '{"imagePullSecrets":[{"name":"gitea-registry"}]}'
-        else
+        if [[ -z "${K8S_GITEA_PACKAGES_TOKEN:-}" ]]; then
           echo "K8S_GITEA_PACKAGES_TOKEN unset - skipping registry pull secret"
+          exit 0
         fi
+
+        kubectl create secret docker-registry gitea-registry \
+          --docker-server="$REGISTRY_HOST" \
+          --docker-username="${GITEA_REGISTRY_USER:-kwkaiser}" \
+          --docker-password="$K8S_GITEA_PACKAGES_TOKEN" \
+          --dry-run=client -o yaml | kubectl apply -f -
+
+        kubectl patch serviceaccount default \
+          -p '{"imagePullSecrets":[{"name":"gitea-registry"}]}'
 
   cert:
     desc: "Issues/renews the *.kwkaiser.io wildcard cert via certbot + Cloudflare DNS-01 (needs `nix develop` for the certbot+dns-cloudflare plugin)"
@@ -94,6 +118,7 @@ tasks:
     desc: "Redeploys k8s template"
     deps: [apply-secrets]
     cmds:
+      - task: apply-registry-secrets
       - |
         rm -rf charts/*
         DEPL_ENV="${MODE:-dev}"

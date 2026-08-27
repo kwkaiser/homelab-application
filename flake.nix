@@ -27,6 +27,7 @@
           go-task
           secretspec
           certbot-cloudflare
+          yq-go
         ];
       };
     });
