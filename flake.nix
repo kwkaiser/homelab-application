@@ -28,6 +28,10 @@
           secretspec
           certbot-cloudflare
           yq-go
+          jq
+          kubernetes-helm
+          kubectl
+          kubeconform
         ];
       };
     });
