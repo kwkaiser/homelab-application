@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    secret.reloader.stakater.com/reload: "sparkyfitness.db.password,sparkyfitness.app.db.password,sparkyfitness.api.encryption.key,sparkyfitness.better.auth.secret"
+    secret.reloader.stakater.com/reload: "sparkyfitness.db.password,sparkyfitness.app.db.password,sparkyfitness.api.encryption.key,sparkyfitness.better.auth.secret,sparkyfitness.oidc.clientid,sparkyfitness.oidc.clientsecret"
   name: sparkyfitnessserver
 spec:
   selector:
@@ -62,6 +62,48 @@ spec:
 
             - name: DEV_TOOLS_ENABLED
               value: "false"
+
+            - name: SPARKY_FITNESS_OIDC_AUTH_ENABLED
+              value: "true"
+
+            - name: SPARKY_FITNESS_OIDC_PROVIDER_SLUG
+              value: authentik
+
+            - name: SPARKY_FITNESS_OIDC_PROVIDER_NAME
+              value: authentik
+
+            - name: SPARKY_FITNESS_OIDC_ISSUER_URL
+              value: https://authentik.{{ .Values.global.domainName }}.{{ .Values.global.tld }}/application/o/sparkyfitness/
+
+            - name: SPARKY_FITNESS_OIDC_SCOPE
+              value: "openid email profile"
+
+            - name: SPARKY_FITNESS_OIDC_AUTO_REGISTER
+              value: "true"
+
+            - name: SPARKY_FITNESS_OIDC_AUTO_REDIRECT
+              value: "true"
+
+            - name: SPARKY_FITNESS_OIDC_ADMIN_GROUP
+              value: sparkyfitness-admin
+
+            - name: SPARKY_FITNESS_DISABLE_EMAIL_LOGIN
+              value: "true"
+
+            - name: SPARKY_FITNESS_FORCE_EMAIL_LOGIN
+              value: "false"
+
+            - name: SPARKY_FITNESS_OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: sparkyfitness.oidc.clientid
+                  key: value
+
+            - name: SPARKY_FITNESS_OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sparkyfitness.oidc.clientsecret
+                  key: value
 
             - name: SPARKY_FITNESS_DB_PASSWORD
               valueFrom:
