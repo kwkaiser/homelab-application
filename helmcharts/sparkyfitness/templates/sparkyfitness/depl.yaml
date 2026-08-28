@@ -27,4 +27,4 @@ spec:
               value: "3010"
 
             - name: SPARKY_FITNESS_FRONTEND_URL
-              value: https://fitness.{{ .Values.global.domainName }}.{{ .Values.global.tld }}
+              value: https://fit.{{ .Values.global.domainName }}.{{ .Values.global.tld }}
