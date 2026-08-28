@@ -91,7 +91,7 @@ spec:
               value: "true"
 
             - name: SPARKY_FITNESS_OIDC_ADMIN_GROUP
-              value: sparkyfitness-admin
+              value: sparky-admin
 
             - name: SPARKY_FITNESS_DISABLE_EMAIL_LOGIN
               value: "true"
