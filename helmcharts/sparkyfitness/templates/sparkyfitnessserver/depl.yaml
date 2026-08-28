@@ -79,7 +79,7 @@ spec:
               value: authentik
 
             - name: SPARKY_FITNESS_OIDC_ISSUER_URL
-              value: https://authentik.{{ .Values.global.domainName }}.{{ .Values.global.tld }}/application/o/sparkyfitness/
+              value: https://authentik.{{ .Values.global.domainName }}.{{ .Values.global.tld }}/application/o/sparky/
 
             - name: SPARKY_FITNESS_OIDC_SCOPE
               value: "openid email profile"
