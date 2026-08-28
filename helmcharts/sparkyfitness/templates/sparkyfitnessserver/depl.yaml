@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "sparkyfitness.db.password,sparkyfitness.app.db.password,sparkyfitness.api.encryption.key,sparkyfitness.better.auth.secret"
+  name: sparkyfitnessserver
+spec:
+  selector:
+    matchLabels:
+      app: sparkyfitnessserver
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sparkyfitnessserver
+        app.kubernetes.io/name: sparkyfitnessserver
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: sparkyfitnessserver
+          image: {{ .Values.image_sparkyfitness_server }}
+          ports:
+            - containerPort: 3010
+
+          env:
+            - name: SPARKY_FITNESS_DB_HOST
+              value: sparkyfitnessdb
+
+            - name: SPARKY_FITNESS_DB_PORT
+              value: "5432"
+
+            - name: SPARKY_FITNESS_DB_NAME
+              value: sparkyfitness_db
+
+            - name: SPARKY_FITNESS_DB_USER
+              value: sparky
+
+            - name: SPARKY_FITNESS_APP_DB_USER
+              value: sparky_app
+
+            - name: SPARKY_FITNESS_FRONTEND_URL
+              value: https://fitness.{{ .Values.global.domainName }}.{{ .Values.global.tld }}
+
+            - name: NODE_ENV
+              value: production
+
+            - name: TZ
+              value: America/Los_Angeles
+
+            - name: SPARKY_FITNESS_LOG_LEVEL
+              value: ERROR
+
+            - name: SPARKY_FITNESS_PUBLIC_API_DOCS
+              value: "false"
+
+            - name: SPARKY_FITNESS_DISABLE_SIGNUP
+              value: "true"
+
+            - name: DEV_TOOLS_ENABLED
+              value: "false"
+
+            - name: SPARKY_FITNESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sparkyfitness.db.password
+                  key: value
+
+            - name: SPARKY_FITNESS_APP_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sparkyfitness.app.db.password
+                  key: value
+
+            - name: SPARKY_FITNESS_API_ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sparkyfitness.api.encryption.key
+                  key: value
+
+            - name: BETTER_AUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sparkyfitness.better.auth.secret
+                  key: value
+
+          volumeMounts:
+            - name: data
+              mountPath: /app/SparkyFitnessServer/uploads
+              subPath: application/sparkyfitness/uploads
+
+            - name: data
+              mountPath: /app/SparkyFitnessServer/backup
+              subPath: application/sparkyfitness/backup

@@ -38,6 +38,12 @@ mealie:
   image_mealie: "hkotel/mealie:v3.9.2"
   image_mealie_db: "postgres:17.6-alpine3.21"
 
+## SparkyFitness values
+sparkyfitness:
+  image_sparkyfitness: "codewithcj/sparkyfitness:1.6.3"
+  image_sparkyfitness_server: "codewithcj/sparkyfitness_server:1.6.3"
+  image_sparkyfitness_db: "postgres:18.3-alpine"
+
 ## Miniflux values
 miniflux:
   image_miniflux: "miniflux/miniflux:2.2.13"

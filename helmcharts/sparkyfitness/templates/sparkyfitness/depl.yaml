@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sparkyfitness
+spec:
+  selector:
+    matchLabels:
+      app: sparkyfitness
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sparkyfitness
+        app.kubernetes.io/name: sparkyfitness
+    spec:
+      containers:
+        - name: sparkyfitness
+          image: {{ .Values.image_sparkyfitness }}
+          ports:
+            - containerPort: 80
+
+          env:
+            - name: SPARKY_FITNESS_SERVER_HOST
+              value: sparkyfitnessserver
+
+            - name: SPARKY_FITNESS_SERVER_PORT
+              value: "3010"
+
+            - name: SPARKY_FITNESS_FRONTEND_URL
+              value: https://fitness.{{ .Values.global.domainName }}.{{ .Values.global.tld }}

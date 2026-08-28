@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "sparkyfitness.db.password"
+  name: sparkyfitnessdb
+spec:
+  selector:
+    matchLabels:
+      app: sparkyfitnessdb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sparkyfitnessdb
+        app.kubernetes.io/name: sparkyfitnessdb
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: sparkyfitnessdb-db
+          image: {{ .Values.image_sparkyfitness_db }}
+          ports:
+            - containerPort: 5432
+
+          env:
+            - name: POSTGRES_DB
+              value: sparkyfitness_db
+
+            - name: POSTGRES_USER
+              value: sparky
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sparkyfitness.db.password
+                  key: value
+
+          readinessProbe:
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 15
+            periodSeconds: 10
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql
+              subPath: application/sparkyfitness/db

@@ -44,6 +44,12 @@ dependencies:
     repository: file://./helmcharts/mealie
     condition: mealie.enabled
 
+  # SparkyFitness (Nutrition tracking, backend, database)
+  - name: sparkyfitness
+    version: "0.1.0"
+    repository: file://./helmcharts/sparkyfitness
+    condition: sparkyfitness.enabled
+
   # Miniflux (RSS reader, database)
   - name: miniflux
     version: "0.1.0"

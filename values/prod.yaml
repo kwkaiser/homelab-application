@@ -30,6 +30,9 @@ immich:
 mealie:
   enabled: true
 
+sparkyfitness:
+  enabled: true
+
 miniflux:
   enabled: true
 
