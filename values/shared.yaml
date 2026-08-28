@@ -40,8 +40,8 @@ mealie:
 
 ## SparkyFitness values
 sparkyfitness:
-  image_sparkyfitness: "codewithcj/sparkyfitness:1.6.3"
-  image_sparkyfitness_server: "codewithcj/sparkyfitness_server:1.6.3"
+  image_sparkyfitness: "codewithcj/sparkyfitness:v1.6.4"
+  image_sparkyfitness_server: "codewithcj/sparkyfitness_server:v1.6.4"
   image_sparkyfitness_db: "postgres:18.3-alpine"
 
 ## Miniflux values
