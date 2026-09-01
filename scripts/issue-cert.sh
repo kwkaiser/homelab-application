@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Issues (or renews) the *.kwkaiser.io wildcard cert via certbot's DNS-01
+# Issues (or renews) the kwkaiser.io + *.kwkaiser.io cert via certbot's DNS-01
 # challenge against Cloudflare. Needs `certbot` with the dns-cloudflare
 # plugin on PATH (this repo's flake.nix devshell provides it) and root,
 # since certbot writes to /etc/letsencrypt.
@@ -34,7 +34,9 @@ printf 'dns_cloudflare_api_token = %s\n' "$(secretspec get K8S_CLOUDFLARE_API_TO
 sudo certbot certonly \
   --dns-cloudflare \
   --dns-cloudflare-credentials "$CF_INI" \
+  -d 'kwkaiser.io' \
   -d '*.kwkaiser.io' \
+  --expand \
   --preferred-challenges dns-01 \
   --key-type rsa
 
