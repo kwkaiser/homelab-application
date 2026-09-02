@@ -13,7 +13,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Set up remote builder SSH access
+        env:
+          NIX_REMOTE_BUILDER_KEY: ${{ secrets.NIX_REMOTE_BUILDER_KEY }}
+        run: |
+          set -euo pipefail
+          printf '%s\n' "$NIX_REMOTE_BUILDER_KEY" > /tmp/nix-remote-builder-key
+          chmod 600 /tmp/nix-remote-builder-key
+          ssh-keyscan -H kwkaiser.io | sudo tee -a /etc/ssh/ssh_known_hosts >/dev/null
+          printf 'Host kwkaiser.io\n  User nixbuilder\n  IdentityFile /tmp/nix-remote-builder-key\n' | \
+            sudo tee /etc/ssh/ssh_config.d/nix-remote-builder.conf >/dev/null
+
       - uses: DeterminateSystems/nix-installer-action@main
+        with:
+          extra-conf: |
+            builders = ssh-ng://nixbuilder@kwkaiser.io x86_64-linux /tmp/nix-remote-builder-key 2 1 - - -
+            builders-use-substitutes = true
+            extra-substituters = ssh-ng://nixbuilder@kwkaiser.io?trusted=true
+            max-jobs = 0
 
       - name: Lint helm chart
         run: nix develop --accept-flake-config --command task lint --yes
@@ -26,7 +43,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Set up remote builder SSH access
+        env:
+          NIX_REMOTE_BUILDER_KEY: ${{ secrets.NIX_REMOTE_BUILDER_KEY }}
+        run: |
+          set -euo pipefail
+          printf '%s\n' "$NIX_REMOTE_BUILDER_KEY" > /tmp/nix-remote-builder-key
+          chmod 600 /tmp/nix-remote-builder-key
+          ssh-keyscan -H kwkaiser.io | sudo tee -a /etc/ssh/ssh_known_hosts >/dev/null
+          printf 'Host kwkaiser.io\n  User nixbuilder\n  IdentityFile /tmp/nix-remote-builder-key\n' | \
+            sudo tee /etc/ssh/ssh_config.d/nix-remote-builder.conf >/dev/null
+
       - uses: DeterminateSystems/nix-installer-action@main
+        with:
+          extra-conf: |
+            builders = ssh-ng://nixbuilder@kwkaiser.io x86_64-linux /tmp/nix-remote-builder-key 2 1 - - -
+            builders-use-substitutes = true
+            extra-substituters = ssh-ng://nixbuilder@kwkaiser.io?trusted=true
+            max-jobs = 0
 
       - name: Run helm command
         run: |
