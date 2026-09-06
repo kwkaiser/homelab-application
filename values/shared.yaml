@@ -71,7 +71,7 @@ vpn:
 
 ## Borgmatic values
 borgmatic:
-  image_borgmatic: "b3vis/borgmatic:2.0.12"
+  image_borgmatic: "b3vis/borgmatic:2.1.7"
 
 ## Calibre Web values
 calibre-web:

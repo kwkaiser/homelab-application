@@ -66,7 +66,7 @@ spec:
             path: value
   containers:
     - name: borgmatic
-      image: b3vis/borgmatic:2.0.12
+      image: b3vis/borgmatic:2.1.7
       command: ["/bin/sh", "-c"]
       args:
         - |
