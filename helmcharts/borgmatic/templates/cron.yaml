@@ -76,6 +76,12 @@ spec:
                       name: authentik.db.password
                       key: value
 
+                - name: SPARKYFITNESS_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: sparkyfitness.db.password
+                      key: value
+
                 - name: OPNSENSE_HOST
                   value: {{ .Values.opnsenseHost | quote }}
 
@@ -156,6 +162,12 @@ spec:
                   valueFrom:
                     secretKeyRef:
                       name: backup.passphrase
+                      key: value
+
+                - name: SPARKYFITNESS_DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: sparkyfitness.db.password
                       key: value
 
                 - name: OPNSENSE_HOST
