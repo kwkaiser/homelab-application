@@ -76,7 +76,7 @@ ssh_command: ssh -o StrictHostKeyChecking=no -i /borgmatic-borgbase-key-2
 
 extra_borg_options:
   create: --progress --stats
-  prune: --stats
+  prune: --stats --list --match-archives sh:borgmatic-*
   compact: --progress
   check: --progress
 
@@ -94,21 +94,18 @@ before_backup:
 
 after_backup:
   - echo 'Ended backup'
-  - borgmatic check
 
 before_check:
   - echo 'Starting checks'
 
 after_check:
   - echo 'Ended checks'
-  - borgmatic prune --match-archives 'sh:borgmatic-*' --list
 
 before_prune:
   - echo 'Starting prune'
 
 after_prune:
   - echo 'Ended prune'
-  - borgmatic compact
 
 before_compact:
   - echo 'Starting compact'
