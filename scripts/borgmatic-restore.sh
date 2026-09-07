@@ -95,6 +95,8 @@ spec:
           valueFrom: { secretKeyRef: { name: mealie.db.password, key: value } }
         - name: AUTHENTIK_DB_PASSWORD
           valueFrom: { secretKeyRef: { name: authentik.db.password, key: value } }
+        - name: SPARKYFITNESS_DB_PASSWORD
+          valueFrom: { secretKeyRef: { name: sparkyfitness.db.password, key: value } }
         - name: OPNSENSE_HOST
           value: "192.168.1.1"
         - name: OPNSENSE_API_KEY
