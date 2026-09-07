@@ -64,6 +64,7 @@ keep_within: 7d
 keep_daily: 7
 keep_weekly: 1
 keep_monthly: 1
+match_archives: sh:borgmatic-*
 
 # Repos
 repositories:
@@ -76,7 +77,7 @@ ssh_command: ssh -o StrictHostKeyChecking=no -i /borgmatic-borgbase-key-2
 
 extra_borg_options:
   create: --progress --stats
-  prune: --stats --list --match-archives sh:borgmatic-*
+  prune: --stats --list
   compact: --progress
   check: --progress
 
