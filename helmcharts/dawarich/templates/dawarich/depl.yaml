@@ -33,6 +33,8 @@ spec:
 
         - name: dawarich
           image: {{ .Values.image_dawarich }}
+          command: ["web-entrypoint.sh"]
+          args: ["bin/rails", "server", "-p", "3000", "-b", "::"]
           ports:
             - containerPort: 3000
 
