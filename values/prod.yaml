@@ -64,3 +64,6 @@ syncthing:
 
 owntracks:
   enabled: true
+
+dawarich:
+  enabled: true

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "dawarich.db.password"
+  name: dawarichdb
+spec:
+  selector:
+    matchLabels:
+      app: dawarichdb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dawarichdb
+        app.kubernetes.io/name: dawarichdb
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: dawarichdb
+          image: {{ .Values.image_dawarich_db }}
+          ports:
+            - containerPort: 5432
+
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dawarich.db.password
+                  key: value
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+              subPath: application/dawarich/db

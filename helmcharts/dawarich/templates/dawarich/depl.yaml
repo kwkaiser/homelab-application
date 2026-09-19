@@ -1,0 +1,210 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "dawarich.db.password,dawarich.secret.key.base,dawarich.oidc.clientid,dawarich.oidc.clientsecret"
+  name: dawarich
+spec:
+  selector:
+    matchLabels:
+      app: dawarich
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dawarich
+        app.kubernetes.io/name: dawarich
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: redis
+          image: {{ .Values.image_dawarich_redis }}
+          ports:
+            - containerPort: 6379
+
+          volumeMounts:
+            - name: data
+              mountPath: /data
+              subPath: application/dawarich/redis
+
+        - name: dawarich
+          image: {{ .Values.image_dawarich }}
+          ports:
+            - containerPort: 3000
+
+          env:
+            - name: RAILS_ENV
+              value: production
+
+            - name: REDIS_URL
+              value: redis://localhost:6379
+
+            - name: DATABASE_HOST
+              value: dawarichdb
+
+            - name: DATABASE_PORT
+              value: "5432"
+
+            - name: DATABASE_USERNAME
+              value: postgres
+
+            - name: DATABASE_NAME
+              value: postgres
+
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dawarich.db.password
+                  key: value
+
+            - name: APPLICATION_HOSTS
+              value: maps.kwkaiser.io
+
+            - name: APPLICATION_PROTOCOL
+              value: https
+
+            - name: TIME_ZONE
+              value: America/Los_Angeles
+
+            - name: RAILS_LOG_TO_STDOUT
+              value: "true"
+
+            - name: SELF_HOSTED
+              value: "true"
+
+            - name: STORE_GEODATA
+              value: "true"
+
+            - name: WEB_CONCURRENCY
+              value: "1"
+
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: dawarich.secret.key.base
+                  key: value
+
+            - name: OIDC_ISSUER
+              value: https://authentik.kwkaiser.io/application/o/dawarich/
+
+            - name: OIDC_REDIRECT_URI
+              value: https://maps.kwkaiser.io/users/auth/openid_connect/callback
+
+            - name: OIDC_PROVIDER_NAME
+              value: authentik
+
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: dawarich.oidc.clientid
+                  key: value
+
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: dawarich.oidc.clientsecret
+                  key: value
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/app/public
+              subPath: application/dawarich/public
+            - name: data
+              mountPath: /var/app/tmp/imports/watched
+              subPath: application/dawarich/watched
+            - name: data
+              mountPath: /var/app/storage
+              subPath: application/dawarich/storage
+
+        - name: dawarich-sidekiq
+          image: {{ .Values.image_dawarich }}
+          command: ["sidekiq-entrypoint.sh"]
+          args: ["sidekiq"]
+
+          env:
+            - name: RAILS_ENV
+              value: production
+
+            - name: REDIS_URL
+              value: redis://localhost:6379
+
+            - name: DATABASE_HOST
+              value: dawarichdb
+
+            - name: DATABASE_PORT
+              value: "5432"
+
+            - name: DATABASE_USERNAME
+              value: postgres
+
+            - name: DATABASE_NAME
+              value: postgres
+
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dawarich.db.password
+                  key: value
+
+            - name: APPLICATION_HOSTS
+              value: maps.kwkaiser.io
+
+            - name: APPLICATION_PROTOCOL
+              value: https
+
+            - name: TIME_ZONE
+              value: America/Los_Angeles
+
+            - name: RAILS_LOG_TO_STDOUT
+              value: "true"
+
+            - name: SELF_HOSTED
+              value: "true"
+
+            - name: STORE_GEODATA
+              value: "true"
+
+            - name: BACKGROUND_PROCESSING_CONCURRENCY
+              value: "3"
+
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: dawarich.secret.key.base
+                  key: value
+
+            - name: OIDC_ISSUER
+              value: https://authentik.kwkaiser.io/application/o/dawarich/
+
+            - name: OIDC_REDIRECT_URI
+              value: https://maps.kwkaiser.io/users/auth/openid_connect/callback
+
+            - name: OIDC_PROVIDER_NAME
+              value: authentik
+
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: dawarich.oidc.clientid
+                  key: value
+
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: dawarich.oidc.clientsecret
+                  key: value
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/app/public
+              subPath: application/dawarich/public
+            - name: data
+              mountPath: /var/app/tmp/imports/watched
+              subPath: application/dawarich/watched
+            - name: data
+              mountPath: /var/app/storage
+              subPath: application/dawarich/storage

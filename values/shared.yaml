@@ -95,3 +95,9 @@ dashy:
 ## OwnTracks values
 owntracks:
   image_owntracks: "owntracks/recorder:1.0.4"
+
+## Dawarich values
+dawarich:
+  image_dawarich: "freikin/dawarich:1.14.5"
+  image_dawarich_db: "postgis/postgis:17-3.5-alpine"
+  image_dawarich_redis: "redis:7.4-alpine"
