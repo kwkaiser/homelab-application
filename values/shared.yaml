@@ -91,3 +91,7 @@ syncthing:
 
 dashy:
   image_dashy: "lissy93/dashy:release-3.1.1"
+
+## OwnTracks values
+owntracks:
+  image_owntracks: "owntracks/recorder:1.0.4"

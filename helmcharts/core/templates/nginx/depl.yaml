@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     configmap.reloader.stakater.com/reload: "nginx-configs"
-    secret.reloader.stakater.com/reload: "nginx.certificate.key,nginx.certificate"
+    secret.reloader.stakater.com/reload: "nginx.certificate.key,nginx.certificate,owntracks.basic.auth.user,owntracks.basic.auth.password"
   name: nginx
 spec:
   selector:
@@ -43,6 +43,19 @@ spec:
             - containerPort: 80
             - containerPort: 443
 
+          env:
+            - name: OWNTRACKS_BASIC_AUTH_USER
+              valueFrom:
+                secretKeyRef:
+                  name: owntracks.basic.auth.user
+                  key: value
+
+            - name: OWNTRACKS_BASIC_AUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: owntracks.basic.auth.password
+                  key: value
+
           volumeMounts:
             - name: nginx-certificate
               mountPath: /usr/local/openresty/nginx/conf/keys/{{ .Values.global.domainName }}.{{ .Values.global.tld }}.crt
@@ -52,7 +65,7 @@ spec:
               mountPath: /usr/local/openresty/nginx/conf/keys/{{ .Values.global.domainName }}.{{ .Values.global.tld }}.key
               subPath: value
               readOnly: true
-            
+
           {{- range $path, $content := .Files.Glob "config/nginx**" }}
           {{- $cleanedPath := regexReplaceAll "\\/" (trimPrefix "config/nginx/" $path ) "_" }}
             - name: nginx-configs

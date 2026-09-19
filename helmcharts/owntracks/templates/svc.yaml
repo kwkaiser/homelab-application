@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: owntracks
+spec:
+  selector:
+    app: owntracks
+    app.kubernetes.io/name: owntracks
+  ports:
+    - protocol: TCP
+      name: owntracks
+      port: 80
+      targetPort: 8083

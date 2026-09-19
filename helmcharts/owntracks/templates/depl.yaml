@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "owntracks.basic.auth.user,owntracks.basic.auth.password"
+  name: owntracks
+spec:
+  selector:
+    matchLabels:
+      app: owntracks
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: owntracks
+        app.kubernetes.io/name: owntracks
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: owntracks
+          image: {{ .Values.image_owntracks }}
+          ports:
+            - containerPort: 8083
+
+          env:
+            - name: OTR_PORT
+              value: "0"
+
+            - name: OWNTRACKS_BASIC_AUTH_USER
+              valueFrom:
+                secretKeyRef:
+                  name: owntracks.basic.auth.user
+                  key: value
+
+            - name: OWNTRACKS_BASIC_AUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: owntracks.basic.auth.password
+                  key: value
+
+          volumeMounts:
+            - name: data
+              mountPath: /store
+              subPath: application/owntracks

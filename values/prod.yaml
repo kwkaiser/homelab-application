@@ -61,3 +61,6 @@ minecraft:
 
 syncthing:
   enabled: true
+
+owntracks:
+  enabled: true
