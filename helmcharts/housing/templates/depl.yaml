@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "housing.openrouter.api.key,housing.apify.token"
+  name: housing
+spec:
+  selector:
+    matchLabels:
+      app: housing
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: housing
+        app.kubernetes.io/name: housing
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      containers:
+        - name: housing
+          image: {{ .Values.image_housing }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+
+          env:
+            - name: OPENROUTER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: housing.openrouter.api.key
+                  key: value
+
+            - name: APIFY_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: housing.apify.token
+                  key: value
+
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 30
+
+          volumeMounts:
+            - name: data
+              mountPath: /data
+              subPath: application/housing

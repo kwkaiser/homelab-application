@@ -69,3 +69,6 @@ owntracks:
 
 dawarich:
   enabled: false
+
+housing:
+  enabled: false

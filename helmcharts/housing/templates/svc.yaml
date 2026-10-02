@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: housing
+spec:
+  selector:
+    app: housing
+    app.kubernetes.io/name: housing
+  ports:
+    - protocol: TCP
+      name: housing
+      port: 80
+      targetPort: 8080
