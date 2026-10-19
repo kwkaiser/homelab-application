@@ -1,14 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
+  "extends": ["config:recommended"],
   "platform": "gitea",
   "endpoint": "http://gitea",
   "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
-  "allowedPostUpgradeCommands": ["^\\./nix/vendor-hash\\.sh$"],
+  "allowedCommands": ["^\\./nix/vendor-hash\\.sh$"],
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["values\\/shared\\.yaml"],
+      "managerFilePatterns": ["/(^|/)values/shared\\.yaml$/"],
       "matchStrings": ["(image_.*): \"(?<depName>.+):(?<currentValue>.+)\""],
       "datasourceTemplate": "docker"
     }

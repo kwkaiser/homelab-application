@@ -55,7 +55,7 @@ spec:
                   printf 'Host {{ $builderHost }}\n  IdentityFile /home/ubuntu/.ssh/nix-remote-builder-key\n' > /ssh/config
                   chmod 700 /ssh
                   chmod 600 /ssh/*
-                  chown -R 1000:1000 /nix-shared /ssh
+                  chown -R 12021 /nix-shared /ssh
               volumeMounts:
                 - name: nix
                   mountPath: /nix-shared

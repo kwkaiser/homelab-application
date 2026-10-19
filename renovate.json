@@ -1,18 +1,16 @@
 {
-  "extends": ["config:base"],
-  "platform": "gitea",
-  "endpoint": "http://gitea",
+  "extends": ["config:recommended"],
   "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["values\\/shared\\.yaml"],
+      "managerFilePatterns": ["/(^|/)values/shared\\.yaml$/"],
       "matchStrings": ["(image_.*): \"(?<depName>.+):(?<currentValue>.+)\""],
       "datasourceTemplate": "docker"
     }
   ],
   "packageRules": [{
-    "matchPackagePatterns": ["semver"],
+    "matchPackageNames": ["/semver/"],
     "matchUpdateTypes": ["major", "minor", "patch"]
   }]
 }
