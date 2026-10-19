@@ -4,6 +4,7 @@
   "platform": "gitea",
   "endpoint": "http://gitea",
   "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
+  "allowedPostUpgradeCommands": ["^\\./nix/vendor-hash\\.sh$"],
   "customManagers": [
     {
       "customType": "regex",

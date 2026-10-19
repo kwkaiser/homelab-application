@@ -1,8 +1,10 @@
+{{- $builder := .Values.renovate.nixBuilder }}
+{{- $builderHost := last (splitList "@" $builder) }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   annotations:
-    secret.reloader.stakater.com/reload: "gitea.renovate.token"
+    secret.reloader.stakater.com/reload: "gitea.renovate.token,nix.remote.builder.key"
   name: renovate
 spec:
   schedule: "0 */24 * * *"
@@ -25,6 +27,46 @@ spec:
                   - key: config.json
                     path: config.json
 
+            - name: nix
+              emptyDir: {}
+
+            - name: ssh
+              emptyDir: {}
+
+            - name: nix-remote-builder-key
+              secret:
+                secretName: nix.remote.builder.key
+                items:
+                  - key: value
+                    path: value
+
+          initContainers:
+            - name: nix-store
+              image: {{ .Values.image_gitea_renovate_nix }}
+              command:
+                - sh
+                - -c
+                - |
+                  set -eu
+                  cp -a /nix/. /nix-shared/
+                  cp /nix-remote-builder-key/value /ssh/nix-remote-builder-key
+                  echo >> /ssh/nix-remote-builder-key
+                  ssh-keyscan -H {{ $builderHost }} > /ssh/known_hosts
+                  printf 'Host {{ $builderHost }}\n  IdentityFile /home/ubuntu/.ssh/nix-remote-builder-key\n' > /ssh/config
+                  chmod 700 /ssh
+                  chmod 600 /ssh/*
+                  chown -R 1000:1000 /nix-shared /ssh
+              volumeMounts:
+                - name: nix
+                  mountPath: /nix-shared
+
+                - name: ssh
+                  mountPath: /ssh
+
+                - name: nix-remote-builder-key
+                  mountPath: /nix-remote-builder-key
+                  readOnly: true
+
           containers:
             - name: gitea-renovate
               image: {{ .Values.image_gitea_renovate }}
@@ -35,6 +77,19 @@ spec:
 
                 - name: RENOVATE_CONFIG_FILE
                   value: /usr/src/app/config.json
+
+                - name: PATH
+                  value: /nix/var/nix/profiles/default/bin:/home/ubuntu/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+                - name: NIX_CONFIG
+                  value: |
+                    experimental-features = nix-command flakes
+                    sandbox = false
+                    build-users-group =
+                    builders = ssh-ng://{{ $builder }} x86_64-linux - 2 1 - - -
+                    builders-use-substitutes = true
+                    extra-substituters = ssh-ng://{{ $builder }}?trusted=true
+                    max-jobs = 0
 
                 - name: RENOVATE_AUTODISCOVER
                   value: "true"
@@ -50,3 +105,9 @@ spec:
                   mountPath: /usr/src/app/config.json
                   subPath: config.json
                   readOnly: false
+
+                - name: nix
+                  mountPath: /nix
+
+                - name: ssh
+                  mountPath: /home/ubuntu/.ssh
