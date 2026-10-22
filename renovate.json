@@ -1,16 +1,33 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
-  "customManagers": [
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 0,
+  "major": {
+    "dependencyDashboardApproval": true
+  },
+  "packageRules": [
     {
-      "customType": "regex",
-      "managerFilePatterns": ["/(^|/)values/shared\\.yaml$/"],
-      "matchStrings": ["(image_.*): \"(?<depName>.+):(?<currentValue>.+)\""],
-      "datasourceTemplate": "docker"
+      "matchPackageNames": ["codewithcj/sparkyfitness", "codewithcj/sparkyfitness_server"],
+      "groupName": "sparkyfitness"
+    },
+    {
+      "matchPackageNames": ["postgres", "postgis/postgis", "redis"],
+      "additionalBranchPrefix": "{{parentDir}}-",
+      "commitMessageSuffix": "({{parentDir}})"
+    },
+    {
+      "matchPackageNames": ["ghcr.io/immich-app/postgres"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "matchPackageNames": ["linuxserver/calibre-web"],
+      "allowedVersions": "<1"
+    },
+    {
+      "matchPackageNames": ["linuxserver/qbittorrent"],
+      "allowedVersions": "<14"
     }
-  ],
-  "packageRules": [{
-    "matchPackageNames": ["/semver/"],
-    "matchUpdateTypes": ["major", "minor", "patch"]
-  }]
+  ]
 }
