@@ -1,6 +1,7 @@
 {{- define "core.nginx.configs" -}}
 {{- $root := .root -}}
-{{- range $scope := list "shared" .instance }}
+{{- $scopes := ternary (list "shared" "public" "private") (list "shared" .instance) (eq .instance "private") -}}
+{{- range $scope := $scopes }}
 {{- range $path, $_ := $root.Files.Glob (printf "config/nginx/%s/**" $scope) }}
 {{ trimPrefix (printf "config/nginx/%s/" $scope) $path }}: {{ $path }}
 {{- end }}
