@@ -20,7 +20,7 @@ spec:
 
       containers:
         - name: radarr
-          image: {{ .Values.image_radarr }}
+          image: {{ .Values.radarr.image.repository }}:{{ .Values.radarr.image.tag }}
           ports:
             - containerPort: 7878
 

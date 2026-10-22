@@ -42,7 +42,7 @@ spec:
 
           initContainers:
             - name: nix-store
-              image: {{ .Values.image_gitea_renovate_nix }}
+              image: {{ .Values.renovateNix.image.repository }}:{{ .Values.renovateNix.image.tag }}
               command:
                 - sh
                 - -c
@@ -69,7 +69,7 @@ spec:
 
           containers:
             - name: gitea-renovate
-              image: {{ .Values.image_gitea_renovate }}
+              image: {{ .Values.renovate.image.repository }}:{{ .Values.renovate.image.tag }}
 
               env:
                 - name: LOG_LEVEL

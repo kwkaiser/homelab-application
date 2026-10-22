@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: immichdb
-          image: {{ .Values.image_immich_db }}
+          image: {{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}
           ports:
             - containerPort: 5432
 

@@ -26,7 +26,7 @@ spec:
 
       containers:
         - name: redis
-          image: {{ .Values.image_immich_redis }}
+          image: {{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}
           ports:
             - containerPort: 6379 
 
@@ -36,7 +36,7 @@ spec:
               subPath: application/immich/redis
 
         - name: immich-ml
-          image: {{ .Values.image_immich_ml }}
+          image: {{ .Values.machineLearning.image.repository }}:{{ .Values.machineLearning.image.tag }}
           ports:
             - containerPort: 3003
           volumeMounts:
@@ -52,7 +52,7 @@ spec:
               value: '0.0.0.0'
 
         - name: immich-server
-          image: {{ .Values.image_immich_server }}
+          image: {{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}
           ports:
             - containerPort: 2283
           env:

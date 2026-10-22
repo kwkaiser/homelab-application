@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: authentik-worker
-          image: {{ .Values.image_authentik_server }}
+          image: {{ .Values.authentik.image.repository }}:{{ .Values.authentik.image.tag }}
           command: 
             - /bin/sh
             - -c

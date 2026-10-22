@@ -20,7 +20,7 @@ spec:
 
       containers:
         - name: minecraft
-          image: {{ .Values.image_minecraft }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           ports:
             - containerPort: 25565
 

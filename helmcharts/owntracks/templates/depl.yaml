@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: owntracks
-          image: {{ .Values.image_owntracks }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           ports:
             - containerPort: 8083
 

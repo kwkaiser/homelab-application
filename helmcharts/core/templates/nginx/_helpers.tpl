@@ -61,7 +61,7 @@ spec:
 
       containers:
         - name: nginx
-          image: {{ $root.Values.image_nginx }}
+          image: {{ $root.Values.nginx.image.repository }}:{{ $root.Values.nginx.image.tag }}
           ports:
             - containerPort: 80
             - containerPort: 443

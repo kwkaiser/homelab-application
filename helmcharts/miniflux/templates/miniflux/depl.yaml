@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: miniflux
-          image: {{ .Values.image_miniflux }}
+          image: {{ .Values.miniflux.image.repository }}:{{ .Values.miniflux.image.tag }}
           ports:
             - containerPort: 8080
 

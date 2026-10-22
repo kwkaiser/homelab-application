@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: ldap-user-manager
-          image: {{ .Values.image_ldap_user_manager }}
+          image: {{ .Values.ldapUserManager.image.repository }}:{{ .Values.ldapUserManager.image.tag }}
           ports:
             - containerPort: 80
           env:

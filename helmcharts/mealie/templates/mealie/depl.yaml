@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: mealie
-          image: {{ .Values.image_mealie }}
+          image: {{ .Values.mealie.image.repository }}:{{ .Values.mealie.image.tag }}
           ports:
             - containerPort: 9000
 

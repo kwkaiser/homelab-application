@@ -35,7 +35,7 @@ spec:
 
           initContainers:
             - name: borgmatic-init
-              image: {{ .Values.image_borgmatic }}
+              image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
 
               command: ["/bin/sh", "-c"]
               args: ["cp /borgmatic-borgbase-key /borgmatic-borgbase-key-2; echo '' >> /borgmatic-borgbase-key-2; chmod 0600 /borgmatic-borgbase-key-2; /usr/local/bin/borgmatic break-lock || true; /usr/local/bin/borgmatic rcreate -e repokey"]
@@ -118,7 +118,7 @@ spec:
 
           containers:
             - name: borgmatic-create
-              image: {{ .Values.image_borgmatic }}
+              image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
 
               command: ["/bin/sh", "-c"]
               args: ["cp /borgmatic-borgbase-key /borgmatic-borgbase-key-2; echo '' >> /borgmatic-borgbase-key-2; chmod 0600 /borgmatic-borgbase-key-2;  /usr/local/bin/borgmatic create prune compact check"]

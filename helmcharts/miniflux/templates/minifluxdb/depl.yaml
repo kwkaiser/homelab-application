@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: minifluxdb-db
-          image: {{ .Values.image_miniflux_db }}
+          image: {{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}
           ports:
             - containerPort: 5432
 

@@ -20,7 +20,7 @@ spec:
 
       containers:
         - name: syncthing
-          image: {{ .Values.image_syncthing }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           ports:
             - containerPort: 8384
 

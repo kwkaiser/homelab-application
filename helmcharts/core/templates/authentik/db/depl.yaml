@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: authentikdb
-          image: {{ .Values.image_authentik_db }}
+          image: {{ .Values.authentikDb.image.repository }}:{{ .Values.authentikDb.image.tag }}
           ports:
             - containerPort: 5432
 

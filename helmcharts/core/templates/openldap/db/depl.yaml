@@ -23,7 +23,7 @@ spec:
 
       containers:
         - name: openldap
-          image: {{ .Values.image_openldap }}
+          image: {{ .Values.openldap.image.repository }}:{{ .Values.openldap.image.tag }}
           ports:
             - containerPort: 636
             - containerPort: 389

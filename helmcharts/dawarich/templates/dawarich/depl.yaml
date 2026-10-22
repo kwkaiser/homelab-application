@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: redis
-          image: {{ .Values.image_dawarich_redis }}
+          image: {{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}
           ports:
             - containerPort: 6379
 
@@ -32,7 +32,7 @@ spec:
               subPath: application/dawarich/redis
 
         - name: dawarich
-          image: {{ .Values.image_dawarich }}
+          image: {{ .Values.dawarich.image.repository }}:{{ .Values.dawarich.image.tag }}
           command: ["web-entrypoint.sh"]
           args: ["bin/rails", "server", "-p", "3000", "-b", "::"]
           ports:
@@ -129,7 +129,7 @@ spec:
               subPath: application/dawarich/storage
 
         - name: dawarich-sidekiq
-          image: {{ .Values.image_dawarich }}
+          image: {{ .Values.dawarich.image.repository }}:{{ .Values.dawarich.image.tag }}
           command: ["sidekiq-entrypoint.sh"]
           args: ["sidekiq"]
 

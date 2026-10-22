@@ -1,0 +1,14 @@
+dawarich:
+  image:
+    repository: freikin/dawarich
+    tag: "1.14.5"
+
+db:
+  image:
+    repository: postgis/postgis
+    tag: "17-3.5-alpine"
+
+redis:
+  image:
+    repository: redis
+    tag: "7.4-alpine"
