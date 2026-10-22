@@ -81,16 +81,6 @@ spec:
                 - name: PATH
                   value: /nix/var/nix/profiles/default/bin:/home/ubuntu/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-                - name: NIX_CONFIG
-                  value: |
-                    experimental-features = nix-command flakes
-                    sandbox = false
-                    build-users-group =
-                    builders = ssh-ng://{{ $builder }} x86_64-linux - 2 1 - - -
-                    builders-use-substitutes = true
-                    extra-substituters = ssh-ng://{{ $builder }}?trusted=true
-                    max-jobs = 0
-
                 - name: RENOVATE_AUTODISCOVER
                   value: "true"
 
