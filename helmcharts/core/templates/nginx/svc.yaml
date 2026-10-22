@@ -25,6 +25,10 @@ metadata:
   name: nginx-private
 spec:
   type: ClusterIP
+  {{- with .Values.nginx.tailnetIP }}
+  externalIPs:
+    - {{ . }}
+  {{- end }}
   selector:
     app: nginx-private
   ports:
