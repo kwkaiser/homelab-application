@@ -1,9 +1,9 @@
 miniflux:
   image:
     repository: miniflux/miniflux
-    tag: "2.2.13"
+    tag: "2.3.4"
 
 db:
   image:
     repository: postgres
-    tag: "17.6-alpine3.21"
+    tag: "17.11-alpine"

@@ -6,9 +6,9 @@ wireguard:
 qbittorrent:
   image:
     repository: linuxserver/qbittorrent
-    tag: "5.0.1"
+    tag: "5.3.0"
 
 kasm:
   image:
     repository: kasmweb/chrome
-    tag: "1.18.0"
+    tag: "1.19.0"
