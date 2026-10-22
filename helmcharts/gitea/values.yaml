@@ -6,7 +6,7 @@ gitea:
 giteaDb:
   image:
     repository: postgres
-    tag: "16.4-alpine3.19"
+    tag: "16.15-alpine"
 
 runner:
   image:
@@ -21,14 +21,14 @@ dind:
 renovate:
   image:
     repository: renovate/renovate
-    tag: "44.167.5"
+    tag: "44.178.1"
 
 renovateNix:
   image:
     repository: nixos/nix
-    tag: "2.35.3"
+    tag: "2.35.4"
 
 registry:
   image:
     repository: alpine
-    tag: "3.24.1"
+    tag: "3.24.3"

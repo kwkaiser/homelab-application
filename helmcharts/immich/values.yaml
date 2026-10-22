@@ -1,12 +1,12 @@
 server:
   image:
     repository: ghcr.io/immich-app/immich-server
-    tag: "v3.1.0"
+    tag: "v3.3.5"
 
 machineLearning:
   image:
     repository: ghcr.io/immich-app/immich-machine-learning
-    tag: "v3.1.0"
+    tag: "v3.3.5"
 
 db:
   image:
@@ -16,4 +16,4 @@ db:
 redis:
   image:
     repository: redis
-    tag: "7.4.7-bookworm"
+    tag: "7.4.11-bookworm"

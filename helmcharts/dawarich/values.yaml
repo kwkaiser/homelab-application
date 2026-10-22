@@ -1,7 +1,7 @@
 dawarich:
   image:
     repository: freikin/dawarich
-    tag: "1.14.5"
+    tag: "1.16.0"
 
 db:
   image:
@@ -11,4 +11,4 @@ db:
 redis:
   image:
     repository: redis
-    tag: "7.4-alpine"
+    tag: "7.4.11-alpine"
