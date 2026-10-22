@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: giteadb
-          image: {{ .Values.image_gitea_db }}
+          image: {{ .Values.giteaDb.image.repository }}:{{ .Values.giteaDb.image.tag }}
           ports:
             - containerPort: 5432
 

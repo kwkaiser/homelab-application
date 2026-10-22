@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: authentik-server
-          image: {{ .Values.image_authentik_server }}
+          image: {{ .Values.authentik.image.repository }}:{{ .Values.authentik.image.tag }}
           args: ["server"]
           ports:
             - containerPort: 9000

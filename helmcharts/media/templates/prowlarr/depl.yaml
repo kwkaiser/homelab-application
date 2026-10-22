@@ -20,7 +20,7 @@ spec:
 
       containers:
         - name: prowlarr
-          image: {{ .Values.image_prowlarr }}
+          image: {{ .Values.prowlarr.image.repository }}:{{ .Values.prowlarr.image.tag }}
           ports:
             - containerPort: 9696
 

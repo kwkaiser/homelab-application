@@ -1,0 +1,14 @@
+radarr:
+  image:
+    repository: linuxserver/radarr
+    tag: "5.27.5"
+
+sonarr:
+  image:
+    repository: linuxserver/sonarr
+    tag: "4.0.16"
+
+prowlarr:
+  image:
+    repository: linuxserver/prowlarr
+    tag: "1.37.0"

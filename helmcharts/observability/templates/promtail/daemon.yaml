@@ -41,7 +41,7 @@ spec:
 
       containers:
         - name: promtail
-          image: {{ .Values.image_promtail }}
+          image: {{ .Values.promtail.image.repository }}:{{ .Values.promtail.image.tag }}
           args:
             - "-config.file=/etc/promtail/promtail.yaml"
 

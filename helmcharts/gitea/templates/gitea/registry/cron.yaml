@@ -25,7 +25,7 @@ spec:
 
           containers:
             - name: gitea-registry-prune
-              image: {{ .Values.image_registry_prune }}
+              image: {{ .Values.registry.image.repository }}:{{ .Values.registry.image.tag }}
               command: ["/bin/sh", "/scripts/prune.sh"]
 
               env:

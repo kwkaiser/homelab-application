@@ -1,0 +1,14 @@
+wireguard:
+  image:
+    repository: linuxserver/wireguard
+    tag: "1.0.20210914-legacy"
+
+qbittorrent:
+  image:
+    repository: linuxserver/qbittorrent
+    tag: "5.0.1"
+
+kasm:
+  image:
+    repository: kasmweb/chrome
+    tag: "1.18.0"

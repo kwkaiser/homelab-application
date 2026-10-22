@@ -29,7 +29,7 @@ spec:
 
       containers:
         - name: prometheus
-          image: {{ .Values.image_prometheus }}
+          image: {{ .Values.prometheus.image.repository }}:{{ .Values.prometheus.image.tag }}
           securityContext:
             runAsUser: 0
           ports:

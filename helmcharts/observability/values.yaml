@@ -1,0 +1,19 @@
+prometheus:
+  image:
+    repository: prom/prometheus
+    tag: "v2.54.0"
+
+grafana:
+  image:
+    repository: grafana/grafana
+    tag: "11.6.9"
+
+promtail:
+  image:
+    repository: grafana/promtail
+    tag: "3.6.3"
+
+loki:
+  image:
+    repository: grafana/loki
+    tag: "3.5.8"

@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: mealiedb-db
-          image: {{ .Values.image_mealie_db }}
+          image: {{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}
           ports:
             - containerPort: 5432
 

@@ -1,0 +1,9 @@
+mealie:
+  image:
+    repository: hkotel/mealie
+    tag: "v3.24.0"
+
+db:
+  image:
+    repository: postgres
+    tag: "17.6-alpine3.21"

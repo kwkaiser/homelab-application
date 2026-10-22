@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: sparkyfitness
-          image: {{ .Values.image_sparkyfitness }}
+          image: {{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}
           ports:
             - containerPort: 80
 

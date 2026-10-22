@@ -20,7 +20,7 @@ spec:
 
       containers:
         - name: calibre-web
-          image: {{ .Values.image_calibre_web }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           ports:
             - containerPort: 8083
 

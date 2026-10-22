@@ -20,7 +20,7 @@ spec:
 
       containers:
         - name: sonarr
-          image: {{ .Values.image_sonarr }}
+          image: {{ .Values.sonarr.image.repository }}:{{ .Values.sonarr.image.tag }}
           ports:
             - containerPort: 8989
 

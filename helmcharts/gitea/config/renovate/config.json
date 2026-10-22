@@ -7,13 +7,5 @@
   "allowedCommands": ["^\\./nix/vendor-hash\\.sh$"],
   "customEnvVariables": {
     "NIX_CONFIG": "experimental-features = nix-command flakes\nsandbox = false\nbuild-users-group =\nbuilders = ssh-ng://{{ .Values.renovate.nixBuilder }} x86_64-linux - 2 1 - - -\nbuilders-use-substitutes = true\nextra-substituters = ssh-ng://{{ .Values.renovate.nixBuilder }}?trusted=true\nmax-jobs = 0"
-  },
-  "customManagers": [
-    {
-      "customType": "regex",
-      "managerFilePatterns": ["/(^|/)values/shared\\.yaml$/"],
-      "matchStrings": ["(image_.*): \"(?<depName>.+):(?<currentValue>.+)\""],
-      "datasourceTemplate": "docker"
-    }
-  ]
+  }
 }

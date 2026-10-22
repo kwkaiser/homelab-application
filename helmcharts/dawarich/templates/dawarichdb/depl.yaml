@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: dawarichdb
-          image: {{ .Values.image_dawarich_db }}
+          image: {{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}
           ports:
             - containerPort: 5432
 

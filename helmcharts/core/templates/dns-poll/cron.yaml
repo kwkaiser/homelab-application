@@ -14,7 +14,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: dns-poll
-              image: alpine:latest
+              image: {{ .Values.dnsPoll.image.repository }}:{{ .Values.dnsPoll.image.tag }}
               command: ["/bin/sh", "-c"]
               args:
                 - |

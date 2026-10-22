@@ -32,7 +32,7 @@ spec:
 
       containers:
         - name: gitea-runner-daemon
-          image: {{ .Values.image_dind }}
+          image: {{ .Values.dind.image.repository }}:{{ .Values.dind.image.tag }}
           command: ["sh", "-c"]
           args:
             - |
@@ -54,7 +54,7 @@ spec:
               mountPath: /var/lib/docker
 
         - name: gitea-runner
-          image: {{ .Values.image_gitea_runner }}
+          image: {{ .Values.runner.image.repository }}:{{ .Values.runner.image.tag }}
 
           securityContext:
             privileged: true

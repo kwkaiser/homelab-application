@@ -31,7 +31,7 @@ spec:
 
       containers:
         - name: grafana
-          image: {{ .Values.image_grafana }}
+          image: {{ .Values.grafana.image.repository }}:{{ .Values.grafana.image.tag }}
           ports:
             - containerPort: 3000
           args:

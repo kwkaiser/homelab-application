@@ -1,0 +1,34 @@
+gitea:
+  image:
+    repository: gitea/gitea
+    tag: "1.25.3"
+
+giteaDb:
+  image:
+    repository: postgres
+    tag: "16.4-alpine3.19"
+
+runner:
+  image:
+    repository: gitea/act_runner
+    tag: "0.2.13"
+
+dind:
+  image:
+    repository: docker
+    tag: "23.0.6-dind"
+
+renovate:
+  image:
+    repository: renovate/renovate
+    tag: "44.167.5"
+
+renovateNix:
+  image:
+    repository: nixos/nix
+    tag: "2.35.3"
+
+registry:
+  image:
+    repository: alpine
+    tag: "3.24.1"
