@@ -1,0 +1,12 @@
+{{- $domain := printf "%s.%s" .Values.global.domainName .Values.global.tld }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom
+  namespace: kube-system
+data:
+  tailnet.override: |
+    rewrite stop {
+      name regex ^(.+)\.{{ $domain | replace "." "\\." }}\.$ nginx-private.{{ .Release.Namespace }}.svc.cluster.local.
+      answer auto
+    }
