@@ -1,11 +1,13 @@
 {{- define "core.nginx.configs" -}}
 {{- $root := .root -}}
 {{- $scopes := ternary (list "shared" "public" "private") (list "shared" .instance) (eq .instance "private") -}}
+{{- $files := dict -}}
 {{- range $scope := $scopes }}
 {{- range $path, $_ := $root.Files.Glob (printf "config/nginx/%s/**" $scope) }}
-{{ trimPrefix (printf "config/nginx/%s/" $scope) $path }}: {{ $path }}
+{{- $_ := set $files (trimPrefix (printf "config/nginx/%s/" $scope) $path) $path }}
 {{- end }}
 {{- end }}
+{{- toYaml $files }}
 {{- end -}}
 
 {{- define "core.nginx.configmap" -}}
