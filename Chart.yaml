@@ -122,8 +122,8 @@ dependencies:
     repository: file://./helmcharts/dawarich
     condition: dawarich.enabled
 
-  # Housing (Listing collection and assessment)
+  # Housing (Listing collection and assessment, plus its web app)
   - name: housing
-    version: "0.1.0"
+    version: "0.2.0"
     repository: file://./helmcharts/housing
     condition: housing.enabled
