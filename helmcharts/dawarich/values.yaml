@@ -1,7 +1,7 @@
 dawarich:
   image:
     repository: freikin/dawarich
-    tag: "1.16.0"
+    tag: "1.17.0"
 
 db:
   image:
