@@ -1,3 +1,9 @@
-image:
-  repository: git.kwkaiser.io/kwkaiser/housing
-  tag: "latest"
+server:
+  image:
+    repository: git.kwkaiser.io/kwkaiser/housing
+    tag: "latest"
+
+web:
+  image:
+    repository: git.kwkaiser.io/kwkaiser/housing-web
+    tag: "latest"

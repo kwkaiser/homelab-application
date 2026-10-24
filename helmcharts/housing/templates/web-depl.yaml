@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "housing.web.api.key"
+  name: housing-web
+spec:
+  selector:
+    matchLabels:
+      app: housing-web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: housing-web
+        app.kubernetes.io/name: housing-web
+    spec:
+      containers:
+        - name: housing-web
+          image: {{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+
+          env:
+            - name: HOUSING_API_URL
+              value: http://housing
+
+            - name: HOUSING_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: housing.web.api.key
+                  key: value
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
