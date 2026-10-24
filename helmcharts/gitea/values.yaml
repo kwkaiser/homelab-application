@@ -11,7 +11,7 @@ giteaDb:
 runner:
   image:
     repository: gitea/act_runner
-    tag: "0.2.13"
+    tag: "0.6.1"
 
 dind:
   image:
