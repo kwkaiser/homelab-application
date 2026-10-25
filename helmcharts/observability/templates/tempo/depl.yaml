@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    configmap.reloader.stakater.com/reload: "tempo-configs"
+  name: tempo
+spec:
+  selector:
+    matchLabels:
+      app: tempo
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: tempo
+        app.kubernetes.io/name: tempo
+    spec:
+      securityContext:
+        runAsUser: 0
+
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+        - name: tempo-configs
+          configMap:
+            name: tempo-configs
+            items:
+              - key: tempo.yaml
+                path: tempo.yaml
+
+      containers:
+        - name: tempo
+          image: {{ .Values.tempo.image.repository }}:{{ .Values.tempo.image.tag }}
+          args:
+            - "-config.file=/etc/tempo/tempo.yaml"
+          ports:
+            - containerPort: 3200
+            - containerPort: 4317
+
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3200
+            initialDelaySeconds: 15
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/tempo
+              subPath: application/tempo
+
+            - name: tempo-configs
+              mountPath: /etc/tempo/tempo.yaml
+              subPath: tempo.yaml
+              readOnly: false

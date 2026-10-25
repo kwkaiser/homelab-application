@@ -28,6 +28,8 @@ spec:
             items:
               - key: config.ini
                 path: config.ini
+              - key: datasources.yaml
+                path: datasources.yaml
 
       containers:
         - name: grafana
@@ -58,4 +60,9 @@ spec:
             - name: grafana-configs
               mountPath: config.ini
               subPath: config.ini
+              readOnly: false
+
+            - name: grafana-configs
+              mountPath: /etc/grafana/provisioning/datasources/datasources.yaml
+              subPath: datasources.yaml
               readOnly: false

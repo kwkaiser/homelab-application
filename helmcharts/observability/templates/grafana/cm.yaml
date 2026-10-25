@@ -4,4 +4,5 @@ metadata:
   name: grafana-configs
 data:
   config.ini: {{ tpl (.Files.Get "config/grafana/config.ini") $ | quote }}
+  datasources.yaml: {{ tpl (.Files.Get "config/grafana/datasources.yaml") $ | quote }}
 

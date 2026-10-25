@@ -2,6 +2,8 @@ server:
   image:
     repository: git.kwkaiser.io/kwkaiser/housing
     tag: "latest"
+  otel:
+    endpoint: "http://otel-collector:4318"
 
 web:
   image:

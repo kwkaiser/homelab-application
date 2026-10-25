@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    configmap.reloader.stakater.com/reload: "otel-collector-configs"
+  name: otel-collector
+spec:
+  selector:
+    matchLabels:
+      app: otel-collector
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: otel-collector
+        app.kubernetes.io/name: otel-collector
+    spec:
+      volumes:
+        - name: otel-collector-configs
+          configMap:
+            name: otel-collector-configs
+            items:
+              - key: config.yaml
+                path: config.yaml
+
+      containers:
+        - name: otel-collector
+          image: {{ .Values.otelCollector.image.repository }}:{{ .Values.otelCollector.image.tag }}
+          args:
+            - "--config=/etc/otelcol-contrib/config.yaml"
+          ports:
+            - containerPort: 4317
+            - containerPort: 4318
+            - containerPort: 13133
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 13133
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 13133
+            initialDelaySeconds: 15
+
+          volumeMounts:
+            - name: otel-collector-configs
+              mountPath: /etc/otelcol-contrib/config.yaml
+              subPath: config.yaml
+              readOnly: false

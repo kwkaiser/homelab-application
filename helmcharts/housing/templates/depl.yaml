@@ -30,6 +30,15 @@ spec:
             - containerPort: 8080
 
           env:
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: {{ .Values.server.otel.endpoint | quote }}
+
+            - name: OTEL_EXPORTER_OTLP_PROTOCOL
+              value: "http/protobuf"
+
+            - name: OTEL_SERVICE_NAME
+              value: "housing"
+
             - name: OPENROUTER_API_KEY
               valueFrom:
                 secretKeyRef:

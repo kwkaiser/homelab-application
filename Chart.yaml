@@ -62,7 +62,7 @@ dependencies:
     repository: file://./helmcharts/media
     condition: media.enabled
 
-  # Observability (Prometheus, Grafana, Loki, Promtail)
+  # Observability (Prometheus, Grafana, Loki, Promtail, Tempo, OpenTelemetry Collector)
   - name: observability
     version: "0.1.0"
     repository: file://./helmcharts/observability

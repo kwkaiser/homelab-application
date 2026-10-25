@@ -1,6 +1,6 @@
 apiVersion: v2
 name: observability
-description: Observability stack (Prometheus, Grafana, Loki, Promtail)
+description: Observability stack (Prometheus, Grafana, Loki, Promtail, Tempo, OpenTelemetry Collector)
 type: application
 version: 0.1.0
 appVersion: "1.0"
