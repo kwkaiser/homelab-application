@@ -1,8 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    secret.reloader.stakater.com/reload: "housing.web.api.key"
   name: housing-web
 spec:
   selector:
@@ -25,12 +23,6 @@ spec:
           env:
             - name: HOUSING_API_URL
               value: http://housing
-
-            - name: HOUSING_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: housing.web.api.key
-                  key: value
 
           readinessProbe:
             httpGet:
