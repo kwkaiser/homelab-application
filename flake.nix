@@ -32,6 +32,7 @@
           kubernetes-helm
           kubectl
           kubeconform
+          uv
         ];
       };
     });
