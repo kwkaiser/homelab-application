@@ -97,3 +97,51 @@ for OWNER in ${OWNERS}; do
     fi
   done
 done
+
+for REPO in ${RELEASE_REPOS}; do
+  page=1
+  releases=""
+
+  while :; do
+    resp=$(api "${API}/repos/${REPO}/releases?page=${page}&limit=50")
+    n=$(printf '%s' "$resp" | jq 'length')
+
+    if [ "$n" -eq 0 ]; then
+      break
+    fi
+
+    releases="${releases}$(printf '%s' "$resp" | jq -c '.[]')
+"
+    page=$((page + 1))
+  done
+
+  if [ -z "$releases" ]; then
+    echo "${REPO}: no releases"
+    continue
+  fi
+
+  printf '%s' "$releases" | jq -s -r \
+    --argjson keep "${KEEP_RELEASES}" \
+    --arg suffix "${RELEASE_ASSET_SUFFIX}" '
+    map(.assets = ((.assets // []) | map(select(.name | endswith($suffix)))))
+    | map(select(.assets | length > 0))
+    | sort_by(.created_at)
+    | reverse
+    | .[$keep:]
+    | .[]
+    | . as $release
+    | .assets[]
+    | "\($release.id)\t\($release.tag_name)\t\(.id)\t\(.name)"
+  ' | while IFS="$TAB" read -r release tag asset name; do
+    if [ -z "$release" ]; then
+      continue
+    fi
+
+    if [ "${DRY_RUN}" = "true" ]; then
+      echo "would delete ${REPO}@${tag}/${name}"
+    else
+      echo "deleting ${REPO}@${tag}/${name}"
+      api -X DELETE -o /dev/null "${API}/repos/${REPO}/releases/${release}/assets/${asset}"
+    fi
+  done
+done
