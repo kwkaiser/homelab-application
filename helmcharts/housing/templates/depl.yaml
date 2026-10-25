@@ -25,7 +25,6 @@ spec:
       containers:
         - name: housing
           image: {{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}
-          imagePullPolicy: Always
           ports:
             - containerPort: 8080
 

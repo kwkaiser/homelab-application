@@ -2,3 +2,5 @@
 *.tgz
 template.yaml
 .direnv/
+.env
+.env.template

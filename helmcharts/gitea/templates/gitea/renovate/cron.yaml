@@ -4,7 +4,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   annotations:
-    secret.reloader.stakater.com/reload: "gitea.renovate.token,gitea.github.token,nix.remote.builder.key"
+    secret.reloader.stakater.com/reload: "gitea.renovate.token,gitea.github.token,gitea.packages.token,nix.remote.builder.key"
   name: renovate
 spec:
   schedule: "0 */24 * * *"
@@ -96,6 +96,15 @@ spec:
                       name: gitea.github.token
                       key: value
                       optional: true
+
+                - name: REGISTRY_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: gitea.packages.token
+                      key: value
+
+                - name: RENOVATE_HOST_RULES
+                  value: '[{"matchHost":"git.{{ .Values.global.domainName }}.{{ .Values.global.tld }}","hostType":"docker","username":"{{ .Values.renovate.registryUser }}","password":"$(REGISTRY_TOKEN)"}]'
 
               volumeMounts:
                 - name: renovate-configs

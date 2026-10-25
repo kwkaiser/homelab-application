@@ -7,6 +7,7 @@ core:
 gitea:
   renovate:
     nixBuilder: "nixbuilder@kwkaiser.io"
+    registryUser: "kwkaiser"
   registry:
     owners: ["kwkaiser"]
     keepVersions: 1
