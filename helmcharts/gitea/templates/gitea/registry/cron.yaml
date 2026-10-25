@@ -41,6 +41,15 @@ spec:
                 - name: KEEP_VERSIONS
                   value: {{ .Values.registry.keepVersions | quote }}
 
+                - name: RELEASE_REPOS
+                  value: {{ .Values.registry.releaseAssets.repos | join " " | quote }}
+
+                - name: RELEASE_ASSET_SUFFIX
+                  value: {{ .Values.registry.releaseAssets.suffix | quote }}
+
+                - name: KEEP_RELEASES
+                  value: {{ .Values.registry.releaseAssets.keepReleases | quote }}
+
                 - name: DRY_RUN
                   value: {{ .Values.registry.pruneDryRun | quote }}
 

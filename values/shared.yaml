@@ -11,3 +11,7 @@ gitea:
     owners: ["kwkaiser"]
     keepVersions: 1
     pruneDryRun: false
+    releaseAssets:
+      repos: ["kwkaiser/housing"]
+      suffix: ".apk"
+      keepReleases: 3
