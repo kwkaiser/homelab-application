@@ -16,7 +16,6 @@ spec:
       containers:
         - name: housing-web
           image: {{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}
-          imagePullPolicy: Always
           ports:
             - containerPort: 8080
 

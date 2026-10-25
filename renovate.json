@@ -28,6 +28,14 @@
     {
       "matchPackageNames": ["linuxserver/qbittorrent"],
       "allowedVersions": "<14"
+    },
+    {
+      "matchPackageNames": ["git.kwkaiser.io/kwkaiser/housing", "git.kwkaiser.io/kwkaiser/housing-web"],
+      "groupName": "housing",
+      "versioning": "semver",
+      "automerge": true,
+      "automergeType": "pr",
+      "dependencyDashboardApproval": false
     }
   ]
 }
