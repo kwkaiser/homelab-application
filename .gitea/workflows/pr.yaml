@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: DeterminateSystems/determinate-nix-action@v3.24.0
+      - uses: DeterminateSystems/determinate-nix-action@v3.24.1
 
       - name: Lint helm chart
         run: nix develop --accept-flake-config --command task lint --yes
