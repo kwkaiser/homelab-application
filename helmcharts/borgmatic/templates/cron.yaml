@@ -4,6 +4,7 @@ metadata:
   name: borgmatic
 spec:
   schedule: "0 4 * * *"
+  timeZone: America/New_York
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
