@@ -26,6 +26,13 @@ spec:
       containers:
         - name: dashy
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "10m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
           ports:
             - containerPort: 80
             - containerPort: 8080

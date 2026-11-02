@@ -23,6 +23,13 @@ spec:
       containers:
         - name: authentik-worker
           image: {{ .Values.authentik.image.repository }}:{{ .Values.authentik.image.tag }}
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "25m"
+            limits:
+              memory: "640Mi"
+              cpu: "1"
           command: 
             - /bin/sh
             - -c
@@ -61,6 +68,9 @@ spec:
                 secretKeyRef:
                   name: authentik.secret.key
                   key: value
+
+            - name: AUTHENTIK_WORKER__THREADS
+              value: "1"
 
           volumeMounts:
             - name: data

@@ -33,7 +33,7 @@ mealie:
   enabled: true
 
 sparkyfitness:
-  enabled: true
+  enabled: false
 
 miniflux:
   enabled: true
@@ -42,7 +42,7 @@ media:
   enabled: false
 
 observability:
-  enabled: true
+  enabled: false
   promHosts: ["192.168.2.103:9100"]
 
 vpn:
@@ -68,7 +68,7 @@ owntracks:
   enabled: true
 
 dawarich:
-  enabled: true
+  enabled: false
 
 housing:
   enabled: true

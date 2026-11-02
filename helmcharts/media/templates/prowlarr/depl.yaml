@@ -21,6 +21,13 @@ spec:
       containers:
         - name: prowlarr
           image: {{ .Values.prowlarr.image.repository }}:{{ .Values.prowlarr.image.tag }}
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "10m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
           ports:
             - containerPort: 9696
 

@@ -16,5 +16,12 @@ spec:
       containers:
         - name: website
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "10m"
+            limits:
+              memory: "64Mi"
+              cpu: "250m"
           ports:
             - containerPort: 80

@@ -23,6 +23,13 @@ spec:
       containers:
         - name: authentikdb
           image: {{ .Values.authentikDb.image.repository }}:{{ .Values.authentikDb.image.tag }}
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "25m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
           ports:
             - containerPort: 5432
 

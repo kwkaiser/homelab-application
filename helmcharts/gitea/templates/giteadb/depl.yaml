@@ -23,6 +23,13 @@ spec:
       containers:
         - name: giteadb
           image: {{ .Values.giteaDb.image.repository }}:{{ .Values.giteaDb.image.tag }}
+          resources:
+            requests:
+              memory: "96Mi"
+              cpu: "25m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
           ports:
             - containerPort: 5432
 

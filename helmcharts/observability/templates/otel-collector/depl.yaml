@@ -26,6 +26,13 @@ spec:
       containers:
         - name: otel-collector
           image: {{ .Values.otelCollector.image.repository }}:{{ .Values.otelCollector.image.tag }}
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "10m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
           args:
             - "--config=/etc/otelcol-contrib/config.yaml"
           ports:

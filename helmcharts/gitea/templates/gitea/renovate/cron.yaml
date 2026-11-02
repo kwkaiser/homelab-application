@@ -43,6 +43,13 @@ spec:
           initContainers:
             - name: nix-store
               image: {{ .Values.renovateNix.image.repository }}:{{ .Values.renovateNix.image.tag }}
+              resources:
+                requests:
+                  memory: "128Mi"
+                  cpu: "50m"
+                limits:
+                  memory: "1Gi"
+                  cpu: "1"
               command:
                 - sh
                 - -c
@@ -70,6 +77,13 @@ spec:
           containers:
             - name: gitea-renovate
               image: {{ .Values.renovate.image.repository }}:{{ .Values.renovate.image.tag }}
+              resources:
+                requests:
+                  memory: "256Mi"
+                  cpu: "100m"
+                limits:
+                  memory: "2Gi"
+                  cpu: "1"
 
               env:
                 - name: LOG_LEVEL

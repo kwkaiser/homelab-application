@@ -35,6 +35,13 @@ spec:
       containers:
         - name: tempo
           image: {{ .Values.tempo.image.repository }}:{{ .Values.tempo.image.tag }}
+          resources:
+            requests:
+              memory: "96Mi"
+              cpu: "10m"
+            limits:
+              memory: "384Mi"
+              cpu: "500m"
           args:
             - "-config.file=/etc/tempo/tempo.yaml"
           ports:

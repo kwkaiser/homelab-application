@@ -33,6 +33,13 @@ spec:
       containers:
         - name: gitea-runner-daemon
           image: {{ .Values.dind.image.repository }}:{{ .Values.dind.image.tag }}
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "50m"
+            limits:
+              memory: "3Gi"
+              cpu: "2"
           command: ["sh", "-c"]
           args:
             - |
@@ -55,6 +62,13 @@ spec:
 
         - name: gitea-runner
           image: {{ .Values.runner.image.repository }}:{{ .Values.runner.image.tag }}
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "10m"
+            limits:
+              memory: "128Mi"
+              cpu: "250m"
 
           securityContext:
             privileged: true

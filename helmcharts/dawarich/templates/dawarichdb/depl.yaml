@@ -23,6 +23,13 @@ spec:
       containers:
         - name: dawarichdb
           image: {{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "25m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
           ports:
             - containerPort: 5432
 

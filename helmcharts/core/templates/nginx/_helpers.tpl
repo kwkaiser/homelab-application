@@ -65,6 +65,13 @@ spec:
       containers:
         - name: nginx
           image: {{ $root.Values.nginx.image.repository }}:{{ $root.Values.nginx.image.tag }}
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "25m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           ports:
             - containerPort: 80
             - containerPort: 443

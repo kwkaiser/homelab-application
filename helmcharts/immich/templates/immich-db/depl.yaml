@@ -23,6 +23,13 @@ spec:
       containers:
         - name: immichdb
           image: {{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}
+          resources:
+            requests:
+              memory: "160Mi"
+              cpu: "25m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
           ports:
             - containerPort: 5432
 

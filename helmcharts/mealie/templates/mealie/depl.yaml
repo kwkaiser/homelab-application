@@ -23,6 +23,13 @@ spec:
       containers:
         - name: mealie
           image: {{ .Values.mealie.image.repository }}:{{ .Values.mealie.image.tag }}
+          resources:
+            requests:
+              memory: "224Mi"
+              cpu: "10m"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
           ports:
             - containerPort: 9000
 

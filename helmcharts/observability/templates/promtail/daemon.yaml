@@ -42,6 +42,13 @@ spec:
       containers:
         - name: promtail
           image: {{ .Values.promtail.image.repository }}:{{ .Values.promtail.image.tag }}
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "25m"
+            limits:
+              memory: "192Mi"
+              cpu: "250m"
           args:
             - "-config.file=/etc/promtail/promtail.yaml"
 

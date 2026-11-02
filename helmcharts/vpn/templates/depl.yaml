@@ -54,6 +54,13 @@ spec:
       containers:
         - name: wireguard
           image: {{ .Values.wireguard.image.repository }}:{{ .Values.wireguard.image.tag }}
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "10m"
+            limits:
+              memory: "64Mi"
+              cpu: "250m"
           ports:
             - containerPort: 51820
 
@@ -90,6 +97,13 @@ spec:
 
         - name: qbittorrent
           image: {{ .Values.qbittorrent.image.repository }}:{{ .Values.qbittorrent.image.tag }}
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "25m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
           ports:
             - containerPort: 8080
             - containerPort: 6881

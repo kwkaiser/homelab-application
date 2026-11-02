@@ -19,6 +19,13 @@ spec:
       containers:
         - name: ldap-user-manager
           image: {{ .Values.ldapUserManager.image.repository }}:{{ .Values.ldapUserManager.image.tag }}
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "10m"
+            limits:
+              memory: "128Mi"
+              cpu: "250m"
           ports:
             - containerPort: 80
           env:

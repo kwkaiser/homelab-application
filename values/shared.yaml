@@ -16,3 +16,15 @@ gitea:
       repos: ["kwkaiser/housing"]
       suffix: ".apk"
       keepReleases: 3
+
+## Reloader values
+reloader:
+  reloader:
+    deployment:
+      resources:
+        requests:
+          memory: "32Mi"
+          cpu: "10m"
+        limits:
+          memory: "128Mi"
+          cpu: "250m"

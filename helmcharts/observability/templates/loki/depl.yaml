@@ -33,6 +33,13 @@ spec:
       containers:
         - name: loki
           image: {{ .Values.loki.image.repository }}:{{ .Values.loki.image.tag }}
+          resources:
+            requests:
+              memory: "96Mi"
+              cpu: "25m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
           ports:
             - containerPort: 3100
 

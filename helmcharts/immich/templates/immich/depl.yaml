@@ -27,6 +27,13 @@ spec:
       containers:
         - name: redis
           image: {{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "10m"
+            limits:
+              memory: "64Mi"
+              cpu: "250m"
           ports:
             - containerPort: 6379 
 
@@ -37,6 +44,13 @@ spec:
 
         - name: immich-ml
           image: {{ .Values.machineLearning.image.repository }}:{{ .Values.machineLearning.image.tag }}
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "25m"
+            limits:
+              memory: "2Gi"
+              cpu: "2"
           ports:
             - containerPort: 3003
           volumeMounts:
@@ -53,6 +67,13 @@ spec:
 
         - name: immich-server
           image: {{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}
+          resources:
+            requests:
+              memory: "640Mi"
+              cpu: "50m"
+            limits:
+              memory: "1536Mi"
+              cpu: "2"
           ports:
             - containerPort: 2283
           env:

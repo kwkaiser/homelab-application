@@ -21,6 +21,13 @@ spec:
       containers:
         - name: calibre-web
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          resources:
+            requests:
+              memory: "160Mi"
+              cpu: "10m"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
           ports:
             - containerPort: 8083
 

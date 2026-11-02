@@ -21,6 +21,13 @@ spec:
       containers:
         - name: minecraft
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          resources:
+            requests:
+              memory: "1536Mi"
+              cpu: "250m"
+            limits:
+              memory: "5Gi"
+              cpu: "2"
           ports:
             - containerPort: 25565
 

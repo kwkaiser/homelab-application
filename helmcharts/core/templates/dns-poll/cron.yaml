@@ -15,6 +15,13 @@ spec:
           containers:
             - name: dns-poll
               image: {{ .Values.dnsPoll.image.repository }}:{{ .Values.dnsPoll.image.tag }}
+              resources:
+                requests:
+                  memory: "16Mi"
+                  cpu: "10m"
+                limits:
+                  memory: "64Mi"
+                  cpu: "250m"
               command: ["/bin/sh", "-c"]
               args:
                 - |

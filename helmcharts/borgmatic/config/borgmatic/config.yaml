@@ -53,12 +53,6 @@ postgresql_databases:
     password: ${AUTHENTIK_DB_PASSWORD}
     format: tar
 
-  - name: sparkyfitness_db
-    hostname: sparkyfitnessdb
-    username: sparky
-    password: ${SPARKYFITNESS_DB_PASSWORD}
-    format: tar
-
 # Retention
 keep_within: 7d
 keep_daily: 7

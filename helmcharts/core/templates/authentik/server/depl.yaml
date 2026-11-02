@@ -23,6 +23,13 @@ spec:
       containers:
         - name: authentik-server
           image: {{ .Values.authentik.image.repository }}:{{ .Values.authentik.image.tag }}
+          resources:
+            requests:
+              memory: "384Mi"
+              cpu: "50m"
+            limits:
+              memory: "768Mi"
+              cpu: "1"
           args: ["server"]
           ports:
             - containerPort: 9000
@@ -52,6 +59,9 @@ spec:
 
             - name: AUTHENTIK_DOMAIN
               value: authentik.{{ .Values.global.domainName }}.{{ .Values.global.tld }}
+
+            - name: AUTHENTIK_WEB__WORKERS
+              value: "1"
 
           volumeMounts:
             - name: data

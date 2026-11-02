@@ -21,6 +21,13 @@ spec:
       containers:
         - name: syncthing
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "10m"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
           ports:
             - containerPort: 8384
 
