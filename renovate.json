@@ -9,6 +9,11 @@
   },
   "packageRules": [
     {
+      "matchUpdateTypes": ["minor", "patch", "digest", "pin"],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
       "matchPackageNames": ["codewithcj/sparkyfitness", "codewithcj/sparkyfitness_server"],
       "groupName": "sparkyfitness"
     },
