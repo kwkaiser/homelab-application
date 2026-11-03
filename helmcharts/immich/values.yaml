@@ -16,4 +16,4 @@ db:
 redis:
   image:
     repository: redis
-    tag: "7.4.11-bookworm"
+    tag: "7.4.12-bookworm"
