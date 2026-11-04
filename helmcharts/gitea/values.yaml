@@ -21,7 +21,7 @@ dind:
 renovate:
   image:
     repository: renovate/renovate
-    tag: "44.206.2"
+    tag: "44.210.1"
 
 renovateNix:
   image:
