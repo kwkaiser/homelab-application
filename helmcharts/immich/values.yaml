@@ -1,7 +1,7 @@
 server:
   image:
     repository: ghcr.io/immich-app/immich-server
-    tag: "v3.3.5"
+    tag: "v3.3.6"
 
 machineLearning:
   image:
