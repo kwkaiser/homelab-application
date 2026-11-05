@@ -4,6 +4,7 @@
   "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
+  "minimumReleaseAge": "7 days",
   "major": {
     "dependencyDashboardApproval": true
   },
@@ -40,7 +41,8 @@
       "versioning": "semver",
       "automerge": true,
       "automergeType": "pr",
-      "dependencyDashboardApproval": false
+      "dependencyDashboardApproval": false,
+      "minimumReleaseAge": null
     }
   ]
 }
