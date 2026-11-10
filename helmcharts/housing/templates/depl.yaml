@@ -27,10 +27,10 @@ spec:
           image: {{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}
           resources:
             requests:
-              memory: "64Mi"
+              memory: "128Mi"
               cpu: "10m"
             limits:
-              memory: "256Mi"
+              memory: "1536Mi"
               cpu: "500m"
           ports:
             - containerPort: 8080
