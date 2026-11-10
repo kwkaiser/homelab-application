@@ -43,7 +43,6 @@ media:
 
 observability:
   enabled: true
-  promHosts: ["10.0.2.15:9100"]
 
 vpn:
   enabled: false

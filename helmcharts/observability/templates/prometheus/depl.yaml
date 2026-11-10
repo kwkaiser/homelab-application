@@ -15,6 +15,7 @@ spec:
         app: prometheus
         app.kubernetes.io/name: prometheus
     spec:
+      serviceAccountName: prometheus
       volumes:
         - name: data
           persistentVolumeClaim:

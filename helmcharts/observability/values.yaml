@@ -23,6 +23,11 @@ tempo:
     repository: grafana/tempo
     tag: "2.10.10"
 
+kubeStateMetrics:
+  image:
+    repository: registry.k8s.io/kube-state-metrics/kube-state-metrics
+    tag: "v2.16.0"
+
 otelCollector:
   image:
     repository: otel/opentelemetry-collector-contrib
