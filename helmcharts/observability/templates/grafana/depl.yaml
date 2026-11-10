@@ -30,6 +30,12 @@ spec:
                 path: config.ini
               - key: datasources.yaml
                 path: datasources.yaml
+              - key: dashboards.yaml
+                path: dashboards.yaml
+
+        - name: grafana-dashboards
+          configMap:
+            name: grafana-dashboards
 
       containers:
         - name: grafana
@@ -73,3 +79,12 @@ spec:
               mountPath: /etc/grafana/provisioning/datasources/datasources.yaml
               subPath: datasources.yaml
               readOnly: false
+
+            - name: grafana-configs
+              mountPath: /etc/grafana/provisioning/dashboards/dashboards.yaml
+              subPath: dashboards.yaml
+              readOnly: true
+
+            - name: grafana-dashboards
+              mountPath: /etc/grafana/dashboards
+              readOnly: true

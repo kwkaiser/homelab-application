@@ -5,4 +5,5 @@ metadata:
 data:
   config.ini: {{ tpl (.Files.Get "config/grafana/config.ini") $ | quote }}
   datasources.yaml: {{ tpl (.Files.Get "config/grafana/datasources.yaml") $ | quote }}
+  dashboards.yaml: {{ .Files.Get "config/grafana/dashboards.yaml" | quote }}
 
