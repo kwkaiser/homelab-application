@@ -27,6 +27,9 @@ exporters:
   otlphttp/loki:
     endpoint: http://loki/otlp
 
+  prometheusremotewrite:
+    endpoint: http://prometheus/api/v1/write
+
 service:
   extensions:
     - health_check
@@ -49,3 +52,12 @@ service:
         - batch
       exporters:
         - otlphttp/loki
+
+    metrics:
+      receivers:
+        - otlp
+      processors:
+        - memory_limiter
+        - batch
+      exporters:
+        - prometheusremotewrite
