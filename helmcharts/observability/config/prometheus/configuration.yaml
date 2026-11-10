@@ -2,11 +2,59 @@ global:
   scrape_interval:     15s
   evaluation_interval: 15s
 
-rule_files:
-  # - "first.rules"
-  # - "second.rules"
-
 scrape_configs:
   - job_name: prometheus
     static_configs:
-      - targets: {{ .Values.promHosts }} 
+      - targets: ["localhost:9090"]
+
+  - job_name: node
+    kubernetes_sd_configs:
+      - role: node
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: (.+):\d+
+        replacement: ${1}:9100
+        target_label: __address__
+      - source_labels: [__meta_kubernetes_node_name]
+        target_label: instance
+
+  - job_name: kubelet
+    scheme: https
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    authorization:
+      credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    kubernetes_sd_configs:
+      - role: node
+    relabel_configs:
+      - target_label: __address__
+        replacement: kubernetes.default.svc:443
+      - source_labels: [__meta_kubernetes_node_name]
+        regex: (.+)
+        replacement: /api/v1/nodes/${1}/proxy/metrics
+        target_label: __metrics_path__
+      - source_labels: [__meta_kubernetes_node_name]
+        target_label: instance
+
+  - job_name: cadvisor
+    scheme: https
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    authorization:
+      credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    kubernetes_sd_configs:
+      - role: node
+    relabel_configs:
+      - target_label: __address__
+        replacement: kubernetes.default.svc:443
+      - source_labels: [__meta_kubernetes_node_name]
+        regex: (.+)
+        replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
+        target_label: __metrics_path__
+      - source_labels: [__meta_kubernetes_node_name]
+        target_label: instance
+
+  - job_name: kube-state-metrics
+    honor_labels: true
+    static_configs:
+      - targets: ["kube-state-metrics:8080"]
