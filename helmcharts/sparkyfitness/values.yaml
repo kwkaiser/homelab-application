@@ -1,12 +1,12 @@
 frontend:
   image:
     repository: codewithcj/sparkyfitness
-    tag: "v1.12.0"
+    tag: "v1.12.1"
 
 server:
   image:
     repository: codewithcj/sparkyfitness_server
-    tag: "v1.12.0"
+    tag: "v1.12.1"
 
 db:
   image:
