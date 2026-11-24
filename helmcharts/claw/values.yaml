@@ -19,3 +19,6 @@ init:
 signal:
   account: ""
   allowedPeers: []
+
+telegram:
+  allowedPeers: []

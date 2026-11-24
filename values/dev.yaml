@@ -77,3 +77,5 @@ claw:
   signal:
     account: "+15555550100"
     allowedPeers: ["+15555550101"]
+  telegram:
+    allowedPeers: ["111111111"]

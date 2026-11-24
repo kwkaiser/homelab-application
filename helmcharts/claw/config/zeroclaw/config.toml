@@ -15,7 +15,7 @@ enabled = true
 model_provider = "openrouter.default"
 risk_profile = "default"
 runtime_profile = "default"
-channels = ["signal.default"]
+channels = ["signal.default", "telegram.default"]
 
 [risk_profiles.default]
 level = "supervised"
@@ -36,6 +36,14 @@ dm_only = true
 channel = "signal.default"
 agents = ["default"]
 external_peers = {{ .Values.signal.allowedPeers | toJson }}
+
+[channels.telegram.default]
+enabled = true
+
+[peer_groups.telegram_default]
+channel = "telegram.default"
+agents = ["default"]
+external_peers = {{ .Values.telegram.allowedPeers | toJson }}
 
 [observability]
 backend = "otel"
