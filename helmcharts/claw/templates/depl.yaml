@@ -36,7 +36,6 @@ spec:
             - |
               set -e
               mkdir -p /zeroclaw-data/.zeroclaw /zeroclaw-data/data /signal-cli
-              cp /config/config.toml /zeroclaw-data/.zeroclaw/config.toml
               chown -R 65534:65534 /zeroclaw-data /signal-cli
           volumeMounts:
             - name: data
@@ -46,10 +45,6 @@ spec:
             - name: data
               mountPath: /signal-cli
               subPath: application/claw/signal-cli
-
-            - name: config
-              mountPath: /config
-              readOnly: true
 
       containers:
         - name: zeroclaw
@@ -65,9 +60,6 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "500m"
-          ports:
-            - containerPort: 42617
-
           env:
             - name: ZEROCLAW_providers__models__openrouter__default__api_key
               valueFrom:
@@ -76,20 +68,26 @@ spec:
                   key: value
 
           readinessProbe:
-            httpGet:
-              path: /health
-              port: 42617
+            exec:
+              command: ["zeroclaw", "status", "--format=exit-code"]
+            timeoutSeconds: 10
 
           livenessProbe:
-            httpGet:
-              path: /health
-              port: 42617
+            exec:
+              command: ["zeroclaw", "status", "--format=exit-code"]
             initialDelaySeconds: 30
+            periodSeconds: 60
+            timeoutSeconds: 10
 
           volumeMounts:
             - name: data
               mountPath: /zeroclaw-data
               subPath: application/claw/zeroclaw
+
+            - name: config
+              mountPath: /zeroclaw-data/.zeroclaw/config.toml
+              subPath: config.toml
+              readOnly: true
 
         - name: signal-cli
           image: {{ .Values.signalCli.image.repository }}:{{ .Values.signalCli.image.tag }}

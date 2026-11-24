@@ -2,11 +2,9 @@ schema_version = 4
 
 [gateway]
 port = 42617
-host = "[::]"
-allow_public_bind = true
-require_pairing = true
-web_dist_dir = "/usr/share/zeroclawlabs/web/dist"
-websocket_ping_interval_secs = 30
+host = "127.0.0.1"
+allow_public_bind = false
+require_pairing = false
 
 [providers.models.openrouter.default]
 model = {{ .Values.zeroclaw.model | quote }}

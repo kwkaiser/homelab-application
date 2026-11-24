@@ -16,6 +16,7 @@ source_directories:
   - /bulk/application/authentik
   - /bulk/application/sparkyfitness/uploads
   - /bulk/application/sparkyfitness/backup
+  - /bulk/application/claw/signal-cli
   # - /bulk/application/opnsense      # not reachable from hetzner's network
   - /bulk/shared/books
 
