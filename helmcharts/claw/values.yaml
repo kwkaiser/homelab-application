@@ -3,6 +3,8 @@ zeroclaw:
     repository: ghcr.io/zeroclaw-labs/zeroclaw
     tag: "all-features-v0.9.0"
   model: "openai/gpt-4o-mini"
+  otel:
+    endpoint: "http://otel-collector:4318"
 
 signalCli:
   image:

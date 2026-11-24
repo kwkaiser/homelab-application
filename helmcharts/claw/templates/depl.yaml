@@ -91,7 +91,7 @@ spec:
 
         - name: signal-cli
           image: {{ .Values.signalCli.image.repository }}:{{ .Values.signalCli.image.tag }}
-          args: ["daemon", "--http", "127.0.0.1:8686"]
+          args: ["--verbose", "daemon", "--http", "127.0.0.1:8686"]
           securityContext:
             runAsUser: 65534
             runAsGroup: 65534

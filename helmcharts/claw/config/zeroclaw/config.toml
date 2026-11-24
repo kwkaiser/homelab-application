@@ -37,6 +37,11 @@ channel = "signal.default"
 agents = ["default"]
 external_peers = {{ .Values.signal.allowedPeers | toJson }}
 
+[observability]
+backend = "otel"
+otel_endpoint = {{ .Values.zeroclaw.otel.endpoint | quote }}
+otel_service_name = "zeroclaw"
+
 [cost]
 enabled = true
 daily_limit_usd = 1.0
