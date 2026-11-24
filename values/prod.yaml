@@ -76,4 +76,4 @@ claw:
   enabled: true
   signal:
     account: "+13479034165"
-    allowedPeers: ["+18023717559"]
+    allowedPeers: ["+18023717559", "f52894cf-7236-4306-90c8-fedb7e524557"]
