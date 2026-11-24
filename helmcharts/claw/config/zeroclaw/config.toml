@@ -19,6 +19,10 @@ channels = ["signal.default"]
 
 [risk_profiles.default]
 level = "supervised"
+deny_all_tools = true
+
+[tools]
+optional = []
 
 [runtime_profiles.default]
 
