@@ -127,3 +127,9 @@ dependencies:
     version: "0.2.0"
     repository: file://./helmcharts/housing
     condition: housing.enabled
+
+  # Claw (ZeroClaw agent with a signal-cli sidecar)
+  - name: claw
+    version: "0.1.0"
+    repository: file://./helmcharts/claw
+    condition: claw.enabled

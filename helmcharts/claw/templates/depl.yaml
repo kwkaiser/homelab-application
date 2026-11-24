@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    configmap.reloader.stakater.com/reload: "zeroclaw-config"
+    secret.reloader.stakater.com/reload: "housing.openrouter.api.key"
+  name: zeroclaw
+spec:
+  selector:
+    matchLabels:
+      app: zeroclaw
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: zeroclaw
+        app.kubernetes.io/name: zeroclaw
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+        - name: config
+          configMap:
+            name: zeroclaw-config
+
+      initContainers:
+        - name: prepare
+          image: {{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              mkdir -p /zeroclaw-data/.zeroclaw /zeroclaw-data/data /signal-cli
+              cp /config/config.toml /zeroclaw-data/.zeroclaw/config.toml
+              chown -R 65534:65534 /zeroclaw-data /signal-cli
+          volumeMounts:
+            - name: data
+              mountPath: /zeroclaw-data
+              subPath: application/claw/zeroclaw
+
+            - name: data
+              mountPath: /signal-cli
+              subPath: application/claw/signal-cli
+
+            - name: config
+              mountPath: /config
+              readOnly: true
+
+      containers:
+        - name: zeroclaw
+          image: {{ .Values.zeroclaw.image.repository }}:{{ .Values.zeroclaw.image.tag }}
+          args: ["daemon"]
+          securityContext:
+            runAsUser: 65534
+            runAsGroup: 65534
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "10m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 42617
+
+          env:
+            - name: ZEROCLAW_providers__models__openrouter__default__api_key
+              valueFrom:
+                secretKeyRef:
+                  name: housing.openrouter.api.key
+                  key: value
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 42617
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 42617
+            initialDelaySeconds: 30
+
+          volumeMounts:
+            - name: data
+              mountPath: /zeroclaw-data
+              subPath: application/claw/zeroclaw
+
+        - name: signal-cli
+          image: {{ .Values.signalCli.image.repository }}:{{ .Values.signalCli.image.tag }}
+          args: ["daemon", "--http", "127.0.0.1:8686"]
+          securityContext:
+            runAsUser: 65534
+            runAsGroup: 65534
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "10m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/signal-cli
+              subPath: application/claw/signal-cli

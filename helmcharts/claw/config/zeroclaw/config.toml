@@ -1,0 +1,43 @@
+schema_version = 4
+
+[gateway]
+port = 42617
+host = "[::]"
+allow_public_bind = true
+require_pairing = true
+web_dist_dir = "/usr/share/zeroclawlabs/web/dist"
+websocket_ping_interval_secs = 30
+
+[providers.models.openrouter.default]
+model = {{ .Values.zeroclaw.model | quote }}
+temperature = 0.7
+
+[agents.default]
+enabled = true
+model_provider = "openrouter.default"
+risk_profile = "default"
+runtime_profile = "default"
+channels = ["signal.default"]
+
+[risk_profiles.default]
+level = "supervised"
+
+[runtime_profiles.default]
+
+[channels.signal.default]
+enabled = true
+http_url = "http://127.0.0.1:8686"
+account = {{ required "claw.signal.account is required" .Values.signal.account | quote }}
+dm_only = true
+
+[peer_groups.signal_default]
+channel = "signal.default"
+agents = ["default"]
+external_peers = {{ .Values.signal.allowedPeers | toJson }}
+
+[cost]
+enabled = true
+daily_limit_usd = 1.0
+monthly_limit_usd = 10.0
+warn_at_percent = 80
+allow_override = false

@@ -71,3 +71,9 @@ dawarich:
 
 housing:
   enabled: false
+
+claw:
+  enabled: true
+  signal:
+    account: "+15555550100"
+    allowedPeers: ["+15555550101"]

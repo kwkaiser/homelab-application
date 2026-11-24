@@ -43,6 +43,10 @@
       "automergeType": "pr",
       "dependencyDashboardApproval": false,
       "minimumReleaseAge": null
+    },
+    {
+      "matchPackageNames": ["ghcr.io/zeroclaw-labs/zeroclaw"],
+      "versioning": "regex:^all-features-v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
     }
   ]
 }

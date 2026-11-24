@@ -1,0 +1,19 @@
+zeroclaw:
+  image:
+    repository: ghcr.io/zeroclaw-labs/zeroclaw
+    tag: "all-features-v0.9.0"
+  model: "openai/gpt-4o-mini"
+
+signalCli:
+  image:
+    repository: ghcr.io/asamk/signal-cli
+    tag: "0.14.10-native"
+
+init:
+  image:
+    repository: alpine
+    tag: "3.24.4"
+
+signal:
+  account: ""
+  allowedPeers: []
