@@ -80,12 +80,6 @@ dependencies:
     repository: file://./helmcharts/borgmatic
     condition: borgmatic.enabled
 
-  # Calibre Web (E-book server)
-  - name: calibre-web
-    version: "0.1.0"
-    repository: file://./helmcharts/calibre-web
-    condition: calibre-web.enabled
-
   # Calibre Web Automated (E-book server, KOReader sync)
   - name: calibre-web-automated
     version: "0.1.0"

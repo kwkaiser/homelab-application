@@ -28,10 +28,6 @@
       "dependencyDashboardApproval": true
     },
     {
-      "matchPackageNames": ["linuxserver/calibre-web"],
-      "allowedVersions": "<1"
-    },
-    {
       "matchPackageNames": ["linuxserver/qbittorrent"],
       "allowedVersions": "<14"
     },
