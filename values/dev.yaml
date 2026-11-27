@@ -54,6 +54,9 @@ borgmatic:
 calibre-web:
   enabled: false
 
+calibre-web-automated:
+  enabled: false
+
 jellyfin:
   enabled: false
 

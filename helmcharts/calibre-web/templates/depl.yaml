@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: calibre-web
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   template:
     metadata:
       labels:

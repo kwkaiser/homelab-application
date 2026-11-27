@@ -6,6 +6,7 @@ source_directories:
   # - /bulk/application/qbittorrent   # not deployed on hetzner
   # - /bulk/application/calibre       # not deployed on hetzner
   - /bulk/application/calibre-web
+  - /bulk/application/calibre-web-automated
   # - /bulk/application/openldap      # not deployed on hetzner
   # - /bulk/application/prowlarr      # not deployed on hetzner
   # - /bulk/application/radarr        # not deployed on hetzner
