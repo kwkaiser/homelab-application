@@ -51,10 +51,6 @@ borgmatic:
   enabled: true
   opnsenseHost: "192.168.1.1"
 
-calibre-web:
-  enabled: true
-  replicas: 0
-
 calibre-web-automated:
   enabled: true
 

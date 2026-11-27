@@ -1,5 +1,0 @@
-replicas: 1
-
-image:
-  repository: linuxserver/calibre-web
-  tag: "0.6.27"
