@@ -33,7 +33,7 @@ spec:
               fi
               mkdir -p /cwa-book-ingest
               find /config /calibre-library /cwa-book-ingest \
-                \( ! -uid {{ .Values.puid }} -o ! -gid {{ .Values.pgid }} \) \
+                \( ! -user {{ .Values.puid }} -o ! -group {{ .Values.pgid }} \) \
                 -exec chown -h {{ .Values.puid }}:{{ .Values.pgid }} {} +
           volumeMounts:
             - name: data
