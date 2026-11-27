@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre-web-automated
+spec:
+  selector:
+    matchLabels:
+      app: calibre-web-automated
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: calibre-web-automated
+        app.kubernetes.io/name: calibre-web-automated
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bulk-nfs
+
+      initContainers:
+        - name: prepare
+          image: {{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              if [ ! -f /config/app.db ] && [ -f /legacy-config/app.db ]; then
+                cp -a /legacy-config/. /config/
+              fi
+              mkdir -p /cwa-book-ingest
+              find /config /calibre-library /cwa-book-ingest \
+                \( ! -uid {{ .Values.puid }} -o ! -gid {{ .Values.pgid }} \) \
+                -exec chown -h {{ .Values.puid }}:{{ .Values.pgid }} {} +
+          volumeMounts:
+            - name: data
+              mountPath: /legacy-config
+              subPath: application/calibre-web
+              readOnly: true
+
+            - name: data
+              mountPath: /config
+              subPath: application/calibre-web-automated
+
+            - name: data
+              mountPath: /calibre-library
+              subPath: shared/books
+
+            - name: data
+              mountPath: /cwa-book-ingest
+              subPath: shared/books-ingest
+
+      containers:
+        - name: calibre-web-automated
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "10m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+          ports:
+            - containerPort: 8083
+
+          env:
+            - name: PUID
+              value: {{ .Values.puid | quote }}
+
+            - name: PGID
+              value: {{ .Values.pgid | quote }}
+
+            - name: TZ
+              value: {{ .Values.tz | quote }}
+
+            - name: NETWORK_SHARE_MODE
+              value: "true"
+
+            - name: TRUSTED_PROXY_COUNT
+              value: "1"
+
+          volumeMounts:
+            - name: data
+              mountPath: /config
+              subPath: application/calibre-web-automated
+
+            - name: data
+              mountPath: /calibre-library
+              subPath: shared/books
+
+            - name: data
+              mountPath: /cwa-book-ingest
+              subPath: shared/books-ingest

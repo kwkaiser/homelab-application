@@ -53,6 +53,10 @@ borgmatic:
 
 calibre-web:
   enabled: true
+  replicas: 0
+
+calibre-web-automated:
+  enabled: true
 
 jellyfin:
   enabled: false

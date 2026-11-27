@@ -86,6 +86,12 @@ dependencies:
     repository: file://./helmcharts/calibre-web
     condition: calibre-web.enabled
 
+  # Calibre Web Automated (E-book server, KOReader sync)
+  - name: calibre-web-automated
+    version: "0.1.0"
+    repository: file://./helmcharts/calibre-web-automated
+    condition: calibre-web-automated.enabled
+
   # Jellyfin (Media server)
   - name: jellyfin
     version: "0.1.0"

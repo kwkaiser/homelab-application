@@ -1,0 +1,12 @@
+image:
+  repository: crocodilestick/calibre-web-automated
+  tag: "v4.0.8"
+
+init:
+  image:
+    repository: alpine
+    tag: "3.24.4"
+
+puid: 1000
+pgid: 1000
+tz: America/New_York
